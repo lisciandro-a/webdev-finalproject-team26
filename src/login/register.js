@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./register.css";
 import { Link } from "react-router-dom";
 import { Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,7 +7,8 @@ import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 
 function Register() {
   const [showPassword, setShowPassword] = useState(false);
-  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+  const [isMemberAccount, setIsMemberAccount] = useState(true);
+
   return (
     <div>
       <div className="col-1 col-md-2 col-lg-3"></div>
@@ -18,23 +20,57 @@ function Register() {
         <div>
           <Card className="text-center">
             <Card.Header>
-              <h2>Register</h2>
+              <h2 className="mb-1">Register</h2>
             </Card.Header>
-            <Card.Body className="text-start mb-3">
+            <Card.Body className="text-start mb-2">
+              <div className="justify-user-role mb-3">
+                <div>
+                  <input
+                    type="radio"
+                    value="MEMBER"
+                    name="radio-user-role"
+                    id="radio-member"
+                    checked={isMemberAccount}
+                    onClick={() => setIsMemberAccount(true)}
+                  />
+                  <label for="radio-member">&nbsp; Basic Member</label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    value="ORGANIZATION"
+                    name="radio-user-role"
+                    id="radio-organization"
+                    checked={!isMemberAccount}
+                    onClick={() => setIsMemberAccount(false)}
+                  />
+                  <label for="radio-member">&nbsp; Club Organizer</label>
+                </div>
+              </div>
+
               <label for="email" className="ps-1 mb-1">
                 Email
               </label>
               <input id="email" className="form-control mb-3" />
 
-              <label for="first-name" className="ps-1 mb-1">
-                First Name
-              </label>
-              <input id="first-name" className="form-control mb-3" />
+              <div className={isMemberAccount ? "block" : "d-none"}>
+                <label for="first-name" className="ps-1 mb-1">
+                  First Name
+                </label>
+                <input id="first-name" className="form-control mb-3" />
 
-              <label for="last-name" className="ps-1 mb-1">
-                Last Name
-              </label>
-              <input id="last-name" className="form-control mb-3" />
+                <label for="last-name" className="ps-1 mb-1">
+                  Last Name
+                </label>
+                <input id="last-name" className="form-control mb-3" />
+              </div>
+
+              <div className={isMemberAccount ? "d-none" : "block"}>
+                <label for="org-name" className="ps-1 mb-1">
+                  Organization Name
+                </label>
+                <input id="org-name" className="form-control mb-3" />
+              </div>
 
               <label for="username" className="ps-1 mb-1">
                 Username
@@ -59,26 +95,6 @@ function Register() {
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-                </button>
-              </div>
-
-              <label for="password-confirm" className="ps-1 mb-1">
-                Confirm Password
-              </label>
-              <div className="input-group mb-3">
-                <input
-                  type={showPasswordConfirm ? "text" : "password"}
-                  class="form-control"
-                  id="password-confirm"
-                />
-                <button
-                  className="btn btn-outline-secondary"
-                  type="button"
-                  onClick={() => setShowPasswordConfirm(!showPasswordConfirm)}
-                >
-                  <FontAwesomeIcon
-                    icon={showPasswordConfirm ? faEyeSlash : faEye}
-                  />
                 </button>
               </div>
 

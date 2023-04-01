@@ -18,9 +18,9 @@ function Login() {
         <div>
           <Card className="text-center">
             <Card.Header>
-              <h2>Login</h2>
+              <h2 className="mb-1">Login</h2>
             </Card.Header>
-            <Card.Body className="text-start mb-3">
+            <Card.Body className="text-start mb-2">
               <label for="email" className="ps-1 mb-1">
                 Email
               </label>

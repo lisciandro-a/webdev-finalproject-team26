@@ -1,10 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter } from "react-router-dom";
+import { Routes, Route } from "react-router";
+import Home from './home';
+import Login from './login';
+import Register from './login/register';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -17,7 +22,16 @@ function App() {
         >
           Learn React
         </a>
-      </header>
+      </header> */}
+      <BrowserRouter>
+        <div className='container'>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
     </div>
   );
 }

@@ -1,10 +1,11 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router";
 import Home from './home';
 import Login from './login';
 import Register from './login/register';
+import Search from './search';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/search" element={<Search />} />
           </Routes>
         </div>
       </BrowserRouter>

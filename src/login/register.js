@@ -33,7 +33,7 @@ function Register() {
                     checked={isMemberAccount}
                     onClick={() => setIsMemberAccount(true)}
                   />
-                  <label for="radio-member">&nbsp; Basic Member</label>
+                  <label htmlFor="radio-member">&nbsp; Basic Member</label>
                 </div>
                 <div>
                   <input
@@ -44,49 +44,49 @@ function Register() {
                     checked={!isMemberAccount}
                     onClick={() => setIsMemberAccount(false)}
                   />
-                  <label for="radio-member">&nbsp; Club Organizer</label>
+                  <label htmlFor="radio-member">&nbsp; Club Organizer</label>
                 </div>
               </div>
 
-              <label for="email" className="ps-1 mb-1">
+              <label htmlFor="email" className="ps-1 mb-1">
                 Email
               </label>
               <input id="email" className="form-control mb-3" />
 
               <div className={isMemberAccount ? "block" : "d-none"}>
-                <label for="first-name" className="ps-1 mb-1">
+                <label htmlFor="first-name" className="ps-1 mb-1">
                   First Name
                 </label>
                 <input id="first-name" className="form-control mb-3" />
 
-                <label for="last-name" className="ps-1 mb-1">
+                <label htmlFor="last-name" className="ps-1 mb-1">
                   Last Name
                 </label>
                 <input id="last-name" className="form-control mb-3" />
               </div>
 
               <div className={isMemberAccount ? "d-none" : "block"}>
-                <label for="org-name" className="ps-1 mb-1">
+                <label htmlFor="org-name" className="ps-1 mb-1">
                   Organization Name
                 </label>
                 <input id="org-name" className="form-control mb-3" />
               </div>
 
-              <label for="username" className="ps-1 mb-1">
+              <label htmlFor="username" className="ps-1 mb-1">
                 Username
               </label>
               <div className="input-group mb-3">
                 <span className="input-group-text">@</span>
-                <input type="text" class="form-control" id="username" />
+                <input type="text" className="form-control" id="username" />
               </div>
 
-              <label for="password" className="ps-1 mb-1">
+              <label htmlFor="password" className="ps-1 mb-1">
                 Password
               </label>
               <div className="input-group mb-3">
                 <input
                   type={showPassword ? "text" : "password"}
-                  class="form-control"
+                  className="form-control"
                   id="password"
                 />
                 <button

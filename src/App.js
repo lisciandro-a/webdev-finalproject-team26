@@ -31,6 +31,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/search" element={<Search />} />
+            <Route path="/search/:searchTerm" element={<Search />} />
           </Routes>
         </div>
       </BrowserRouter>

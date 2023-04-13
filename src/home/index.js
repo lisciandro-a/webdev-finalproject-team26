@@ -12,7 +12,11 @@ function Home() {
           <FontAwesomeIcon icon={faMagnifyingGlass} />
         </Link>
       </div>
-      <div>Home page</div>
+      <div><div> Home page</div> </div>
+            <div>
+                <Link to="/login">Login</Link> or <Link to="/register">Register</Link>
+            </div>
+            
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || 'https://watchit-server-pr-1.onrender.com';
+const API_URL = process.env.REACT_APP_API_URL;
 
 const axiosConfig = {
   baseURL: API_URL,

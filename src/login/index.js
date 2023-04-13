@@ -17,6 +17,7 @@ function Login() {
   const loginHandler = () => {
     const credentials = {
       email: email,
+      username: email,
       password: password,
     }
     dispatch(accountLoginThunk(credentials));
@@ -27,7 +28,7 @@ function Login() {
     if (loggedIn) {
       navigate('/');
     }
-  })
+  });
 
   return (
     <div>
@@ -44,7 +45,7 @@ function Login() {
             </Card.Header>
             <Card.Body className="text-start mb-2">
               <label htmlFor="email" className="ps-1 mb-1">
-                Email
+                Email or Username
               </label>
               <input 
                 id="email" 

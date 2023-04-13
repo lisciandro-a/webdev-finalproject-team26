@@ -1,13 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./register.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { accountRegisterThunk } from "../services/accounts/accountThunks";
+
+const accountInfo = {
+  isMemberAccount: true, // default radio button is member account
+  email: '',
+  firstName: '',
+  lastName: '',
+  username: '',
+  password: '',
+  orgName: '',
+};
 
 function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [isMemberAccount, setIsMemberAccount] = useState(true);
+  const [newAccountInfo, setNewAccountInfo] = useState(accountInfo);
+
+  const { loggedIn } = useSelector(state => state.account);
+
+  const dispatch = useDispatch();
+  const registrationHandler = () => {
+    dispatch(accountRegisterThunk(newAccountInfo));
+  }
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (loggedIn) {
+      navigate('/');
+    }
+  });
 
   return (
     <div>
@@ -31,7 +58,13 @@ function Register() {
                     name="radio-user-role"
                     id="radio-member"
                     checked={isMemberAccount}
-                    onClick={() => setIsMemberAccount(true)}
+                    onChange={() => {
+                      setIsMemberAccount(true);
+                      setNewAccountInfo({
+                        ...newAccountInfo,
+                        isMemberAccount: true,
+                      });
+                    }}
                   />
                   <label htmlFor="radio-member">&nbsp; Basic Member</label>
                 </div>
@@ -42,7 +75,13 @@ function Register() {
                     name="radio-user-role"
                     id="radio-organization"
                     checked={!isMemberAccount}
-                    onClick={() => setIsMemberAccount(false)}
+                    onChange={() => {
+                      setIsMemberAccount(false);
+                      setNewAccountInfo({
+                        ...newAccountInfo,
+                        isMemberAccount: false,
+                      });
+                    }}
                   />
                   <label htmlFor="radio-member">&nbsp; Club Organizer</label>
                 </div>
@@ -51,25 +90,53 @@ function Register() {
               <label htmlFor="email" className="ps-1 mb-1">
                 Email
               </label>
-              <input id="email" className="form-control mb-3" />
+              <input 
+                id="email" 
+                className="form-control mb-3" 
+                onChange={(e) => setNewAccountInfo({
+                    ...newAccountInfo,
+                    email: e.target.value,
+                  })}
+              />
 
               <div className={isMemberAccount ? "block" : "d-none"}>
                 <label htmlFor="first-name" className="ps-1 mb-1">
                   First Name
                 </label>
-                <input id="first-name" className="form-control mb-3" />
+                <input 
+                  id="first-name" 
+                  className="form-control mb-3"
+                  onChange={(e) => setNewAccountInfo({
+                    ...newAccountInfo,
+                    firstName: e.target.value,
+                  })}
+                />
 
                 <label htmlFor="last-name" className="ps-1 mb-1">
                   Last Name
                 </label>
-                <input id="last-name" className="form-control mb-3" />
+                <input 
+                  id="last-name" 
+                  className="form-control mb-3" 
+                  onChange={(e) => setNewAccountInfo({
+                    ...newAccountInfo,
+                    lastName: e.target.value,
+                  })}
+                />
               </div>
 
               <div className={isMemberAccount ? "d-none" : "block"}>
                 <label htmlFor="org-name" className="ps-1 mb-1">
                   Organization Name
                 </label>
-                <input id="org-name" className="form-control mb-3" />
+                <input 
+                  id="org-name" 
+                  className="form-control mb-3" 
+                  onChange={(e) => setNewAccountInfo({
+                    ...newAccountInfo,
+                    orgName: e.target.value,
+                  })}
+                />
               </div>
 
               <label htmlFor="username" className="ps-1 mb-1">
@@ -77,7 +144,15 @@ function Register() {
               </label>
               <div className="input-group mb-3">
                 <span className="input-group-text">@</span>
-                <input type="text" className="form-control" id="username" />
+                <input 
+                  type="text" 
+                  className="form-control" 
+                  id="username" 
+                  onChange={(e) => setNewAccountInfo({
+                    ...newAccountInfo,
+                    username: e.target.value,
+                  })}
+                />
               </div>
 
               <label htmlFor="password" className="ps-1 mb-1">
@@ -88,6 +163,10 @@ function Register() {
                   type={showPassword ? "text" : "password"}
                   className="form-control"
                   id="password"
+                  onChange={(e) => setNewAccountInfo({
+                    ...newAccountInfo,
+                    password: e.target.value,
+                  })}
                 />
                 <button
                   className="btn btn-outline-secondary"
@@ -99,7 +178,7 @@ function Register() {
               </div>
 
               <div className="text-center mt-4">
-                <button className="btn btn-primary ps-4 pe-4">
+                <button className="btn btn-primary ps-4 pe-4" onClick={registrationHandler}>
                   <span>Register</span>
                 </button>
               </div>

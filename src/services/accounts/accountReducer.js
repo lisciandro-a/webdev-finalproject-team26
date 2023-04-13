@@ -1,9 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { accountLoginThunk, accountLogoutThunk } from "./accountThunks";
-import Cookies from 'js-cookie';
+import { accountLoginThunk, accountLogoutThunk, accountRegisterThunk } from "./accountThunks";
 
 const initialState = {
-  loggedIn: Cookies.get('accountToken') ? true : false,
+  loggedIn: false,
 }
 
 const accountSlice = createSlice({
@@ -11,19 +10,25 @@ const accountSlice = createSlice({
   initialState: initialState,
   extraReducers: {
     [accountLoginThunk.fulfilled]:
-      (state, { payload }) => {
+      (state) => {
         state.loggedIn = true;
-        Cookies.set('accountToken', payload.accountToken);
       },
     [accountLoginThunk.rejected]:
       (state) => {
         state.loggedIn = false;
-        Cookies.remove('accountToken');
+        // do something when login fails
       },
     [accountLogoutThunk.fulfilled]:
       (state) => {
         state.loggedIn = false;
-        Cookies.remove('accountToken');
+      },
+    [accountRegisterThunk.fulfilled]:
+      (state) => {
+        state.loggedIn = true;
+      },
+    [accountRegisterThunk.rejected]:
+      (state) => {
+        state.loggedIn = false;
       },
   }
 })

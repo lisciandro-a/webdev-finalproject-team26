@@ -4,15 +4,17 @@ import { Routes, Route } from "react-router";
 import Home from './home';
 import Login from './login';
 import Register from './login/register';
-import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
-import accountReducer from './services/accounts/accountReducer';
-
-const store = configureStore({ reducer: { account: accountReducer }});
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { accountLoginThunk } from './services/accounts/accountThunks';
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(accountLoginThunk());
+  }
+  )
   return (
-    <Provider store={store}>
       <div className="App">
         <BrowserRouter>
           <div className='container'>
@@ -24,7 +26,6 @@ function App() {
           </div>
         </BrowserRouter>
       </div>
-    </Provider>
   );
 }
 

@@ -15,3 +15,10 @@ export const accountLogoutThunk = createAsyncThunk(
   }
 );
 
+export const accountRegisterThunk = createAsyncThunk(
+  'account/register',
+  async (newAccountInfo) => {
+    return await accountService.register(newAccountInfo);
+  }
+)
+

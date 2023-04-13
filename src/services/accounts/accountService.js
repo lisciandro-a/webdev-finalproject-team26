@@ -1,25 +1,28 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.REACT_APP_API_URL || 'https://watchit-server-pr-1.onrender.com';
 
 const axiosConfig = {
+  baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
   withCredentials: true,
 }
 
+const axiosClient = axios.create(axiosConfig);
+
 export const login = async (credentials) => {
-  const response = await axios.post(`${API_URL}/login`, credentials, axiosConfig);
+  const response = await axiosClient.post('/login', credentials);
   return response.data;
 }
 
 export const logout = async () => {
-  const response = await axios.post(`${API_URL}/logout`, {}, axiosConfig);
+  const response = await axiosClient.post('/logout');
   return response.data;
 }
 
 export const register = async (newAccountInfo) => {
-  const response = await axios.post(`${API_URL}/register`, newAccountInfo, axiosConfig);
+  const response = await axiosClient.post('/register', newAccountInfo);
   return response.data;
 }

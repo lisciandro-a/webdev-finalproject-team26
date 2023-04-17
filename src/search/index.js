@@ -51,7 +51,7 @@ function Search() {
     setSearchResults(results);
   };
 
-  if (!Object.keys(mediaMap).includes(mediaType)) {
+  if (mediaType && !Object.keys(mediaMap).includes(mediaType)) {
     return <NotFound />;
   } else {
     return (

@@ -1,0 +1,55 @@
+[
+    {
+        "_id": "id1",
+        "timestamp": "1600565901000",
+        "username": "user1",
+        "comment": "Comment 1",
+        "replies": [
+            {
+                "_id": "id1_r1",
+                "timestamp": "1360719501000",
+                "username": "user2",
+                "comment": "Reply 1",
+                "replies": [
+                    {
+                        "_id": "id1_n1_r1",
+                        "timestamp": "1676684301000",
+                        "username": "user3",
+                        "comment": "Nested reply 1",
+                        "replies": []
+                    }
+
+                ]
+            }
+        ]
+    },
+    {
+        "_id": "id2",
+        "timestamp": "1681349901000",
+        "comment": "Comment 2",
+        "username": "user2",
+        "replies": [
+            {
+                "_id": "id2_r1",
+                "timestamp": "1681691901000",
+                "username": "user1",
+                "comment": "Reply 2",
+                "replies": []
+            },
+            {
+                "_id": "id2_r2",
+                "timestamp": "1681718718000",
+                "username": "user3",
+                "comment": "Reply 3",
+                "replies": []
+            }
+        ]
+    },
+    {
+        "_id": "id3",
+        "timestamp": "1681719318000",
+        "username": "user3",
+        "comment": "Comment 3",
+        "replies": []
+    }
+]

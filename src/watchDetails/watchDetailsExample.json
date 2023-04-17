@@ -1,0 +1,176 @@
+{
+  "title": "Perfect Match",
+  "year": 2023,
+  "type": "show",
+  "ids": {
+    "simkl": 2078079,
+    "slug": "perfect-match",
+    "tvdb": "429839",
+    "tmdb": "218521",
+    "imdb": "tt23731242",
+    "tvdbslug": "429839-perfect-match"
+  },
+  "year_start_end": "2023 - Now",
+  "rank": 14220,
+  "poster": "13/1348110199d54afb40",
+  "fanart": "13/13509807d2146ecf31",
+  "first_aired": "2023-02-14T04:00:00Z",
+  "airs": {
+    "day": "Tuesday",
+    "time": "12:00 AM",
+    "timezone": "America/New_York"
+  },
+  "runtime": 54,
+  "certification": {},
+  "overview": "Perfect Match brings together the most famously single stars of Netflix’s unscripted series (Love Is Blind, The Ultimatum, Too Hot To Handle, The Mole, Selling Tampa, The Circle, Twentysomethings: Austin, and Sexy Beasts) to a tropical paradise in an attempt to find love. As they compete to form relationships, the most compatible couples will play matchmaker, breaking up other couples and sending them on dates with brand-new singles they’ll invite to the villa. Will they create better matches, or will they create chaos? In this over-the-top journey of strategy and dating hosted by Nick Lachey, only one couple will be crowned the Perfect Match.",
+  "genres": ["Reality", "Erotica", "Romance"],
+  "country": "US",
+  "total_episodes": 12,
+  "status": "airing",
+  "network": "Netflix",
+  "ratings": {
+    "simkl": {
+      "rating": 6,
+      "votes": 6
+    },
+    "imdb": {
+      "rating": 6,
+      "votes": 1098
+    }
+  },
+  "trailers": [
+    {
+      "name": "Official Trailer",
+      "youtube": "CSLohUrIeT0",
+      "size": 1080
+    },
+    {
+      "name": "Cast Announcement",
+      "youtube": "Lz7sb-MxfDI",
+      "size": 1080
+    }
+  ],
+  "users_recommendations": [
+    {
+      "title": "The Mole",
+      "year": 2022,
+      "poster": "13/130444814ec15fef0a",
+      "users_percent": {},
+      "users_count": 0,
+      "ids": {
+        "simkl": 1976387,
+        "slug": "the-mole"
+      }
+    },
+    {
+      "title": "Physical: 100",
+      "year": 2023,
+      "poster": "13/13030507b5a6f45bd3",
+      "users_percent": {},
+      "users_count": 0,
+      "ids": {
+        "simkl": 1995231,
+        "slug": "physical-100"
+      }
+    },
+    {
+      "title": "Love Is Blind",
+      "year": 2020,
+      "poster": "95/95503280369b2b951",
+      "users_percent": {},
+      "users_count": 0,
+      "ids": {
+        "simkl": 1251302,
+        "slug": "love-is-blind"
+      }
+    },
+    {
+      "title": "Too Hot to Handle",
+      "year": 2020,
+      "poster": "95/9542032f3747bccf4",
+      "users_percent": {},
+      "users_count": 0,
+      "ids": {
+        "simkl": 1317668,
+        "slug": "too-hot-to-handle"
+      }
+    },
+    {
+      "title": "The Ultimatum: Marry or Move On",
+      "year": 2022,
+      "poster": "12/1248548557e2e6cbff",
+      "users_percent": {},
+      "users_count": 0,
+      "ids": {
+        "simkl": 1863013,
+        "slug": "the-ultimatum-marry-or-move-on"
+      }
+    },
+    {
+      "title": "The Circle (US)",
+      "year": 2020,
+      "poster": "11/117770185089487214",
+      "users_percent": {},
+      "users_count": 0,
+      "ids": {
+        "simkl": 1149318,
+        "slug": "the-circle-us"
+      }
+    },
+    {
+      "title": "Twentysomethings: Austin",
+      "year": 2021,
+      "poster": "12/120636430ed0ecfdc2",
+      "users_percent": {},
+      "users_count": 0,
+      "ids": {
+        "simkl": 1738238,
+        "slug": "twentysomethings-austin"
+      }
+    },
+    {
+      "title": "Dated & Related",
+      "year": 2022,
+      "poster": "12/12944571295f5c016b",
+      "users_percent": {},
+      "users_count": 0,
+      "ids": {
+        "simkl": 1967037,
+        "slug": "dated-and-related"
+      }
+    },
+    {
+      "title": "Too Hot to Handle: Germany",
+      "year": 2023,
+      "poster": "13/13518427043196c96f",
+      "users_percent": {},
+      "users_count": 0,
+      "ids": {
+        "simkl": 2084051,
+        "slug": "too-hot-to-handle-germany"
+      }
+    },
+    {
+      "title": "The Challenge: UK",
+      "year": 2023,
+      "poster": "13/13667493458cfbfc17",
+      "users_percent": {},
+      "users_count": 0,
+      "ids": {
+        "simkl": 2007617,
+        "slug": "the-challenge-uk"
+      }
+    },
+    {
+      "title": "Next in Fashion",
+      "year": 2020,
+      "poster": "97/9738246352be2dc7a",
+      "users_percent": {},
+      "users_count": 0,
+      "ids": {
+        "simkl": 1242168,
+        "slug": "next-in-fashion"
+      }
+    }
+  ]
+}

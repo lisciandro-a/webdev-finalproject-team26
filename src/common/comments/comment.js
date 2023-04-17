@@ -13,8 +13,20 @@ import { formatTimestamp } from "./formatTimestamp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faReply } from "@fortawesome/free-solid-svg-icons";
 
-function Comment({ comment, depth }) {
+function Comment({ comment, updateComments, depth }) {
   const [showNewReply, setShowNewReply] = useState(false);
+  const [newReply, setNewReply] = useState('');
+
+  const onReplyChange = (event) => {
+    setNewReply(event.target.value);
+  };
+
+  const onClickReplySubmit = () => {
+    // updateComments(newComment);
+    console.log(newReply);
+    setNewReply('');
+    setShowNewReply(false);
+  }
 
   return (
     <>
@@ -53,11 +65,13 @@ function Comment({ comment, depth }) {
             <OutlinedInput
               id="outlined-multiline-flexible"
               placeholder="Add comment"
+              onChange={(event) => onReplyChange(event)}
+              value={newReply}
               multiline
               fullWidth
               endAdornment={
                 <InputAdornment position="end">
-                  <IconButton edge="end">
+                  <IconButton edge="end" onClick={() => onClickReplySubmit()}>
                     <FontAwesomeIcon icon={faReply} />
                   </IconButton>
                 </InputAdornment>
@@ -67,7 +81,7 @@ function Comment({ comment, depth }) {
         </div>
       <List component="div" sx={{ pl: 4 }}>
         {comment.replies.map((reply) => (
-          <Comment key={comment._id} comment={reply} depth={depth+1}/>
+          <Comment key={comment._id} comment={reply} updateComments={updateComments} depth={depth+1}/>
         ))}
       </List>
     </>

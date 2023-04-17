@@ -16,6 +16,7 @@ import { faReply } from "@fortawesome/free-solid-svg-icons";
 function CommentsSection({ loadComments, updateComments }) {
   const [comments, setComments] = useState(commentExamples);
   const [showNewComment, setShowNewComment] = useState(false);
+  const [newComment, setNewComment] = useState('');
 
   useEffect(() => {
     // setComments(loadComments());
@@ -23,6 +24,17 @@ function CommentsSection({ loadComments, updateComments }) {
   }, []);
 
   useEffect(() => {}, [comments]);
+
+  const onCommentChange = (event) => {
+    setNewComment(event.target.value);
+  };
+
+  const onClickCommentSubmit = () => {
+    // updateComments(newComment);
+    console.log(newComment);
+    setNewComment('');
+    setShowNewComment(false);
+  }
 
   return (
     <div>
@@ -41,11 +53,13 @@ function CommentsSection({ loadComments, updateComments }) {
             <OutlinedInput
               id="outlined-multiline-flexible"
               placeholder="Add comment"
+              onChange={(event) => onCommentChange(event)}
+              value={newComment}
               multiline
               fullWidth
               endAdornment={
                 <InputAdornment position="end">
-                  <IconButton edge="end">
+                  <IconButton edge="end" onClick={() => onClickCommentSubmit()}>
                     <FontAwesomeIcon icon={faReply} />
                   </IconButton>
                 </InputAdornment>
@@ -55,7 +69,7 @@ function CommentsSection({ loadComments, updateComments }) {
         </div>
         <List className="mt-2">
           {comments.map((comment) => (
-            <Comment key={comment._id} comment={comment} depth={0}/>
+            <Comment key={comment._id} comment={comment} updateComments={updateComments} depth={0}/>
           ))}
         </List>
       </div>

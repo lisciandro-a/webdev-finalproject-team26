@@ -5,8 +5,9 @@ import { faCircleCheck, faHeart } from "@fortawesome/free-solid-svg-icons";
 
 function MarkItem() {
   return (
-    <>
-      <Tooltip title="Watched">
+    <span>
+      <div className="d-inline-block">
+              <Tooltip title="Watched">
         <Rating
           name="customized-color"
           defaultValue={0}
@@ -31,7 +32,9 @@ function MarkItem() {
           className="ps-3"
         />
       </Tooltip>
-    </>
+      </div>
+
+    </span>
   );
 }
 

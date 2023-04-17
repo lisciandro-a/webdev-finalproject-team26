@@ -6,13 +6,13 @@ function SearchResultItem({ mediaType, result }) {
   return (
     <li className="list-group-item">
       <div className="row">
-        <div className="col-2 col-lg-1 my-auto">
+        <div className="col-2 col-xl-1 my-auto">
           <img
             src={`https://simkl.in/posters/${result.poster}_m.webp`}
-            height="100"
+            className="img-size"
           />
         </div>
-        <div className="col-7 col-lg-9 text-start ps-4 m-auto">
+        <div className="col-7 col-xl-8 text-start ps-4 m-auto">
           <h2> {result.title} </h2>
           <h4> {result.year} </h4>
           <a
@@ -23,7 +23,7 @@ function SearchResultItem({ mediaType, result }) {
             More...{" "}
           </a>
         </div>
-        <div className="col-3 col-lg-2 text-center pe-0 m-auto">
+        <div className="col-3 text-center pe-0 m-auto">
           <MarkItem />
         </div>
       </div>

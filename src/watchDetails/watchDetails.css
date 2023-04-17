@@ -1,17 +1,13 @@
 .img-size {
-    height: 300px;
+    max-width: 100%;
+    height: auto;
 }
 
-@media screen and (max-width: 992px) {
-    .img-size {
-        height: 200px;
-    }
+.close-width {
+    max-width: 15%,
     
 }
 
-@media screen and (max-width: 768px) {
-    .img-size {
-        height: 150px;
-    }
-    
+.title-width {
+    max-width: 85%
 }

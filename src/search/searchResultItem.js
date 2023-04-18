@@ -16,7 +16,7 @@ function SearchResultItem({ mediaType, result }) {
           <h2> {result.title} </h2>
           <h4> {result.year} </h4>
           <a
-            href={`/watchDetails/${mediaType}/${result?.ids.simkl_id}`}
+            href={`/details/${mediaType}/${result?.ids.simkl_id}`}
             className=" text-blue text-decoration-none"
           >
             {" "}

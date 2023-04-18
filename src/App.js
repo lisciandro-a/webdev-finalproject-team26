@@ -8,6 +8,7 @@ import Register from './login/register';
 import Search from './search';
 import WatchDetails from './watchDetails';
 import NotFound from './common/notFound';
+import Profile from './profile';
 
 function App() {
   return (
@@ -35,7 +36,8 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/search" element={<Search />} />
             <Route path="/search/:mediaType/:searchTerm" element={<Search />} />
-            <Route path="/watchDetails/:mediaType/:simklID" element={<WatchDetails />} />
+            <Route path="/details/:mediaType/:simklID" element={<WatchDetails />} />
+            <Route path="/profile/:profileID?" element={<Profile />} />
           </Routes>
         </div>
       </BrowserRouter>

@@ -1,0 +1,64 @@
+{
+    "_id" : "id_club_mmm",
+    "orgName": "Mike's Movie Mates",
+    "username": "@mikesMovieMates",
+    "email": "m3@watchit.com",
+    "watchList" : [
+        {
+            "simklID": "2078079",
+            "upcoming": true
+        },
+        {
+            "simklID": "571018",
+            "upcoming": false
+        }
+    ],
+    "members" : [
+        {
+            "memberID": "id_member_1"
+        },
+        {
+            "memberID": "id_member_2"
+        },
+        {
+            "memberID": "id_member_3"
+        }
+    ],
+    "watchMovies": true,
+    "watchAnime": false,
+    "watchTv": false,
+    "contacts": [
+        {
+            "type": "Email",
+            "value": "m3@watchit.com"
+        },
+        {
+            "type": "Instagram",
+            "value": "@mikesMovieMatesInsta"
+        }
+
+    ],
+    "virtualMeetings": {
+        "link": "www.zoom.us/mmmMeeting",
+        "meetingWeekday": "Wednesday",
+        "meetingTime": "3:00pm"
+    },
+    "description": "Add me on Letterboxd!",
+    "announcements": [
+        {
+            "_id": "announcement 1",
+            "message": "The weekly virtual meeting will be canceled this week!",
+            "timestamp": "1681801949000"
+        },
+        {
+            "_id": "announcement 2",
+            "message": "Our next meeting will be held at 2:30 instead of 3:00",
+            "timestamp": "1681182449000"
+        },
+        {
+            "_id": "announcement 3",
+            "message": "The weekly virtual meeting will be canceled this week!",
+            "timestamp": "1680620009000"
+        }
+    ]
+}

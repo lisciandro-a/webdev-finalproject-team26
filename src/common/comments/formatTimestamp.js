@@ -42,3 +42,19 @@ export function formatTimestamp(timestamp) {
 
 
 }
+
+export function formatTimestampToDate(timestampStr) {
+    const timestamp = parseInt(timestampStr);
+    const date = new Date(timestamp);
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    let hours = date.getHours();
+    let label = "am";
+    if (hours == 0) {
+        hours = 12;
+    } else if (hours > 12) {
+        hours -= 12;
+        label = "pm";
+    }
+    const minutes = date.getMinutes();
+    return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()} ${hours}:${(minutes < 10) ? "0" : ""}${minutes}${label}`
+}

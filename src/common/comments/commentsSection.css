@@ -1,0 +1,11 @@
+.comments-header {
+    position: sticky;
+    top: 10px;
+}
+
+.comments-list {
+    height: auto;
+    max-height: 800px;
+    scroll-behavior: smooth;
+    overflow: auto;
+}

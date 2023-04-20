@@ -13,9 +13,8 @@ function Home() {
   return (
     <div>
       <div className="text-end">
-        <Link to="/search">
-          Search &nbsp;
-          <FontAwesomeIcon icon={faMagnifyingGlass} />
+        <Link to="/search" className=" text-decoration-none">
+        <FontAwesomeIcon icon={faMagnifyingGlass} />&nbsp;Search
         </Link>
       </div>
       <div><div> Home page</div> </div>

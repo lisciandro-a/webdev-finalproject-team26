@@ -9,7 +9,7 @@ function SearchResultItem({ mediaType, result }) {
         <div className="col-2 col-xl-1 my-auto">
           <img
             src={`https://simkl.in/posters/${result.poster}_m.webp`}
-            alt='favicon.ico' // temporary to make eslint happy
+            alt=""
             className="img-size"
           />
         </div>

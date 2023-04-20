@@ -1,0 +1,76 @@
+{
+  "_id": "id_member_1",
+  "email": "member@member.com",
+  "username": "@member",
+  "firstName": "Mike",
+  "lastName": "Movie",
+  "bio": "I love all things movies!",
+  "clubs": [
+    {
+      "_id": "id_club_mmm",
+      "orgName": "Mike's Movie Mates",
+      "nextMeeting": "1682467200000",
+      "meetingFrequency": "Meeting every Tuesday!",
+      "joinedDate": "1600565901000"
+    }
+  ],
+  "watched": [
+    {
+      "_id": "54322",
+      "title": "Shrek",
+      "avg_rating": 9,
+      "mediaType": "movie",
+      "mediaId": "54322",
+      "watched": true,
+      "liked": false
+    },
+    {
+      "_id": "54422",
+      "title": "Toy Story",
+      "avg_rating": 7.5,
+      "mediaType": "movie",
+      "mediaId": "54422",
+      "watched": true,
+      "liked": true
+    }
+  ],
+  "liked": [
+    {
+      "_id": "54422",
+      "title": "Toy Story",
+      "avg_rating": 7.5,
+      "mediaType": "movie",
+      "mediaId": "54422",
+      "watched": true,
+      "liked": true
+    }
+  ],
+  "reviews": [
+    {
+      "_id": "id_review_1",
+      "reviewerId": "id_member_1",
+      "reviewerFirstName": "Mike",
+      "reviewerLastName": "Movie",
+      "mediaType": "movie",
+      "mediaId": "54322",
+      "title": "Toy Story",
+      "comment": "This was the best movie I've ever watched! This was the best movie I've ever watched! This was the best movie I've ever watched! This was the best movie I've ever watched! This was the best movie I've ever watched! This was the best movie I've ever watched! This was the best movie I've ever watched! This was the best movie I've ever watched! This was the best movie I've ever watched! This was the best movie I've ever watched! This was the best movie I've ever watched! This was the best movie I've ever watched! This was the best movie I've ever watched!",
+      "rating": 10,
+      "avgRating": 8.4,
+      "poster": "82/8260026737cbe952"
+    }
+  ],
+  "contacts": [
+    {
+        "type": "Email",
+        "value": "m3@watchit.com"
+    },
+    {
+        "type": "Instagram",
+        "value": "@mikesMovieMatesInsta"
+    }
+  ],
+  "watchMovies": true,
+  "watchAnime": true,
+  "watchTv": true
+}

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { accountLogoutThunk } from "../services/accounts/accountThunks";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
@@ -9,12 +9,10 @@ function Navbar() {
   const { loggedIn } = useSelector(state => state.account);
 
   const location = useLocation();
-  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const logoutHandler = () => {
     dispatch(accountLogoutThunk());
-    navigate('/')
   }
 
   return (

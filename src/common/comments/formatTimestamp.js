@@ -58,3 +58,11 @@ export function formatTimestampToDate(timestampStr) {
     const minutes = date.getMinutes();
     return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()} ${hours}:${(minutes < 10) ? "0" : ""}${minutes}${label}`
 }
+
+export function formatTimestampToDateWithoutTime(timestampStr) {
+    const timestamp = parseInt(timestampStr);
+    const date = new Date(timestamp);
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
+}

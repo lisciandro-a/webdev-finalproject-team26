@@ -1,6 +1,8 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { accountLogoutThunk } from "../services/accounts/accountThunks";
 
 function Home() {
@@ -8,9 +10,15 @@ function Home() {
     const logoutHandler = () => {
         dispatch(accountLogoutThunk());
     }
-    return (
-        <div>
-            <div> Home page </div>
+  return (
+    <div>
+      <div className="text-end">
+        <Link to="/search">
+          Search &nbsp;
+          <FontAwesomeIcon icon={faMagnifyingGlass} />
+        </Link>
+      </div>
+      <div><div> Home page</div> </div>
             <div>
                 <Link to="/login">Login</Link> or <Link to="/register">Register</Link>
             </div>
@@ -18,8 +26,8 @@ function Home() {
                 <button onClick={logoutHandler}> Logout </button>
             </div>
             
-        </div>
-    );
+    </div>
+  );
 }
 
 export default Home;

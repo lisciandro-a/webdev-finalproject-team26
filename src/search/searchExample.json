@@ -1,0 +1,74 @@
+[
+    {
+      "title": "Perfect Match",
+      "year": 2023,
+      "poster": "13/1348110199d54afb40",
+      "url": "/tv/2078079/perfect-match",
+      "ep_count": 12,
+      "rank": 14217,
+      "status": "airing",
+      "ratings": {
+        "simkl": {
+          "rating": 6,
+          "votes": 6
+        },
+        "imdb": {
+          "rating": 6,
+          "votes": 1098
+        }
+      },
+      "ids": {
+        "simkl_id": 2078079,
+        "slug": "perfect-match",
+        "tmdb": "218521"
+      }
+    },
+    {
+      "title": "The Perfect Match",
+      "year": 2017,
+      "poster": "56/56175044b8cb7defe",
+      "url": "/tv/674220/the-perfect-match",
+      "ep_count": 22,
+      "rank": 14448,
+      "status": "ended",
+      "ratings": {
+        "simkl": {
+          "rating": 8,
+          "votes": 8
+        },
+        "imdb": {
+          "rating": 7.2,
+          "votes": 214
+        }
+      },
+      "ids": {
+        "simkl_id": 674220,
+        "slug": "the-perfect-match",
+        "tmdb": "70580"
+      }
+    },
+    {
+      "title": "Ugly Duckling: Perfect Match",
+      "year": 2015,
+      "poster": "50/5042580964b9eaea2",
+      "url": "/tv/540142/ugly-duckling-perfect-match",
+      "ep_count": 9,
+      "rank": 26665,
+      "status": "ended",
+      "ratings": {
+        "simkl": {
+          "rating": 6,
+          "votes": 1
+        },
+        "imdb": {
+          "rating": 7.3,
+          "votes": 61
+        }
+      },
+      "ids": {
+        "simkl_id": 540142,
+        "slug": "ugly-duckling-perfect-match",
+        "tmdb": "69622"
+      }
+    }
+  ]

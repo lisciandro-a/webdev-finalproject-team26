@@ -1,11 +1,34 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
+import { useDispatch, useSelector } from 'react-redux';
+import { accountLoginThunk } from "../services/accounts/accountThunks";
 
 function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+
+  const { loggedIn } = useSelector(state => state.account);
+
+  const dispatch = useDispatch();
+  const loginHandler = () => {
+    const credentials = {
+      email: email,
+      username: email,
+      password: password,
+    }
+    dispatch(accountLoginThunk(credentials));
+  }
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (loggedIn) {
+      navigate('/');
+    }
+  });
 
   return (
     <div>
@@ -21,19 +44,24 @@ function Login() {
               <h2 className="mb-1">Login</h2>
             </Card.Header>
             <Card.Body className="text-start mb-2">
-              <label for="email" className="ps-1 mb-1">
-                Email
+              <label htmlFor="email" className="ps-1 mb-1">
+                Email or Username
               </label>
-              <input id="email" className="form-control mb-3" />
+              <input 
+                id="email" 
+                className="form-control mb-3"
+                onChange={(e) => setEmail(e.target.value)}   
+              />
 
-              <label for="password" className="ps-1 mb-1">
+              <label htmlFor="password" className="ps-1 mb-1">
                 Password
               </label>
               <div className="input-group mb-3">
                 <input
                   type={showPassword ? "text" : "password"}
-                  class="form-control"
+                  className="form-control"
                   id="password"
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <button
                   className="btn btn-outline-secondary"
@@ -47,7 +75,7 @@ function Login() {
               </div>
 
               <div className="text-center mt-4">
-                <button className="btn btn-primary ps-4 pe-4">
+                <button className="btn btn-primary ps-4 pe-4" onClick={loginHandler}>
                   <span>Sign in</span>
                 </button>
               </div>

@@ -3,6 +3,7 @@ import { accountLoginThunk, accountLogoutThunk, accountRegisterThunk } from "./a
 
 const initialState = {
   loggedIn: false,
+  profile: null,
 }
 
 const accountSlice = createSlice({
@@ -10,25 +11,30 @@ const accountSlice = createSlice({
   initialState: initialState,
   extraReducers: {
     [accountLoginThunk.fulfilled]:
-      (state) => {
+      (state, { payload }) => {
         state.loggedIn = true;
+        state.profile = payload.profile;
       },
     [accountLoginThunk.rejected]:
       (state) => {
         state.loggedIn = false;
+        state.profile = null;
         // do something when login fails
       },
     [accountLogoutThunk.fulfilled]:
       (state) => {
         state.loggedIn = false;
+        state.profile = null;
       },
     [accountRegisterThunk.fulfilled]:
-      (state) => {
+      (state, { payload }) => {
         state.loggedIn = true;
+        state.profile = payload.profile;
       },
     [accountRegisterThunk.rejected]:
       (state) => {
         state.loggedIn = false;
+        state.profile = null;
       },
   }
 })

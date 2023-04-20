@@ -36,6 +36,13 @@ function Navbar() {
             </div>
           { loggedIn ? (
               <>
+                <div>
+                  <Link 
+                    className={`nav-link ${location.pathname === '/profile' ? 'active' : ''}`} 
+                    to="/profile">
+                    Profile
+                  </Link>
+                </div>
                 <Link className="nav-link" onClick={logoutHandler}>Logout</Link>
               </>
             ) : (

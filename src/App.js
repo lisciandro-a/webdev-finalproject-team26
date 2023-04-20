@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { accountLoginThunk } from './services/accounts/accountThunks';
 import Navbar from './navbar';
+import Profile from './profile';
 
 function App() {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="/search" element={<Search />} />
             <Route path="/search/:mediaType/:searchTerm" element={<Search />} />
             <Route path="/watchDetails/:mediaType/:simklID" element={<WatchDetails />} />

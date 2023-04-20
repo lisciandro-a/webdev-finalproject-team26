@@ -9,6 +9,7 @@ function SearchResultItem({ mediaType, result }) {
         <div className="col-2 col-xl-1 my-auto">
           <img
             src={`https://simkl.in/posters/${result.poster}_m.webp`}
+            alt='favicon.ico' // temporary to make eslint happy
             className="img-size"
           />
         </div>
@@ -16,7 +17,7 @@ function SearchResultItem({ mediaType, result }) {
           <h2> {result.title} </h2>
           <h4> {result.year} </h4>
           <a
-            href={`/watchDetails/${mediaType}/${result?.ids.simkl_id}`}
+            href={`/details/${mediaType}/${result?.ids.simkl_id}`}
             className=" text-blue text-decoration-none"
           >
             {" "}

@@ -31,7 +31,8 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/search" element={<Search />} />
             <Route path="/search/:mediaType/:searchTerm" element={<Search />} />
-            <Route path="/watchDetails/:mediaType/:simklID" element={<WatchDetails />} />
+            <Route path="/details/:mediaType/:simklID" element={<WatchDetails />} />
+            <Route path="/profile/:profileID?" element={<Profile />} />
           </Routes>
         </div>
       </BrowserRouter>

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Card } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import ClubProfile from "./clubProfile";
 
 
 function Profile() {
@@ -16,8 +17,8 @@ function Profile() {
     }
   })
 
-  return (
-    <div className="container">
+  return ( profile?.isMemberAccount ?
+    (<div className="container">
       <div>
         <Card className='text-center'>
           <Card.Header>
@@ -33,8 +34,7 @@ function Profile() {
           </Card.Body>
         </Card>
       </div>
-    </div>
-  );
+    </div>) : <ClubProfile/>);
 }
 
 export default Profile;

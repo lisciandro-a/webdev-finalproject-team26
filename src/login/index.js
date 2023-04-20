@@ -14,7 +14,8 @@ function Login() {
   const { loggedIn } = useSelector(state => state.account);
 
   const dispatch = useDispatch();
-  const loginHandler = () => {
+  const loginHandler = (e) => {
+    e.preventDefault();
     const credentials = {
       email: email,
       username: email,
@@ -26,7 +27,7 @@ function Login() {
   const navigate = useNavigate();
   useEffect(() => {
     if (loggedIn) {
-      navigate('/');
+      navigate('/profile');
     }
   });
 
@@ -44,41 +45,43 @@ function Login() {
               <h2 className="mb-1">Login</h2>
             </Card.Header>
             <Card.Body className="text-start mb-2">
-              <label htmlFor="email" className="ps-1 mb-1">
-                Email or Username
-              </label>
-              <input 
-                id="email" 
-                className="form-control mb-3"
-                onChange={(e) => setEmail(e.target.value)}   
-              />
-
-              <label htmlFor="password" className="ps-1 mb-1">
-                Password
-              </label>
-              <div className="input-group mb-3">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  className="form-control"
-                  id="password"
-                  onChange={(e) => setPassword(e.target.value)}
+              <form onSubmit={loginHandler}>
+                <label htmlFor="email" className="ps-1 mb-1">
+                  Email or Username
+                </label>
+                <input 
+                  id="email" 
+                  className="form-control mb-3"
+                  onChange={(e) => setEmail(e.target.value)}   
                 />
-                <button
-                  className="btn btn-outline-secondary"
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  <span>
-                    <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-                  </span>
-                </button>
-              </div>
 
-              <div className="text-center mt-4">
-                <button className="btn btn-primary ps-4 pe-4" onClick={loginHandler}>
-                  <span>Sign in</span>
-                </button>
-              </div>
+                <label htmlFor="password" className="ps-1 mb-1">
+                  Password
+                </label>
+                <div className="input-group mb-3">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    className="form-control"
+                    id="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <button
+                    className="btn btn-outline-secondary"
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    <span>
+                      <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                    </span>
+                  </button>
+                </div>
+
+                <div className="text-center mt-4">
+                  <button className="btn btn-primary ps-4 pe-4" type="submit">
+                    <span>Sign in</span>
+                  </button>
+                </div>
+              </form>
             </Card.Body>
 
             <Card.Footer className="py-3">

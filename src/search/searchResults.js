@@ -1,5 +1,5 @@
 import React from "react";
-import searchResults from "./searchExample.json";
+// import searchResults from "./searchExample.json";
 import SearchResultItem from "./searchResultItem";
 
 function SearchResults({ mediaType, results }) {
@@ -7,7 +7,7 @@ function SearchResults({ mediaType, results }) {
   return (
     <ul className="list-group">
       {/* switch back to results */}
-      {searchResults.map((result) => (
+      {results.map((result) => (
         <SearchResultItem key={result.ids.simkl_id} mediaType={mediaType} result={result} />
       ))}
     </ul>

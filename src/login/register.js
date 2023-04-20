@@ -25,7 +25,8 @@ function Register() {
   const { loggedIn } = useSelector(state => state.account);
 
   const dispatch = useDispatch();
-  const registrationHandler = () => {
+  const registrationHandler = (e) => {
+    e.preventDefault();
     dispatch(accountRegisterThunk(newAccountInfo));
   }
 
@@ -50,138 +51,140 @@ function Register() {
               <h2 className="mb-1">Register</h2>
             </Card.Header>
             <Card.Body className="text-start mb-2">
-              <div className="justify-user-role mb-3">
-                <div>
-                  <input
-                    type="radio"
-                    value="MEMBER"
-                    name="radio-user-role"
-                    id="radio-member"
-                    checked={isMemberAccount}
-                    onChange={() => {
-                      setIsMemberAccount(true);
-                      setNewAccountInfo({
-                        ...newAccountInfo,
-                        isMemberAccount: true,
-                      });
-                    }}
-                  />
-                  <label htmlFor="radio-member">&nbsp; Basic Member</label>
+              <form onSubmit={registrationHandler}>
+                <div className="justify-user-role mb-3">
+                  <div>
+                    <input
+                      type="radio"
+                      value="MEMBER"
+                      name="radio-user-role"
+                      id="radio-member"
+                      checked={isMemberAccount}
+                      onChange={() => {
+                        setIsMemberAccount(true);
+                        setNewAccountInfo({
+                          ...newAccountInfo,
+                          isMemberAccount: true,
+                        });
+                      }}
+                    />
+                    <label htmlFor="radio-member">&nbsp; Basic Member</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      value="ORGANIZATION"
+                      name="radio-user-role"
+                      id="radio-organization"
+                      checked={!isMemberAccount}
+                      onChange={() => {
+                        setIsMemberAccount(false);
+                        setNewAccountInfo({
+                          ...newAccountInfo,
+                          isMemberAccount: false,
+                        });
+                      }}
+                    />
+                    <label htmlFor="radio-member">&nbsp; Club Organizer</label>
+                  </div>
                 </div>
-                <div>
-                  <input
-                    type="radio"
-                    value="ORGANIZATION"
-                    name="radio-user-role"
-                    id="radio-organization"
-                    checked={!isMemberAccount}
-                    onChange={() => {
-                      setIsMemberAccount(false);
-                      setNewAccountInfo({
-                        ...newAccountInfo,
-                        isMemberAccount: false,
-                      });
-                    }}
-                  />
-                  <label htmlFor="radio-member">&nbsp; Club Organizer</label>
-                </div>
-              </div>
 
-              <label htmlFor="email" className="ps-1 mb-1">
-                Email
-              </label>
-              <input 
-                id="email" 
-                className="form-control mb-3" 
-                onChange={(e) => setNewAccountInfo({
-                    ...newAccountInfo,
-                    email: e.target.value,
-                  })}
-              />
-
-              <div className={isMemberAccount ? "block" : "d-none"}>
-                <label htmlFor="first-name" className="ps-1 mb-1">
-                  First Name
+                <label htmlFor="email" className="ps-1 mb-1">
+                  Email
                 </label>
                 <input 
-                  id="first-name" 
-                  className="form-control mb-3"
-                  onChange={(e) => setNewAccountInfo({
-                    ...newAccountInfo,
-                    firstName: e.target.value,
-                  })}
-                />
-
-                <label htmlFor="last-name" className="ps-1 mb-1">
-                  Last Name
-                </label>
-                <input 
-                  id="last-name" 
+                  id="email" 
                   className="form-control mb-3" 
                   onChange={(e) => setNewAccountInfo({
-                    ...newAccountInfo,
-                    lastName: e.target.value,
-                  })}
+                      ...newAccountInfo,
+                      email: e.target.value,
+                    })}
                 />
-              </div>
 
-              <div className={isMemberAccount ? "d-none" : "block"}>
-                <label htmlFor="org-name" className="ps-1 mb-1">
-                  Organization Name
+                <div className={isMemberAccount ? "block" : "d-none"}>
+                  <label htmlFor="first-name" className="ps-1 mb-1">
+                    First Name
+                  </label>
+                  <input 
+                    id="first-name" 
+                    className="form-control mb-3"
+                    onChange={(e) => setNewAccountInfo({
+                      ...newAccountInfo,
+                      firstName: e.target.value,
+                    })}
+                  />
+
+                  <label htmlFor="last-name" className="ps-1 mb-1">
+                    Last Name
+                  </label>
+                  <input 
+                    id="last-name" 
+                    className="form-control mb-3" 
+                    onChange={(e) => setNewAccountInfo({
+                      ...newAccountInfo,
+                      lastName: e.target.value,
+                    })}
+                  />
+                </div>
+
+                <div className={isMemberAccount ? "d-none" : "block"}>
+                  <label htmlFor="org-name" className="ps-1 mb-1">
+                    Organization Name
+                  </label>
+                  <input 
+                    id="org-name" 
+                    className="form-control mb-3" 
+                    onChange={(e) => setNewAccountInfo({
+                      ...newAccountInfo,
+                      orgName: e.target.value,
+                    })}
+                  />
+                </div>
+
+                <label htmlFor="username" className="ps-1 mb-1">
+                  Username
                 </label>
-                <input 
-                  id="org-name" 
-                  className="form-control mb-3" 
-                  onChange={(e) => setNewAccountInfo({
-                    ...newAccountInfo,
-                    orgName: e.target.value,
-                  })}
-                />
-              </div>
+                <div className="input-group mb-3">
+                  <span className="input-group-text">@</span>
+                  <input 
+                    type="text" 
+                    className="form-control" 
+                    id="username" 
+                    onChange={(e) => setNewAccountInfo({
+                      ...newAccountInfo,
+                      username: e.target.value,
+                    })}
+                  />
+                </div>
 
-              <label htmlFor="username" className="ps-1 mb-1">
-                Username
-              </label>
-              <div className="input-group mb-3">
-                <span className="input-group-text">@</span>
-                <input 
-                  type="text" 
-                  className="form-control" 
-                  id="username" 
-                  onChange={(e) => setNewAccountInfo({
-                    ...newAccountInfo,
-                    username: e.target.value,
-                  })}
-                />
-              </div>
+                <label htmlFor="password" className="ps-1 mb-1">
+                  Password
+                </label>
+                <div className="input-group mb-3">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    className="form-control"
+                    id="password"
+                    onChange={(e) => setNewAccountInfo({
+                      ...newAccountInfo,
+                      password: e.target.value,
+                    })}
+                  />
+                  <button
+                    className="btn btn-outline-secondary"
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                  </button>
+                </div>
 
-              <label htmlFor="password" className="ps-1 mb-1">
-                Password
-              </label>
-              <div className="input-group mb-3">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  className="form-control"
-                  id="password"
-                  onChange={(e) => setNewAccountInfo({
-                    ...newAccountInfo,
-                    password: e.target.value,
-                  })}
-                />
-                <button
-                  className="btn btn-outline-secondary"
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-                </button>
-              </div>
-
-              <div className="text-center mt-4">
-                <button className="btn btn-primary ps-4 pe-4" onClick={registrationHandler}>
-                  <span>Register</span>
-                </button>
-              </div>
+                <div className="text-center mt-4">
+                  <button className="btn btn-primary ps-4 pe-4" type="submit">
+                    <span>Register</span>
+                  </button>
+                </div>
+              </form>
             </Card.Body>
             <Card.Footer className="py-3">
               <span>

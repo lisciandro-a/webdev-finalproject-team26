@@ -9,10 +9,15 @@ function Home() {
         dispatch(accountLogoutThunk());
     }
     return (
-        <div className='list-group'>
-            <Link to='/login'>Login</Link>
-            <button onClick={logoutHandler}> Logout </button>
-            <Link to='/register'>Register</Link>
+        <div>
+            <div> Home page </div>
+            <div>
+                <Link to="/login">Login</Link> or <Link to="/register">Register</Link>
+            </div>
+            <div>
+                <button onClick={logoutHandler}> Logout </button>
+            </div>
+            
         </div>
     );
 }

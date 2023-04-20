@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./watchDetails.css";
 import { useParams, useNavigate } from "react-router";
-import watchDetailsJson from "./watchDetailsExample.json";
+// import watchDetailsJson from "./watchDetailsExample.json";
 import { Chip, Typography, Rating, IconButton } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -19,8 +19,8 @@ function WatchDetails() {
 
   const getWatchDetails = async () => {
     const result = await searchSimklById(mediaType, simklID);
-    // setWatchDetails(result);
-    setWatchDetails(watchDetailsJson);
+    setWatchDetails(result);
+    // setWatchDetails(watchDetailsJson);
   };
 
   if (!["movie", "tv", "anime"].includes(mediaType)) {

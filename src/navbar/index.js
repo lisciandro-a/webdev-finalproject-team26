@@ -50,11 +50,6 @@ function Navbar() {
                   to="/login">
                     Login
                 </Link>
-                <Link 
-                  className={`nav-link ${location.pathname === '/register' ? 'active' : ''}`} 
-                  to="/register">
-                    Register
-                </Link>
               </>
             )
           }

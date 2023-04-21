@@ -1,13 +1,25 @@
 import { Typography, Rating } from "@mui/material";
+import { useEffect, useState } from "react";
+import { getMediaByMediaId } from "../services/media/mediaService";
+import { Link } from "react-router-dom";
 
 function MediaReview({ localMedia }) {
+  const [media, setMedia] = useState(null);
+
+  useEffect(() => {
+    const fetchMedia = async () => {
+      const result = await getMediaByMediaId(localMedia.mediaType, localMedia.mediaId);
+      setMedia(result);
+    }
+    fetchMedia();
+  }, []);
   
-  return (
+  return media ? (
     <div className="list-item p-2 border-bottom">
       <div className='row'>
         <div className='col-2 my-auto'>
           <img
-            src={`https://simkl.in/posters/${localMedia.poster}_m.webp`}
+            src={`https://simkl.in/posters/${media?.poster}_m.webp`}
             alt=""
             className="img-size"
           />
@@ -15,7 +27,7 @@ function MediaReview({ localMedia }) {
         <div className='col-6 mt-2'>
           <div className='d-flex'>
             <div className='align-self'>
-              <Typography variant="h4">{localMedia.title}</Typography>
+              <Typography variant="h4">{media?.title}</Typography>
             </div>
           </div>
           <p className="ps-1">{localMedia.comment}</p>
@@ -35,15 +47,23 @@ function MediaReview({ localMedia }) {
           <Rating
             name="customized-10"
             defaultValue={5.7}
-            value={localMedia.avgRating}
+            value={media.avgRating}
             max={10}
             precision={0.1}
             readOnly
           />
+          <div>
+            <Link
+              to={`/details/${localMedia.mediaType}/${media?.mediaId}`}
+              className="text-blue text-decoration-none"
+            >
+              {" "}More...{" "}
+            </Link>
+          </div>
         </div>
       </div>
     </div>
-  );
+  ) : <></>;
 }
 
 export default MediaReview;

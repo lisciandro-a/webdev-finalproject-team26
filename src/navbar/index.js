@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { accountLogoutThunk } from "../services/accounts/accountThunks";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import "bootstrap/js/src/collapse.js";
 
 function Navbar() {
 
@@ -11,8 +12,10 @@ function Navbar() {
   const location = useLocation();
 
   const dispatch = useDispatch();
-  const logoutHandler = () => {
-    dispatch(accountLogoutThunk());
+  const navigate = useNavigate();
+  const logoutHandler = async () => {
+    await dispatch(accountLogoutThunk()).unwrap();
+    navigate('/');
   }
 
   return (

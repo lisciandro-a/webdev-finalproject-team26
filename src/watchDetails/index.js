@@ -19,10 +19,13 @@ function WatchDetails() {
 
   useEffect(() => {
     getWatchDetails();
+  }, [simklID, mediaType]);
+
+  useEffect(() => {
     if (profile) {
       getProfileWatchDetails();
     }
-  }, [simklID, mediaType, profile]);
+  }, [profile])
 
   const getWatchDetails = async () => {
     const simklResult = await searchSimklById(mediaType, simklID);

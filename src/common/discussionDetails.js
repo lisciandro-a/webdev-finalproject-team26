@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import MarkItem from "./markItem";
-import { searchSimklById } from "../services/simkl/simklService";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import watchDetails from "../watchDetails/watchDetailsExample.json";

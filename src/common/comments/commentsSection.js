@@ -10,29 +10,43 @@ import Comment from "./comment";
 import { List, InputAdornment } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faReply } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
 
 // load comments and update commentswill be callbacks to local database
 // allows us to reuse the comments section while loading comments from different parts of database (re-use component for club discussions and )
 function CommentsSection({ loadComments, updateComments, maxDepth, sectionTitle }) {
-  const [comments, setComments] = useState(commentExamples);
+  const [comments, setComments] = useState([]);
   const [showNewComment, setShowNewComment] = useState(false);
   const [newComment, setNewComment] = useState('');
+  const [showUpdate, setShowUpdate] = useState(false);
+
+  const { loggedIn, profile } = useSelector(state => state.account);
+
+  const fetchComments = async () => {
+    const fetched = await loadComments();
+    setComments(fetched);
+  }
 
   useEffect(() => {
-    // setComments(loadComments());
-    console.log(maxDepth);
-    setComments(commentExamples);
+    fetchComments();
+    //setComments(commentExamples);
   }, []);
 
-  useEffect(() => {}, [comments]);
+
+  useEffect(() => {
+    if (loggedIn && maxDepth === 0 && comments.map((c) => c.username).includes(profile.username)) {
+      setShowUpdate(true);
+    }
+  }, [comments, loggedIn, profile, maxDepth]);
 
   const onCommentChange = (event) => {
     setNewComment(event.target.value);
   };
 
-  const onClickCommentSubmit = () => {
-    // updateComments(newComment);
-    console.log(newComment);
+  const onClickCommentSubmit = async () => {
+    await updateComments(newComment);
+    await fetchComments();
+    // console.log(newComment);
     setNewComment('');
     setShowNewComment(false);
   }
@@ -45,9 +59,12 @@ function CommentsSection({ loadComments, updateComments, maxDepth, sectionTitle 
             <h3>{sectionTitle}s</h3>
           </div>
           <div className="col-6 text-end">
+          {loggedIn ? 
             <Button className="btn btn-outline-dark" variant="light" onClick={() => setShowNewComment(!showNewComment)}>
-              {showNewComment? 'Cancel' : `New ${sectionTitle}`}
+              {showNewComment ? 'Cancel' : `${showUpdate ? 'Update' : 'New'} ${sectionTitle}`}
             </Button>
+            : <></>
+          }
           </div>
 
           <FormControl variant="outlined" className={showNewComment? 'd-inline-block p-3' : 'd-none'}>
@@ -69,7 +86,7 @@ function CommentsSection({ loadComments, updateComments, maxDepth, sectionTitle 
           </FormControl>
         </div>
         <List className="mt-2">
-          {comments.map((comment) => (
+          {comments?.map((comment) => (
             <Comment key={comment._id} comment={comment} updateComments={updateComments} depth={0} maxDepth={maxDepth}/>
           ))}
         </List>

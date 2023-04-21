@@ -134,7 +134,7 @@ function MemberProfile() {
         </div>
         <div hidden={tab !== 3} className="text-start pt-2">
           {
-            clubs.map((c) => <ClubDetails key={c.mediaId} club={c}/>)
+            clubs.map((c) => <ClubDetails key={c._id} club={c}/>)
           }
         </div>
       </div>

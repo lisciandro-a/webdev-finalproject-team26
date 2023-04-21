@@ -19,10 +19,13 @@ function WatchDetails() {
 
   useEffect(() => {
     getWatchDetails();
+  }, []);
+
+  useEffect(() => {
     if (loggedIn) {
       getProfileWatchDetails();
     }
-  }, []);
+  }, [loggedIn]);
 
   console.log(localMedia);
   const getWatchDetails = async () => {
@@ -54,7 +57,7 @@ function WatchDetails() {
               <div className="mt-auto col">
                 <h1>
                   {" "}
-                  {watchDetails?.title} <MarkItem media={localMedia}/>{" "}
+                  {watchDetails?.title} {localMedia ? <MarkItem media={localMedia}/> : <></>}{" "}
                 </h1>
 
                 {/* <small className="ps-2" height="32px">

@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import MarkItem from "../common/markItem";
+import { Link } from "react-router-dom";
 
 function SearchResultItem({ mediaType, result }) {
   // https://simkl.in/posters/13/13468373db4fa6dd3b_m.webp
@@ -27,13 +28,13 @@ function SearchResultItem({ mediaType, result }) {
         <div className="col-7 col-xl-8 text-start ps-4 m-auto">
           <h2> {result.title} </h2>
           <h4> {result.year} </h4>
-          <a
-            href={`/details/${mediaType}/${result?.ids.simkl_id}`}
+          <Link
+            to={`/details/${mediaType}/${result?.ids.simkl_id}`}
             className=" text-blue text-decoration-none"
           >
             {" "}
             More...{" "}
-          </a>
+          </Link>
         </div>
         <div className="col-3 text-center pe-0 m-auto">
           {localMedia ? <MarkItem media={localMedia}/> : <></>}

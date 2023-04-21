@@ -7,21 +7,34 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { searchSimklById } from "./watchDetailsService";
 import { NotFound, MarkItem, CommentsSection } from "../common";
+import { getMediaByUsernameMediaId } from "../services/media/mediaService";
+import { useSelector } from "react-redux";
 
 function WatchDetails() {
   const { mediaType, simklID } = useParams();
   const navigate = useNavigate();
   const [watchDetails, setWatchDetails] = useState({});
+  const [localMedia, setLocalMedia] = useState(null);
+
+  const { profile } = useSelector(state => state.account);
 
   useEffect(() => {
     getWatchDetails();
-  }, [simklID, mediaType]);
+    if (profile) {
+      getProfileWatchDetails();
+    }
+  }, [simklID, mediaType, profile]);
 
   const getWatchDetails = async () => {
-    const result = await searchSimklById(mediaType, simklID);
-    setWatchDetails(result);
+    const simklResult = await searchSimklById(mediaType, simklID);
+    setWatchDetails(simklResult);
     // setWatchDetails(watchDetailsJson);
   };
+
+  const getProfileWatchDetails = async () => {
+    const profileMediaResult = await getMediaByUsernameMediaId(mediaType, simklID, profile.username);
+    setLocalMedia(profileMediaResult);
+  }
 
   if (!["movie", "tv", "anime"].includes(mediaType)) {
     return <NotFound />;
@@ -32,6 +45,7 @@ function WatchDetails() {
           <div className="col-3 col-xxl-2 text-start">
             <img
               src={`https://simkl.in/posters/${watchDetails?.poster}_m.webp`}
+              alt=""
               className="img-size"
             />
           </div>
@@ -40,7 +54,7 @@ function WatchDetails() {
               <div className="mt-auto col">
                 <h1>
                   {" "}
-                  {watchDetails?.title} <MarkItem />{" "}
+                  {watchDetails?.title} <MarkItem profile={profile} localMedia={localMedia}/>{" "}
                 </h1>
 
                 {/* <small className="ps-2" height="32px">

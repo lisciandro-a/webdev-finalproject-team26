@@ -1,24 +1,33 @@
-import React, { useState } from "react";
-import memberProfileDetails from "./memberProfileExample.json";
+import React, { useEffect, useState } from "react";
 import { Popover, Button, Typography, Chip, Box, Tabs, Tab } from "@mui/material";
 import "./profile.css";
 import MediaDetails from "../common/mediaDetails";
 import MediaReview from "../common/mediaReview";
 import ClubDetails from "../common/clubDetails";
+import { getMediaByUsername } from "../services/media/mediaService";
 
-function MemberProfile() {
+function MemberProfile({ profile }) {
   const [anchorContacts, setAnchorContacts] = useState(null);
   const [tab, setTab] = useState(0);
+  const [ media, setMedia ] = useState([]);
 
   const onClickContacts = (event) => {
     setAnchorContacts(event.currentTarget);
   };
 
+  useEffect(() => {
+    const getMedia = async (username) => {
+      const result = await getMediaByUsername(username);
+      setMedia(result);
+    }
+    getMedia(profile.username);
+  }, [])
+
   return (
     <div className="my-4">
       <div className="w-100">
-        <h1> {memberProfileDetails.firstName + ' ' + memberProfileDetails.lastName} </h1>
-        <small>{memberProfileDetails.username}</small>
+        <h1> {profile.firstName + ' ' + profile.lastName} </h1>
+        <small>@{profile.username}</small>
       </div>
 
       <div className="w-100 d-flex flex-wrap justify-content-center mt-1">
@@ -39,7 +48,7 @@ function MemberProfile() {
               horizontal: "left",
             }}
           >
-            {memberProfileDetails.contacts?.map((contact, idx) => (
+            {profile.contacts?.map((contact, idx) => (
               <Typography key={idx} className="popover" sx={{ p: 2 }}>
                 {contact.type}: {contact.value}
               </Typography>
@@ -50,21 +59,21 @@ function MemberProfile() {
 
       <div className="text-start mt-3">
         <h3>About me</h3>
-        <p>{memberProfileDetails.bio}</p>
+        <p>{profile.bio}</p>
         <div>
           <Chip
             label="Movies"
             className={
-              memberProfileDetails.watchMovies ? "inline-flex px-1 me-1" : "d-none"
+              profile.watchMovies ? "inline-flex px-1 me-1" : "d-none"
             }
           />
           <Chip
             label="Tv"
-            className={memberProfileDetails.watchTv ? "inline-flex px-1 mx-1" : "d-none"}
+            className={profile.watchTv ? "inline-flex px-1 mx-1" : "d-none"}
           />
           <Chip
             label="Anime"
-            className={memberProfileDetails.watchAnime ? "inline-flex px-1 mx-1" : "d-none"}
+            className={profile.watchAnime ? "inline-flex px-1 mx-1" : "d-none"}
           />
         </div>
       </div>
@@ -84,22 +93,22 @@ function MemberProfile() {
         </Box>
         <div hidden={tab !== 0} className="text-start pt-2">
           {
-            memberProfileDetails.watched.map((w) => <MediaDetails localMedia={w}/>)
+            media.filter((m) => m.watched).map((m) => <MediaDetails profile={profile} localMedia={m}/>)
           }
         </div>
         <div hidden={tab !== 1} className="text-start pt-2">
           {
-            memberProfileDetails.liked.map((l) => <MediaDetails localMedia={l}/>)
+            media.filter((m) => m.liked).map((m) => <MediaDetails profile={profile} localMedia={m}/>)
           }
         </div>
         <div hidden={tab !== 2} className="text-start pt-2">
           {
-            memberProfileDetails.reviews.map((r) => <MediaReview localMedia={r}/>)
+            media.filter((m) => m.reviewed).map((r) => <MediaReview localMedia={r}/>)
           }
         </div>
         <div hidden={tab !== 3} className="text-start pt-2">
           {
-            memberProfileDetails.clubs.map((c) => <ClubDetails club={c}/>)
+            profile.clubs?.map((c) => <ClubDetails club={c}/>)
           }
         </div>
       </div>

@@ -19,14 +19,12 @@ function WatchDetails() {
 
   useEffect(() => {
     getWatchDetails();
-  }, [simklID, mediaType]);
-
-  useEffect(() => {
-    if (profile) {
+    if (loggedIn) {
       getProfileWatchDetails();
     }
-  }, [profile])
+  }, []);
 
+  console.log(localMedia);
   const getWatchDetails = async () => {
     const simklResult = await searchSimklById(mediaType, simklID);
     setWatchDetails(simklResult);
@@ -56,7 +54,7 @@ function WatchDetails() {
               <div className="mt-auto col">
                 <h1>
                   {" "}
-                  {watchDetails?.title} <MarkItem profile={profile} localMedia={localMedia}/>{" "}
+                  {watchDetails?.title} <MarkItem media={localMedia}/>{" "}
                 </h1>
 
                 {/* <small className="ps-2" height="32px">

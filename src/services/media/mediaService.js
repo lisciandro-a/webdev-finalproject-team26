@@ -16,13 +16,21 @@ export const getMediaByUsername = async (username) => {
 }
 
 export const getMediaByUsernameMediaId = async (mediaType, mediaId, username) => {
-  const response = await axiosClient.get(`/profile/${username}/media/${mediaType}/${mediaId}`);
-  return response.data;
+  try {
+    const response = await axiosClient.get(`/profile/${username}/media/${mediaType}/${mediaId}`);
+    return response.data;
+  } catch {
+    return undefined;
+  }
 }
 
 export const getMediaByMediaId = async (mediaType, mediaId) => {
-  const response = await axiosClient.get(`/media/${mediaType}/${mediaId}`);
-  return response.data;
+  try {
+    const response = await axiosClient.get(`/media/${mediaType}/${mediaId}`);
+    return response.data;
+  } catch {
+    return undefined;
+  }
 }
 
 export const addMedia = async (media) => {

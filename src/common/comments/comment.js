@@ -13,7 +13,7 @@ import { formatTimestamp } from "./formatTimestamp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faReply } from "@fortawesome/free-solid-svg-icons";
 
-function Comment({ comment, updateComments, depth }) {
+function Comment({ comment, updateComments, depth, maxDepth }) {
   const [showNewReply, setShowNewReply] = useState(false);
   const [newReply, setNewReply] = useState('');
 
@@ -46,8 +46,9 @@ function Comment({ comment, updateComments, depth }) {
                 </small>
                 <Button
                   color="primary"
-                  disabled={depth > 2}
+                  disabled={depth >= maxDepth}
                   onClick={() => setShowNewReply(!showNewReply)}
+                  className={depth < maxDepth ? "d-flex" : "d-none"}
                 >
                   {showNewReply? 'Cancel' : 'Reply'}
                 </Button>
@@ -81,7 +82,7 @@ function Comment({ comment, updateComments, depth }) {
         </div>
       <List component="div" sx={{ pl: 4 }}>
         {comment.replies.map((reply) => (
-          <Comment key={comment._id} comment={reply} updateComments={updateComments} depth={depth+1}/>
+          <Comment key={comment._id} comment={reply} updateComments={updateComments} depth={depth+1} maxDepth={maxDepth}/>
         ))}
       </List>
     </>

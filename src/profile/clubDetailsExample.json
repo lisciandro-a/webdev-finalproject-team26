@@ -3,25 +3,47 @@
     "orgName": "Mike's Movie Mates",
     "username": "@mikesMovieMates",
     "email": "m3@watchit.com",
-    "watchList" : [
+    "discussionList" : [
         {
             "simklID": "2078079",
-            "upcoming": true
+            "discussionDate": "1600568901000",
+            "_id": "54322",
+            "title": "Shrek",
+            "avg_rating": 9,
+            "mediaType": "movie",
+            "mediaId": "54322"
         },
         {
             "simklID": "571018",
-            "upcoming": false
+            "discussionDate": "1745207196000",
+            "_id": "54422",
+            "title": "Toy Story",
+            "avg_rating": 7.5,
+            "mediaType": "movie",
+            "mediaId": "54422"
         }
     ],
     "members" : [
         {
-            "memberID": "id_member_1"
+            "memberID": "id_member_1",
+            "joinedDate": "1600568901000",
+            "firstName": "Adam",
+            "lastName": "Smith",
+            "username": "@adamSmith"
         },
         {
-            "memberID": "id_member_2"
+            "memberID": "id_member_2",
+            "joinedDate": "1600565901000",
+            "firstName": "Jane",
+            "lastName": "Doe",
+            "username": "@janeDoe"
         },
         {
-            "memberID": "id_member_3"
+            "memberID": "id_member_3",
+            "joinedDate": "1600265901000",
+            "firstName": "Bob",
+            "lastName": "Marley",
+            "username": "@theBobMarley"
         }
     ],
     "watchMovies": true,

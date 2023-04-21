@@ -6,6 +6,7 @@ import { useParams, useNavigate } from "react-router";
 import SearchResults from "./searchResults";
 import { fullSearch } from "./searchService";
 import NotFound from "../common/notFound";
+import searchExample from "./searchExample.json";
 
 function Search() {
   const movieTitle = "Movies";
@@ -47,8 +48,10 @@ function Search() {
   const searchSimkl = async () => {
     const encodedQuery = encodeURIComponent(searchString);
 
-    const results = await fullSearch(searchMediaType, encodedQuery);
-    setSearchResults(results);
+    setSearchResults(searchExample);
+
+    // const results = await fullSearch(searchMediaType, encodedQuery);
+    // setSearchResults(results);
   };
 
   if (mediaType && !Object.keys(mediaMap).includes(mediaType)) {

@@ -13,13 +13,14 @@ import { faReply } from "@fortawesome/free-solid-svg-icons";
 
 // load comments and update commentswill be callbacks to local database
 // allows us to reuse the comments section while loading comments from different parts of database (re-use component for club discussions and )
-function CommentsSection({ loadComments, updateComments }) {
+function CommentsSection({ loadComments, updateComments, maxDepth, sectionTitle }) {
   const [comments, setComments] = useState(commentExamples);
   const [showNewComment, setShowNewComment] = useState(false);
   const [newComment, setNewComment] = useState('');
 
   useEffect(() => {
     // setComments(loadComments());
+    console.log(maxDepth);
     setComments(commentExamples);
   }, []);
 
@@ -41,11 +42,11 @@ function CommentsSection({ loadComments, updateComments }) {
       <div className="mt-4 border border-dark rounded p-3">
         <div className="row position-relative">
           <div className="col-6 text-start">
-            <h3>Comments</h3>
+            <h3>{sectionTitle}s</h3>
           </div>
           <div className="col-6 text-end">
             <Button className="btn btn-outline-dark" variant="light" onClick={() => setShowNewComment(!showNewComment)}>
-              {showNewComment? 'Cancel' : 'New Comment'}
+              {showNewComment? 'Cancel' : `New ${sectionTitle}`}
             </Button>
           </div>
 
@@ -69,7 +70,7 @@ function CommentsSection({ loadComments, updateComments }) {
         </div>
         <List className="mt-2">
           {comments.map((comment) => (
-            <Comment key={comment._id} comment={comment} updateComments={updateComments} depth={0}/>
+            <Comment key={comment._id} comment={comment} updateComments={updateComments} depth={0} maxDepth={maxDepth}/>
           ))}
         </List>
       </div>

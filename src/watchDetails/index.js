@@ -1,26 +1,28 @@
 import React, { useEffect, useState } from "react";
 import "./watchDetails.css";
 import { useParams, useNavigate } from "react-router";
-// import watchDetailsJson from "./watchDetailsExample.json";
+import watchDetailsJson from "./watchDetailsExample.json";
 import { Chip, Typography, Rating, IconButton } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { searchSimklById } from "./watchDetailsService";
 import { NotFound, MarkItem, CommentsSection } from "../common";
+import { useSelector } from "react-redux";
 
 function WatchDetails() {
   const { mediaType, simklID } = useParams();
   const navigate = useNavigate();
   const [watchDetails, setWatchDetails] = useState({});
+  const { loggedIn, profile } = useSelector(state => state.account);
 
   useEffect(() => {
     getWatchDetails();
   }, [simklID, mediaType]);
 
   const getWatchDetails = async () => {
-    const result = await searchSimklById(mediaType, simklID);
-    setWatchDetails(result);
-    // setWatchDetails(watchDetailsJson);
+    // const result = await searchSimklById(mediaType, simklID);
+    // setWatchDetails(result);
+    setWatchDetails(watchDetailsJson);
   };
 
   if (!["movie", "tv", "anime"].includes(mediaType)) {
@@ -70,7 +72,7 @@ function WatchDetails() {
               ))}
             </div>
             <div className="mt-4 mt-lg-5 d-inline-block d-md-inline-flex">
-              <Typography component="legend">User Ratings</Typography>
+              <Typography component="legend">Average User Rating</Typography>
               {/* default value will be 0 or whatever is in database */}
               <Rating
                 name="customized-10"
@@ -82,15 +84,14 @@ function WatchDetails() {
               />
             </div>
             <br />
-            <div className="d-inline-block d-md-inline-flex mt-lg-3">
-              <Typography component="legend">Club Ratings</Typography>
+            <div className={loggedIn && profile?.isMemberAccount ? "d-inline-block d-md-inline-flex mt-lg-3" : "d-none"}>
+              <Typography component="legend">Your Rating</Typography>
               {/* default value will be 0 or whatever is in database */}
               <Rating
                 name="customized-10"
-                defaultValue={5.7}
+                defaultValue={0}
                 max={10}
-                precision={0.5}
-                readOnly
+                precision={1}
                 className="ms-2"
               />
             </div>
@@ -102,7 +103,7 @@ function WatchDetails() {
         </div>
 
         <div>
-          <CommentsSection loadComments={() => console.log("Loading")} />
+          <CommentsSection maxDepth={0} loadComments={() => console.log("Loading")} sectionTitle={"Review"} />
         </div>
       </div>
     );

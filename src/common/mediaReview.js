@@ -37,7 +37,7 @@ function MediaReview({ localMedia }) {
           <p className="ps-1">{localMedia.comment}</p>
         </div>
         <div className='col-4 mt-2'>
-          <Typography component="legend">Your rating</Typography>
+          <Typography component="legend">Rating</Typography>
           <Rating
             name="customized-10"
             defaultValue={5.7}

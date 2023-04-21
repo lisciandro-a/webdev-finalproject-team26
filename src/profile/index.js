@@ -33,7 +33,7 @@ function Profile() {
     }
   }, [profileID]);
 
-  return loadingProfile ? <>Loading...</> : ( user ? (user.isMemberAccount ? <MemberProfile /> : <ClubProfile profile={user}/>) : <NotFound/>);
+  return loadingProfile ? <>Loading...</> : ( user ? (user.isMemberAccount ? <MemberProfile profile={user} /> : <ClubProfile profile={user}/>) : <NotFound/>);
 }
 
 export default Profile;

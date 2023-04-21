@@ -2,13 +2,20 @@ import React, { useState } from "react";
 import clubProfileDetails from "./clubDetailsExample.json";
 import { Popover, Button, Typography, Chip, Box, Tabs, Tab } from "@mui/material";
 import "./profile.css";
+import "bootstrap/js/src/collapse.js";
 import { formatTimestampToDate } from "../common/comments/formatTimestamp";
+import MemberDetails from "../common/memberDetails";
+import DiscussionDetails from "../common/discussionDetails";
 
 function ClubProfile() {
   const [anchorVirtualMeetings, setAnchorVirtualMeetings] = useState(null);
   const [anchorContacts, setAnchorContacts] = useState(null);
   const [anchorAnnounce, setAnchorAnnounce] = useState(null);
   const [tab, setTab] = useState(0);
+
+  const currDate = new Date().getTime();
+
+  console.log(clubProfileDetails.discussionList);
 
 
   const onClickVirtualMeeting = (event) => {
@@ -144,14 +151,25 @@ function ClubProfile() {
             <Tab label="Members" id='members' wrapped/>
           </Tabs>
         </Box>
+        {/* <div hidden={tab !== 0} className="text-start pt-2">
+          {
+            memberProfileDetails.watched.map((w) => <MediaDetails localMedia={w}/>)
+          }
+        </div> */}
         <div hidden={tab !== 0} className="text-start pt-2">
-          Item One
+          {
+            clubProfileDetails.discussionList.filter((d) => parseInt(d.discussionDate) <= currDate).map((ud) => <DiscussionDetails localMedia={ud} clubID={clubProfileDetails._id}/>)
+          }
         </div>
         <div hidden={tab !== 1} className="text-start pt-2">
-          Item Two
+        {
+            clubProfileDetails.discussionList.filter((d) => parseInt(d.discussionDate) > currDate).map((ud) => <DiscussionDetails localMedia={ud} clubID={clubProfileDetails._id}/>)
+          }
         </div>
         <div hidden={tab !== 2} className="text-start pt-2">
-          Item Three
+          {
+            clubProfileDetails.members.map((m) => <MemberDetails club={clubProfileDetails} member={m}/>)
+          }
         </div>
       </div>
     </div>

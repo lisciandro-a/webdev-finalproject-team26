@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./watchDetails.css";
 import { useParams, useNavigate } from "react-router";
-// import watchDetailsJson from "./watchDetailsExample.json";
+import watchDetailsJson from "./watchDetailsExample.json";
 import { Chip, Typography, Rating, IconButton } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -15,16 +15,19 @@ function WatchDetails() {
   const navigate = useNavigate();
   const [watchDetails, setWatchDetails] = useState({});
   const [localMedia, setLocalMedia] = useState(null);
-
-  const { profile } = useSelector(state => state.account);
+  const { loggedIn, profile } = useSelector(state => state.account);
 
   useEffect(() => {
     getWatchDetails();
-    if (profile) {
+  }, []);
+
+  useEffect(() => {
+    if (loggedIn) {
       getProfileWatchDetails();
     }
-  }, [simklID, mediaType, profile]);
+  }, [loggedIn]);
 
+  console.log(localMedia);
   const getWatchDetails = async () => {
     const simklResult = await searchSimklById(mediaType, simklID);
     setWatchDetails(simklResult);
@@ -54,7 +57,7 @@ function WatchDetails() {
               <div className="mt-auto col">
                 <h1>
                   {" "}
-                  {watchDetails?.title} <MarkItem profile={profile} localMedia={localMedia}/>{" "}
+                  {watchDetails?.title} {localMedia ? <MarkItem media={localMedia}/> : <></>}{" "}
                 </h1>
 
                 {/* <small className="ps-2" height="32px">
@@ -84,7 +87,7 @@ function WatchDetails() {
               ))}
             </div>
             <div className="mt-4 mt-lg-5 d-inline-block d-md-inline-flex">
-              <Typography component="legend">User Ratings</Typography>
+              <Typography component="legend">Average User Rating</Typography>
               {/* default value will be 0 or whatever is in database */}
               <Rating
                 name="customized-10"
@@ -96,15 +99,14 @@ function WatchDetails() {
               />
             </div>
             <br />
-            <div className="d-inline-block d-md-inline-flex mt-lg-3">
-              <Typography component="legend">Club Ratings</Typography>
+            <div className={loggedIn && profile?.isMemberAccount ? "d-inline-block d-md-inline-flex mt-lg-3" : "d-none"}>
+              <Typography component="legend">Your Rating</Typography>
               {/* default value will be 0 or whatever is in database */}
               <Rating
                 name="customized-10"
-                defaultValue={5.7}
+                defaultValue={0}
                 max={10}
-                precision={0.5}
-                readOnly
+                precision={1}
                 className="ms-2"
               />
             </div>
@@ -116,7 +118,7 @@ function WatchDetails() {
         </div>
 
         <div>
-          <CommentsSection loadComments={() => console.log("Loading")} />
+          <CommentsSection maxDepth={0} loadComments={() => console.log("Loading")} sectionTitle={"Review"} />
         </div>
       </div>
     );

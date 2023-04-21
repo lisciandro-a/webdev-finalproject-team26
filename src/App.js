@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import { accountLoginThunk } from './services/accounts/accountThunks';
 import Navbar from './navbar';
 import Profile from './profile';
+import Discussion from './discussion';
 
 function App() {
   const dispatch = useDispatch();
@@ -24,7 +25,6 @@ function App() {
         <div className='container'>
           <Navbar/>
           <Routes>
-            <Route path="*" element={<NotFound />} />
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
@@ -33,6 +33,8 @@ function App() {
             <Route path="/search/:mediaType/:searchTerm" element={<Search />} />
             <Route path="/details/:mediaType/:simklID" element={<WatchDetails />} />
             <Route path="/profile/:profileID?" element={<Profile />} />
+            <Route path="/club/:clubID/discussion/:simklID" element={<Discussion />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </BrowserRouter>

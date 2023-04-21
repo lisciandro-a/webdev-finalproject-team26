@@ -36,7 +36,7 @@ function MediaDetails({ profile, localMedia }) {
           </Link>
         </div>
         <div className="col-3 text-center pe-0 m-auto">
-          <MarkItem profile={profile} localMedia={localMedia}/>
+          <MarkItem profile={profile} media={localMedia}/>
         </div>
       </div>
     </li>

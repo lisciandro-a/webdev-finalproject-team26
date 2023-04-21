@@ -57,3 +57,8 @@ export const deleteLikedValueByUsernameByMediaId = async (mediaType, mediaId, us
   const response = await axiosClient.delete(`/profile/${username}/likes/${mediaType}/${mediaId}`);
   return response.data;
 }
+
+export const addMedia = async (media) => {
+  const response = await axiosClient.post(`/media`, media);
+  return response.data;
+}

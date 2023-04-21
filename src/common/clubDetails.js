@@ -4,8 +4,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
-function ClubDetails({ club }) {
-  const { profile } = useSelector(state => state.account);
+function ClubDetails({ club, profile }) {
   const [joinedDate, setJoinedDate] = useState('');
   const [announcement, setAnnouncement] = useState('');
 
@@ -30,7 +29,7 @@ function ClubDetails({ club }) {
         </div>
         <div className="col-6 text-end">
           <div className="align-text-bottom">
-            <Typography className='pb-1' variant="body2">You joined this club on: {formatTimestampToDateWithoutTime(joinedDate.joinedDate)}</Typography>
+            <Typography className='pb-1' variant="body2">Joined club on: {formatTimestampToDateWithoutTime(joinedDate.joinedDate)}</Typography>
             { club.virtualMeetings ? 
               <Typography className='pb-1' variant="body2">
                 {"Virtual meetings every " + club.virtualMeetings.meetingWeekday + " at " + club.virtualMeetings.meetingTime}

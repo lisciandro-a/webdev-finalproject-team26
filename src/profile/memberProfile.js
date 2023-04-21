@@ -93,12 +93,12 @@ function MemberProfile({ profile }) {
         </Box>
         <div hidden={tab !== 0} className="text-start pt-2">
           {
-            media.filter((m) => m.watched).map((m) => <MediaDetails localMedia={m}/>)
+            media.filter((m) => m.watched).map((m) => <MediaDetails profile={profile} localMedia={m}/>)
           }
         </div>
         <div hidden={tab !== 1} className="text-start pt-2">
           {
-            media.filter((m) => m.liked).map((m) => <MediaDetails localMedia={m}/>)
+            media.filter((m) => m.liked).map((m) => <MediaDetails profile={profile} localMedia={m}/>)
           }
         </div>
         <div hidden={tab !== 2} className="text-start pt-2">

@@ -1,6 +1,7 @@
 import { Typography, Rating } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getMediaByMediaId } from "../services/media/mediaService";
+import { Link } from "react-router-dom";
 
 function MediaReview({ localMedia }) {
   const [media, setMedia] = useState(null);
@@ -46,11 +47,19 @@ function MediaReview({ localMedia }) {
           <Rating
             name="customized-10"
             defaultValue={5.7}
-            value={localMedia.avgRating}
+            value={media.avgRating}
             max={10}
             precision={0.1}
             readOnly
           />
+          <div>
+            <Link
+              to={`/details/${localMedia.mediaType}/${media?.mediaId}`}
+              className="text-blue text-decoration-none"
+            >
+              {" "}More...{" "}
+            </Link>
+          </div>
         </div>
       </div>
     </div>

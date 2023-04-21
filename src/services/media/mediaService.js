@@ -15,7 +15,32 @@ export const getMediaByUsername = async (username) => {
   return response.data;
 }
 
+export const getMediaByUsernameMediaId = async (mediaType, mediaId, username) => {
+  const response = await axiosClient.get(`/profile/${username}/media/${mediaType}/${mediaId}`);
+  return response.data;
+}
+
 export const getMediaByMediaId = async (mediaType, mediaId) => {
   const response = await axiosClient.get(`/media/${mediaType}/${mediaId}`);
+  return response.data;
+}
+
+export const addWatchedValueByUsernameByMediaId = async (mediaType, mediaId, username) => {
+  const response = await axiosClient.post(`/profile/${username}/watches/${mediaType}/${mediaId}`);
+  return response.data;
+}
+
+export const deleteWatchedValueByUsernameByMediaId = async (mediaType, mediaId, username) => {
+  const response = await axiosClient.delete(`/profile/${username}/watches/${mediaType}/${mediaId}`);
+  return response.data;
+}
+
+export const addLikedValueByUsernameByMediaId = async (mediaType, mediaId, username) => {
+  const response = await axiosClient.post(`/profile/${username}/likes/${mediaType}/${mediaId}`);
+  return response.data;
+}
+
+export const deleteLikedValueByUsernameByMediaId = async (mediaType, mediaId, username) => {
+  const response = await axiosClient.delete(`/profile/${username}/likes/${mediaType}/${mediaId}`);
   return response.data;
 }

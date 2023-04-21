@@ -81,7 +81,7 @@ function Comment({ comment, updateComments, depth, maxDepth }) {
           </FormControl>
         </div>
       <List component="div" sx={{ pl: 4 }}>
-        {comment.replies.map((reply) => (
+        {comment.replies?.map((reply) => (
           <Comment key={comment._id} comment={reply} updateComments={updateComments} depth={depth+1} maxDepth={maxDepth}/>
         ))}
       </List>

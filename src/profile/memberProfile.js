@@ -9,11 +9,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import UpdateProfile from "./updateProfile";
 import { useSelector } from "react-redux";
+import { getClubsByMemberUsername } from "../services/clubs/clubService";
 
 function MemberProfile() {
   const [anchorContacts, setAnchorContacts] = useState(null);
   const [tab, setTab] = useState(0);
   const [media, setMedia] = useState([]);
+  const [clubs, setClubs] = useState([]);
   const [edit, setEdit] = useState(false);
   const { profile } = useSelector(state => state.account);
 
@@ -23,11 +25,17 @@ function MemberProfile() {
 
   useEffect(() => {
     getMedia(profile.username);
+    getClubs(profile.username);
   }, [tab])
 
   const getMedia = async (username) => {
     const result = await getMediaByUsername(username);
     setMedia(result);
+  }
+
+  const getClubs = async (username) => {
+    const result = await getClubsByMemberUsername(username);
+    setClubs(result);
   }
 
   return (
@@ -111,12 +119,12 @@ function MemberProfile() {
         </Box>
         <div hidden={tab !== 0} className="text-start pt-2">
           {
-            media.filter((m) => m.watched).map((m) => <MediaDetails key={m.mediaId} profile={profile} localMedia={m}/>)
+            media.filter((m) => m.watched).map((m) => <MediaDetails key={m.mediaId} localMedia={m}/>)
           }
         </div>
         <div hidden={tab !== 1} className="text-start pt-2">
           {
-            media.filter((m) => m.liked).map((m) => <MediaDetails key={m.mediaId} profile={profile} localMedia={m}/>)
+            media.filter((m) => m.liked).map((m) => <MediaDetails key={m.mediaId} localMedia={m}/>)
           }
         </div>
         <div hidden={tab !== 2} className="text-start pt-2">
@@ -126,7 +134,7 @@ function MemberProfile() {
         </div>
         <div hidden={tab !== 3} className="text-start pt-2">
           {
-            profile?.clubs?.map((c) => <ClubDetails key={c.mediaId} club={c}/>)
+            clubs.map((c) => <ClubDetails key={c._id} club={c}/>)
           }
         </div>
       </div>

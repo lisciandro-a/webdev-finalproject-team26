@@ -1,35 +1,34 @@
 import React, { useEffect, useState } from "react";
 import MarkItem from "./markItem";
-import { searchSimklById } from "../services/simkl/simklService";
 import { Link } from "react-router-dom";
+import { getMediaByMediaId } from "../services/media/mediaService";
 
 function MediaDetails({ localMedia }) {
   const [media, setMedia] = useState(null);
 
   useEffect(() => {
     const fetchMedia = async () => {
-      const result = await searchSimklById(localMedia.idType, localMedia.mediaId);
-      console.log(result);
+      const result = await getMediaByMediaId(localMedia.mediaType, localMedia.mediaId);
       setMedia(result);
     }
     fetchMedia();
-  }, [localMedia]);
+  }, []);
   
   return media ? (
     <li className="list-group-item p-2 border-bottom">
       <div className="row">
         <div className="col-2 col-xl-1 my-auto">
           <img
-            src={`https://simkl.in/posters/${media.poster}_m.webp`}
+            src={`https://simkl.in/posters/${media?.poster}_m.webp`}
             alt=""
             className="img-size"
           />
         </div>
         <div className="col-7 col-xl-8 text-start ps-4 m-auto">
-          <h2> {media.title} </h2>
-          <h4> {media.year} </h4>
+          <h2> {media?.title} </h2>
+          <h4> {media?.year} </h4>
           <Link
-            to={`/details/${localMedia.mediaType}/${media?.ids.simkl}`}
+            to={`/details/${localMedia.mediaType}/${media?.mediaId}`}
             className="text-blue text-decoration-none"
           >
             {" "}

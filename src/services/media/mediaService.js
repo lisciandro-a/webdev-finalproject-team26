@@ -33,11 +33,6 @@ export const getMediaByMediaId = async (mediaType, mediaId) => {
   }
 }
 
-export const addMedia = async (media) => {
-  const response = await axiosClient.post(`/media`, media);
-  return response.data;
-}
-
 export const addWatchedValueByUsernameByMediaId = async (mediaType, mediaId, username) => {
   const response = await axiosClient.post(`/profile/${username}/watches/${mediaType}/${mediaId}`);
   return response.data;

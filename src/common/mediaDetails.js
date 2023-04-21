@@ -3,7 +3,7 @@ import MarkItem from "./markItem";
 import { Link } from "react-router-dom";
 import { getMediaByMediaId } from "../services/media/mediaService";
 
-function MediaDetails({ profile, localMedia }) {
+function MediaDetails({ localMedia }) {
   const [media, setMedia] = useState(null);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ function MediaDetails({ profile, localMedia }) {
           </Link>
         </div>
         <div className="col-3 text-center pe-0 m-auto">
-          <MarkItem profile={profile} media={localMedia}/>
+          <MarkItem media={localMedia}/>
         </div>
       </div>
     </li>

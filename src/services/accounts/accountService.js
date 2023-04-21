@@ -15,6 +15,11 @@ export const register = async (newAccountInfo) => {
   return response.data;
 }
 
+export const updateProfile = async (updatedAccountInfo, username) => {
+  const response = await axiosClient.put(`/profile/${username}`, updatedAccountInfo);
+  return response.data;
+}
+
 export const getProfileByUsername = async (username) => {
   const response = await axiosClient.get(`/profile/${username}`);
   return response.data;

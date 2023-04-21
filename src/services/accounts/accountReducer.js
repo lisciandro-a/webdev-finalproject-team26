@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { accountLoginThunk, accountLogoutThunk, accountRegisterThunk } from "./accountThunks";
+import { accountLoginThunk, accountLogoutThunk, accountRegisterThunk, accountUpdateThunk } from "./accountThunks";
 
 const initialState = {
   loggedIn: false,
@@ -36,6 +36,11 @@ const accountSlice = createSlice({
         state.loggedIn = false;
         state.profile = null;
       },
+    [accountUpdateThunk.fulfilled]:
+      (state, { payload }) => {
+        console.log(payload);
+        state.profile = payload;
+      }
   }
 })
 

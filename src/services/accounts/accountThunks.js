@@ -22,3 +22,10 @@ export const accountRegisterThunk = createAsyncThunk(
   }
 )
 
+export const accountUpdateThunk = createAsyncThunk(
+  'account/update',
+  async (updatedAccountInfo) => {
+    return await accountService.updateProfile(updatedAccountInfo, updatedAccountInfo.oldUsername);
+  }
+)
+

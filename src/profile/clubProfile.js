@@ -38,6 +38,7 @@ function ClubProfile({ profilePageData }) {
 
   const getMedia = async (username) => {
     const result = await getMediaByUsername(username);
+    console.log(result);
     setMedia(result);
   };
 
@@ -69,7 +70,7 @@ function ClubProfile({ profilePageData }) {
             title="Edit profile"
           />
           : <></>}
-          <Button onClick={() => setFollowing(!following)}>{following? "Unfollow" : "Follow"}</Button>
+          <Button onClick={() => setFollowing(!following)}>{following? "Leave" : "Join"}</Button>
         </div>
 
         <small>@{profilePageData?.username}</small>
@@ -192,8 +193,8 @@ function ClubProfile({ profilePageData }) {
           </Tabs>
         </Box>
         <div hidden={tab !== 0} className="text-start pt-2">
-          {clubProfileDetails.discussionList
-            .filter((d) => parseInt(d.discussionDate) <= currDate)
+          {media
+            .filter((d) => parseInt(d.discussionDate) <= currDate || d.discussionDate == "")
             .map((ud) => (
               <DiscussionDetails
                 localMedia={ud}
@@ -202,7 +203,7 @@ function ClubProfile({ profilePageData }) {
             ))}
         </div>
         <div hidden={tab !== 1} className="text-start pt-2">
-          {clubProfileDetails.discussionList
+          {media
             .filter((d) => parseInt(d.discussionDate) > currDate)
             .map((ud) => (
               <DiscussionDetails

@@ -4,11 +4,13 @@ import { Rating, Tooltip } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faHeart, faMinusCircle, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { addLikedValueByUsernameByMediaId, addWatchedValueByUsernameByMediaId, deleteLikedValueByUsernameByMediaId, deleteWatchedValueByUsernameByMediaId, addMedia, getMediaByMediaId, getMediaByUsernameMediaId } from "../services/media/mediaService";
+import { addNewDiscussion, deleteDiscussion } from "../services/clubs/clubService";
 
-function MarkItem({ media, discussing }) {
+function MarkItem({ media }) {
   const { loggedIn, profile } = useSelector(state => state.account);
   const [likedValue, setLikedValue] = useState(0);
   const [watchedValue, setWatchedValue] = useState(0);
+  const [discussingValue, setDiscussingValue] = useState(0);
   const [localMedia, setLocalMedia] = useState(media);
 
   useEffect(() => {
@@ -21,6 +23,8 @@ function MarkItem({ media, discussing }) {
     if (localMedia) {
       setLikedValue(localMedia?.liked ? 1 : 0);
       setWatchedValue(localMedia?.watched ? 1 : 0);
+      setDiscussingValue(localMedia?.discussing ? 1 : 0);
+      console.log(localMedia);
     }
   }, [localMedia]);
 
@@ -28,6 +32,8 @@ function MarkItem({ media, discussing }) {
     const existingLocalMedia = await getMediaByUsernameMediaId(localMedia.mediaType, localMedia.mediaId, profile.username);
     if (existingLocalMedia) {
       setLocalMedia(existingLocalMedia);
+      console.log("existing")
+      console.log(existingLocalMedia);
     }
   }
 
@@ -59,6 +65,19 @@ function MarkItem({ media, discussing }) {
     } else {
       await deleteLikedValueByUsernameByMediaId(localMedia.mediaType, localMedia.mediaId, profile.username);
       setLikedValue(newValue);
+    }
+  }
+
+  const updateDiscussingValue = async (newValue) => {
+    if (!localMedia.discussing) {
+      await createMediaForUser();
+    }
+    if (!!newValue) {
+      await addNewDiscussion(profile.username, localMedia.mediaType, localMedia.mediaId, );
+      setDiscussingValue(newValue);
+    } else {
+      await deleteDiscussion(profile.username, localMedia.mediaType, localMedia.mediaId);
+      setDiscussingValue(newValue);
     }
   }
 
@@ -104,12 +123,16 @@ function MarkItem({ media, discussing }) {
       <Tooltip title="Discussing">
           <Rating
             name="customized-color"
-            defaultValue={discussing ? 1 : 0}
+            defaultValue={0}
+            value={discussingValue}
             precision={1}
             max={1}
             icon={<FontAwesomeIcon icon={faMinusCircle} className="text-warning" />}
             emptyIcon={<FontAwesomeIcon icon={faPlusCircle} />}
             className="ps-3"
+            onChange={(event, newValue) => {
+              updateDiscussingValue(newValue);
+            }}
           />
         </Tooltip>
       </div>

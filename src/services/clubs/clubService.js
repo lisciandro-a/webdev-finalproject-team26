@@ -35,3 +35,21 @@ export const getNewAnnouncements = async (username) => {
     return [];
   }
 }
+
+export const addNewDiscussion = async (username, mediaType, mediaId) => {
+  try {
+    const result = await axiosClient.post(`/clubs/${username}/discussions/${mediaType}/${mediaId}`);
+    return result.data;
+  } catch {
+    return [];
+  }
+}
+
+export const deleteDiscussion = async (username, mediaType, mediaId) => {
+  try {
+    const result = await axiosClient.delete(`/clubs/${username}/discussions/${mediaType}/${mediaId}`);
+    return result.data;
+  } catch {
+    return [];
+  }
+}

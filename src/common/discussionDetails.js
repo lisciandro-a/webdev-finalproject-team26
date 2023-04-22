@@ -7,21 +7,21 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from "dayjs";
+import { getMediaByMediaId } from "../services/media/mediaService";
 
 function DiscussionDetails({ localMedia, clubID, isOwnProfile }) {
-    const [media, setMedia] = useState(watchDetails);
+    // const [media, setMedia] = useState(watchDetails);
     const [currTimestamp, setCurrTimestamp] = useState(null);
     const navigate = useNavigate();
-//   const [media, setMedia] = useState(null);
+    const [media, setMedia] = useState(null);
 
-//   useEffect(() => {
-//     const fetchMedia = async () => {
-//       const result = await searchSimklById(localMedia.idType, localMedia.mediaId);
-//       console.log(result);
-//       setMedia(result);
-//     }
-//     fetchMedia();
-//   }, [localMedia]);
+    useEffect(() => {
+      const fetchMedia = async () => {
+        const result = await getMediaByMediaId(localMedia.mediaType, localMedia.mediaId);
+        setMedia(result);
+      }
+      fetchMedia();
+    }, []);
 
 const onUpdateDate = (newTimestamp) => {
   setCurrTimestamp(newTimestamp);
@@ -43,7 +43,7 @@ const onUpdateDate = (newTimestamp) => {
           <h2> {media.title} </h2>
           <h4> {media.year} </h4>
           <Link
-            to={`/details/${localMedia.mediaType}/${media?.ids.simkl}`}
+            to={`/details/${localMedia.mediaType}/${media?.mediaId}`}
             className="text-blue text-decoration-none"
           >
             {" "}
@@ -51,7 +51,7 @@ const onUpdateDate = (newTimestamp) => {
           </Link>
         </div>
         <div className="col-3 text-center pe-0 m-auto">
-          <MarkItem liked={localMedia.liked} watched={localMedia.watched}/>
+          <MarkItem media={localMedia}/>
           <Button onClick={() => navigate(`/club/${clubID}/discussion/${localMedia.mediaId}`)} className="mb-3 ps-4">Discussion</Button>
           <LocalizationProvider className={isOwnProfile ? "d-flex" : "d-none"} dateAdapter={AdapterDayjs}>
             <DatePicker value={dayjs(currTimestamp)} onChange={(newValue) => onUpdateDate(dayjs(newValue).valueOf())}/>

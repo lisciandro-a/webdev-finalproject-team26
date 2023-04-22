@@ -12,10 +12,12 @@ import {
 import { formatTimestamp } from "./formatTimestamp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faReply } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
 
 function Comment({ comment, loadComments, updateComments, depth, maxDepth }) {
   const [showNewReply, setShowNewReply] = useState(false);
   const [newReply, setNewReply] = useState('');
+  const { loggedIn } = useSelector(state => state.account);
 
   const onReplyChange = (event) => {
     setNewReply(event.target.value);
@@ -45,14 +47,14 @@ function Comment({ comment, loadComments, updateComments, depth, maxDepth }) {
                 <small className="pe-3">
                   {formatTimestamp(comment.timestamp)}
                 </small>
-                <Button
+                {loggedIn ? <Button
                   color="primary"
                   disabled={depth >= maxDepth}
                   onClick={() => setShowNewReply(!showNewReply)}
                   className={depth < maxDepth ? "d-flex" : "d-none"}
                 >
                   {showNewReply? 'Cancel' : 'Reply'}
-                </Button>
+                </Button> : <></>}
               </div>
             </div>
           }

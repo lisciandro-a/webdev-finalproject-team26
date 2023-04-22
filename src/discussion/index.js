@@ -9,7 +9,7 @@ import { searchSimklById } from "../watchDetails/watchDetailsService";
 import { NotFound, MarkItem, CommentsSection } from "../common";
 import { useSelector } from "react-redux";
 import { createCommentForClubDiscussion, getClubDiscussion } from "../services/clubs/clubService";
-import { getMediaByUsernameMediaId } from "../services/media/mediaService";
+import { addReviewByUsernameByMediaId, getAverageRating, getMediaByUsernameMediaId } from "../services/media/mediaService";
 
 function Discussion() {
   const { clubUsername, mediaType, simklID } = useParams();
@@ -18,6 +18,7 @@ function Discussion() {
   const [clubDiscussion, setClubDiscussion] = useState({});
   const [localMedia, setLocalMedia] = useState(null);
   const [userRating, setUserRating] = useState(0);
+  const [averageRating, setAverageRating] = useState(0);
   const { loggedIn, profile } = useSelector(state => state.account);
 
   useEffect(() => {
@@ -29,8 +30,6 @@ function Discussion() {
       getProfileWatchDetails();
     }
   }, [loggedIn]);
-
-  console.log(localMedia);
 
   const getProfileWatchDetails = async () => {
     const profileMediaResult = await getMediaByUsernameMediaId(mediaType, simklID, profile.username);
@@ -47,6 +46,8 @@ function Discussion() {
     // const result = await searchSimklById(mediaType, simklID);
     // setWatchDetails(result);
     setWatchDetails(watchDetailsJson);
+    const { rating } = await getAverageRating(mediaType, simklID);
+    setAverageRating(rating);
   };
 
   const getClubDiscussionForMedia = async () => {
@@ -75,12 +76,28 @@ function Discussion() {
     setClubDiscussion(result);
   }
 
+  const updateUserRating = async (value) => {
+    const review = {
+      comment: localMedia.comment,
+      rating: value,
+    };
+    await addReviewByUsernameByMediaId(localMedia.mediaType, localMedia.mediaId, profile.username, review);
+    const { rating } = await getAverageRating(mediaType, simklID);
+    setAverageRating(rating);
+    setUserRating(value);
+    setLocalMedia({
+      ...localMedia,
+      rating: value,
+    });
+  }
+
   return (
     <div>
       <div className="row mt-4">
         <div className="col-3 col-xxl-2 text-start">
           <img
             src={`https://simkl.in/posters/${watchDetails?.poster}_m.webp`}
+            alt=""
             className="img-size"
           />
         </div>
@@ -123,7 +140,7 @@ function Discussion() {
             {/* default value will be 0 or whatever is in database */}
             <Rating
               name="customized-10"
-              defaultValue={5.7}
+              value={averageRating}
               max={10}
               precision={0.5}
               readOnly
@@ -131,23 +148,23 @@ function Discussion() {
             />
           </div>
           <br />
-          <div
-            className={
-              loggedIn
-                ? "d-inline-block d-md-inline-flex mt-lg-3"
-                : "d-none"
+          {localMedia ? 
+            <div className={"d-inline-block d-md-inline-flex mt-lg-3"}>
+              <Typography component="legend">Your Rating</Typography>
+              {/* default value will be 0 or whatever is in database */}
+              <Rating
+                name="customized-10"
+                defaultValue={0}
+                value={userRating}
+                max={10}
+                precision={1}
+                className="ms-2"
+                onChange={(event, value) => {
+                  updateUserRating(value);
+                }}
+              />
+            </div> : <></>
             }
-          >
-            <Typography component="legend">Your Club Rating</Typography>
-            {/* default value will be 0 or whatever is in database */}
-            <Rating
-              name="customized-10"
-              defaultValue={0}
-              max={10}
-              precision={1}
-              className="ms-2"
-            />
-          </div>
         </div>
       </div>
 

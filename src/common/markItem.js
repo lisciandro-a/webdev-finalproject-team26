@@ -66,7 +66,7 @@ function MarkItem({ media, discussing }) {
   }
 
   return (
-
+    loggedIn ? 
     <span>
       <div className={loggedIn && profile?.isMemberAccount ? "d-inline-block" : "d-none"}>
         <Tooltip title="Watched">
@@ -118,6 +118,7 @@ function MarkItem({ media, discussing }) {
       </div>
 
     </span>
+    : <></>
   );
 }
 

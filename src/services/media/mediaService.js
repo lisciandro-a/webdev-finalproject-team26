@@ -67,3 +67,21 @@ export const getReviewsForMediaByMediaId = async (mediaType, mediaId) => {
   const response = await axiosClient.get(`/media/${mediaType}/${mediaId}/reviews`);
   return response.data;
 }
+
+export const getRecentReviews = async () => {
+  try {
+    const response = await axiosClient.get(`/media/reviews/recent`);
+    return response.data;
+  } catch {
+    return [];
+  }
+}
+
+export const getRecentReviewsOnLiked = async (username) => {
+  try {
+    const response = await axiosClient.get(`/profile/${username}/likes/recentlyReviewed`)
+    return response.data;
+  } catch {
+    return [];
+  }
+}

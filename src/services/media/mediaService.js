@@ -57,3 +57,13 @@ export const addMedia = async (media) => {
   const response = await axiosClient.post(`/media`, media);
   return response.data;
 }
+
+export const addReviewByUsernameByMediaId = async (mediaType, mediaId, username, review) => {
+  const response = await axiosClient.post(`/profile/${username}/reviews/${mediaType}/${mediaId}`, review);
+  return response.data;
+}
+
+export const getReviewsForMediaByMediaId = async (mediaType, mediaId) => {
+  const response = await axiosClient.get(`/media/${mediaType}/${mediaId}/reviews`);
+  return response.data;
+}

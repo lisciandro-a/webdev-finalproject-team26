@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { searchSimklById } from "./watchDetailsService";
 import { NotFound, MarkItem, CommentsSection } from "../common";
-import { getMediaByUsernameMediaId } from "../services/media/mediaService";
+import { getMediaByUsernameMediaId, addReviewByUsernameByMediaId, getReviewsForMediaByMediaId } from "../services/media/mediaService";
 import { useSelector } from "react-redux";
 
 function WatchDetails() {
@@ -15,6 +15,7 @@ function WatchDetails() {
   const navigate = useNavigate();
   const [watchDetails, setWatchDetails] = useState({});
   const [localMedia, setLocalMedia] = useState(null);
+  const [userRating, setUserRating] = useState(0);
   const { loggedIn, profile } = useSelector(state => state.account);
 
   useEffect(() => {
@@ -27,16 +28,46 @@ function WatchDetails() {
     }
   }, [loggedIn]);
 
-  console.log(localMedia);
   const getWatchDetails = async () => {
-    const simklResult = await searchSimklById(mediaType, simklID);
-    setWatchDetails(simklResult);
-    // setWatchDetails(watchDetailsJson);
+    //const simklResult = await searchSimklById(mediaType, simklID);
+    //setWatchDetails(simklResult);
+     setWatchDetails(watchDetailsJson);
   };
 
   const getProfileWatchDetails = async () => {
     const profileMediaResult = await getMediaByUsernameMediaId(mediaType, simklID, profile.username);
     setLocalMedia(profileMediaResult);
+    setUserRating(profileMediaResult.rating);
+  }
+
+  const updateUserRating = async (value) => {
+    const review = {
+      comment: localMedia.comment,
+      rating: value,
+    };
+    await addReviewByUsernameByMediaId(localMedia.mediaType, localMedia.mediaId, profile.username, review);
+    setUserRating(value);
+    setLocalMedia({
+      ...localMedia,
+      rating: value,
+    });
+  }
+
+  const getReviewsForMedia = async () => {
+    const reviews = await getReviewsForMediaByMediaId(mediaType, simklID);
+    return reviews;
+  }
+
+  const createReviewForMedia = async (comment) => {
+    const review = {
+      rating: localMedia.rating,
+      comment,
+    };
+    await addReviewByUsernameByMediaId(localMedia.mediaType, localMedia.mediaId, profile.username, review);
+    setLocalMedia({
+      ...localMedia,
+      comment,
+    });
   }
 
   if (!["movie", "tv", "anime"].includes(mediaType)) {
@@ -83,7 +114,7 @@ function WatchDetails() {
 
             <div>
               {watchDetails?.genres?.map((genre) => (
-                <Chip label={genre} />
+                <Chip key={genre} label={genre} />
               ))}
             </div>
             <div className="mt-4 mt-lg-5 d-inline-block d-md-inline-flex">
@@ -99,17 +130,23 @@ function WatchDetails() {
               />
             </div>
             <br />
-            <div className={loggedIn && profile?.isMemberAccount ? "d-inline-block d-md-inline-flex mt-lg-3" : "d-none"}>
+            {localMedia ? 
+            <div className={"d-inline-block d-md-inline-flex mt-lg-3"}>
               <Typography component="legend">Your Rating</Typography>
               {/* default value will be 0 or whatever is in database */}
               <Rating
                 name="customized-10"
                 defaultValue={0}
+                value={userRating}
                 max={10}
                 precision={1}
                 className="ms-2"
+                onChange={(event, value) => {
+                  updateUserRating(value);
+                }}
               />
-            </div>
+            </div> : <></>
+            }
           </div>
         </div>
         <div className="text-start mt-4">
@@ -118,7 +155,7 @@ function WatchDetails() {
         </div>
 
         <div>
-          <CommentsSection maxDepth={0} loadComments={() => console.log("Loading")} sectionTitle={"Review"} />
+          <CommentsSection maxDepth={0} loadComments={getReviewsForMedia} updateComments={createReviewForMedia} sectionTitle={"Review"} />
         </div>
       </div>
     );

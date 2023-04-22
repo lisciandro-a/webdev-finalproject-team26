@@ -2,6 +2,7 @@ import { Typography, Rating } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getMediaByMediaId } from "../services/media/mediaService";
 import { Link } from "react-router-dom";
+import MarkItem from "./markItem";
 
 function MediaReview({ localMedia }) {
   const [media, setMedia] = useState(null);
@@ -29,11 +30,14 @@ function MediaReview({ localMedia }) {
             <div className='align-self'>
               <Typography variant="h4">{media?.title}</Typography>
             </div>
+            <div className='align-self-center'>
+              <MarkItem media={media}/>
+            </div>
           </div>
           <p className="ps-1">{localMedia.comment}</p>
         </div>
         <div className='col-4 mt-2'>
-          <Typography component="legend">Your rating</Typography>
+          <Typography component="legend">Rating</Typography>
           <Rating
             name="customized-10"
             defaultValue={5.7}

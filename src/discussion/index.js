@@ -8,22 +8,72 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { searchSimklById } from "../watchDetails/watchDetailsService";
 import { NotFound, MarkItem, CommentsSection } from "../common";
 import { useSelector } from "react-redux";
+import { createCommentForClubDiscussion, getClubDiscussion } from "../services/clubs/clubService";
+import { getMediaByUsernameMediaId } from "../services/media/mediaService";
 
 function Discussion() {
-  const { mediaType, simklID } = useParams();
+  const { clubUsername, mediaType, simklID } = useParams();
   const navigate = useNavigate();
   const [watchDetails, setWatchDetails] = useState({});
-  const { loggedIn, profile } = useSelector((state) => state.account);
+  const [clubDiscussion, setClubDiscussion] = useState({});
+  const [localMedia, setLocalMedia] = useState(null);
+  const [userRating, setUserRating] = useState(0);
+  const { loggedIn, profile } = useSelector(state => state.account);
 
   useEffect(() => {
     getWatchDetails();
-  }, [simklID, mediaType]);
+  }, []);
+
+  useEffect(() => {
+    if (loggedIn) {
+      getProfileWatchDetails();
+    }
+  }, [loggedIn]);
+
+  console.log(localMedia);
+
+  const getProfileWatchDetails = async () => {
+    const profileMediaResult = await getMediaByUsernameMediaId(mediaType, simklID, profile.username);
+    setLocalMedia(profileMediaResult);
+    setUserRating(profileMediaResult.rating);
+  }
+
+  useEffect(() => {
+    getWatchDetails();
+    getClubDiscussionForMedia();
+  }, []);
 
   const getWatchDetails = async () => {
     // const result = await searchSimklById(mediaType, simklID);
     // setWatchDetails(result);
     setWatchDetails(watchDetailsJson);
   };
+
+  const getClubDiscussionForMedia = async () => {
+    const result = await getClubDiscussion(clubUsername, mediaType, simklID);
+    setClubDiscussion(result);
+  }
+
+  const getComments = async () => {
+    const result = await getClubDiscussion(clubUsername, mediaType, simklID);
+    return result.comments;
+  }
+
+  const updateComments = async (comment, replyToId) => {
+    console.log(clubDiscussion);
+    const newCommentObject = {
+      comment,
+      replyToId,
+      clubId: clubDiscussion.clubId,
+      mediaType: mediaType,
+      mediaId: simklID,
+      discussionId: clubDiscussion._id,
+      timestamp: new Date().getTime(),
+      memberId: profile._id,
+    }
+    const result = await createCommentForClubDiscussion(clubUsername, mediaType, simklID, newCommentObject);
+    setClubDiscussion(result);
+  }
 
   return (
     <div>
@@ -39,7 +89,7 @@ function Discussion() {
             <div className="mt-auto col">
               <h1>
                 {" "}
-                {watchDetails?.title} <MarkItem />{" "}
+                {watchDetails?.title} <MarkItem media={localMedia} />{" "}
               </h1>
 
               {/* <small className="ps-2" height="32px">
@@ -65,7 +115,7 @@ function Discussion() {
 
           <div>
             {watchDetails?.genres?.map((genre) => (
-              <Chip label={genre} />
+              <Chip key={genre} label={genre} />
             ))}
           </div>
           <div className="mt-4 mt-lg-5 d-inline-block d-md-inline-flex">
@@ -83,7 +133,7 @@ function Discussion() {
           <br />
           <div
             className={
-              loggedIn && profile?.isMemberAccount
+              loggedIn
                 ? "d-inline-block d-md-inline-flex mt-lg-3"
                 : "d-none"
             }
@@ -104,7 +154,8 @@ function Discussion() {
       <div>
         <CommentsSection
           maxDepth={3}
-          loadComments={() => console.log("Loading")}
+          loadComments={getComments}
+          updateComments={updateComments}
           sectionTitle={"Comment"}
         />
       </div>

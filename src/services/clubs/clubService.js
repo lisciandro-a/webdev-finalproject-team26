@@ -35,3 +35,17 @@ export const getNewAnnouncements = async (username) => {
     return [];
   }
 }
+
+export const getClubDiscussion = async (clubUsername, mediaType, mediaId) => {
+  try {
+    const result = await axiosClient.get(`/clubs/${clubUsername}/discussion/${mediaType}/${mediaId}`);
+    return result.data;
+  } catch {
+    return {};
+  }
+}
+
+export const createCommentForClubDiscussion = async (clubUsername, mediaType, mediaId, newComment) => {
+  const result = await axiosClient.post(`/clubs/${clubUsername}/discussion/${mediaType}/${mediaId}`, newComment);
+  return result.data;
+}

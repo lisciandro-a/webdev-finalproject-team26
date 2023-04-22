@@ -197,7 +197,7 @@ function ClubProfile({ profilePageData }) {
             .map((ud) => (
               <DiscussionDetails
                 localMedia={ud}
-                clubID={clubProfileDetails._id}
+                clubUsername={clubProfileDetails.username}
               />
             ))}
         </div>
@@ -207,7 +207,7 @@ function ClubProfile({ profilePageData }) {
             .map((ud) => (
               <DiscussionDetails
                 localMedia={ud}
-                clubID={media._id}
+                clubUsername={media.username}
               />
             ))}
         </div>

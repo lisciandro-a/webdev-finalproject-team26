@@ -13,7 +13,7 @@ import { formatTimestamp } from "./formatTimestamp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faReply } from "@fortawesome/free-solid-svg-icons";
 
-function Comment({ comment, updateComments, depth, maxDepth }) {
+function Comment({ comment, loadComments, updateComments, depth, maxDepth }) {
   const [showNewReply, setShowNewReply] = useState(false);
   const [newReply, setNewReply] = useState('');
 
@@ -21,8 +21,9 @@ function Comment({ comment, updateComments, depth, maxDepth }) {
     setNewReply(event.target.value);
   };
 
-  const onClickReplySubmit = () => {
-    // updateComments(newComment);
+  const onClickReplySubmit = async () => {
+    await updateComments(newReply, comment._id);
+    await loadComments();
     console.log(newReply);
     setNewReply('');
     setShowNewReply(false);
@@ -82,7 +83,7 @@ function Comment({ comment, updateComments, depth, maxDepth }) {
         </div>
       <List component="div" sx={{ pl: 4 }}>
         {comment.replies?.map((reply) => (
-          <Comment key={comment._id} comment={reply} updateComments={updateComments} depth={depth+1} maxDepth={maxDepth}/>
+          <Comment key={reply._id} comment={reply} loadComments={loadComments} updateComments={updateComments} depth={depth+1} maxDepth={maxDepth}/>
         ))}
       </List>
     </>

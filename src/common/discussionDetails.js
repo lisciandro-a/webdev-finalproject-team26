@@ -8,7 +8,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from "dayjs";
 
-function DiscussionDetails({ localMedia, clubID, isOwnProfile }) {
+function DiscussionDetails({ localMedia, clubUsername, isOwnProfile }) {
     const [media, setMedia] = useState(watchDetails);
     const [currTimestamp, setCurrTimestamp] = useState(null);
     const navigate = useNavigate();
@@ -52,7 +52,7 @@ const onUpdateDate = (newTimestamp) => {
         </div>
         <div className="col-3 text-center pe-0 m-auto">
           <MarkItem liked={localMedia.liked} watched={localMedia.watched}/>
-          <Button onClick={() => navigate(`/club/${clubID}/discussion/${localMedia.mediaId}`)} className="mb-3 ps-4">Discussion</Button>
+          <Button onClick={() => navigate(`/club/${clubUsername}/discussion/${localMedia.mediaType}/${localMedia.mediaId}`)} className="mb-3 ps-4">Discussion</Button>
           <LocalizationProvider className={isOwnProfile ? "d-flex" : "d-none"} dateAdapter={AdapterDayjs}>
             <DatePicker value={dayjs(currTimestamp)} onChange={(newValue) => onUpdateDate(dayjs(newValue).valueOf())}/>
           </LocalizationProvider>

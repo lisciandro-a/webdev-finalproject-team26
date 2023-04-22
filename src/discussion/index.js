@@ -92,6 +92,7 @@ function Discussion() {
   }
 
   return (
+    loggedIn ?
     <div>
       <div className="row mt-4">
         <div className="col-3 col-xxl-2 text-start">
@@ -176,7 +177,7 @@ function Discussion() {
           sectionTitle={"Comment"}
         />
       </div>
-    </div>
+    </div> : <NotFound/>
   );
 }
 

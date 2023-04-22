@@ -290,7 +290,7 @@ function UpdateClubProfile ({setEdit}) {
                   setUpdatedProfile({
                     ...updatedProfile,
                     virtualMeetings: {
-                        ...updateProfile.virtualMeetings,
+                        ...updatedProfile.virtualMeetings,
                         link: e.target.value,
                     }
                   })
@@ -305,7 +305,7 @@ function UpdateClubProfile ({setEdit}) {
                   setUpdatedProfile({
                     ...updatedProfile,
                     virtualMeetings: {
-                        ...updateProfile.virtualMeetings,
+                        ...updatedProfile.virtualMeetings,
                         meetingWeekday: e.target.value,
                     }
                   })
@@ -320,8 +320,8 @@ function UpdateClubProfile ({setEdit}) {
                   setUpdatedProfile({
                     ...updatedProfile,
                     virtualMeetings: {
-                        ...updateProfile.virtualMeetings,
-                        meeingTime: e.target.value,
+                        ...updatedProfile.virtualMeetings,
+                        meetingTime: e.target.value,
                     }
                   })
                 }}

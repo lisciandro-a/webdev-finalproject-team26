@@ -34,7 +34,10 @@ function Profile() {
   }, [profileID]);
 
   useEffect(() => {
-    setUser(profile);
+    if (!profileID || (profile && profile.username === profileID)) {
+      setUser(profile);  
+    }
+    
   }, [profile]);
 
   return loadingProfile ? <>Loading...</> : ( user ? (user.isMemberAccount ? <MemberProfile profilePageData={user} /> : <ClubProfile profilePageData={user}/>) : <NotFound/>);

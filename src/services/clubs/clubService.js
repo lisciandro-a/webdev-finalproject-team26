@@ -107,3 +107,21 @@ export const deleteClubAnnouncement = async (announcementId) => {
     return undefined;
   }
 }
+
+export const createClubMember = async (newMember) => {
+  try {
+    const result = await axiosClient.post('/clubs/members', newMember);
+    return result;
+  } catch {
+    return undefined;
+  }
+}
+
+export const deleteClubMember = async (clubId, memberId) => {
+  try {
+    const result = await axiosClient.delete(`/clubs/${clubId}/members/${memberId}`);
+    return result;
+  } catch {
+    return undefined;
+  }
+}

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import clubProfileDetails from "./clubDetailsExample.json";
 import {
   Popover,
   Button,
@@ -28,7 +27,9 @@ import {
   createClubAnnouncement,
   getClubAnnouncements,
   getClubMembers,
-  deleteClubAnnouncement
+  deleteClubAnnouncement,
+  createClubMember,
+  deleteClubMember
 } from "../services/clubs/clubService";
 
 function ClubProfile({ profilePageData }) {
@@ -51,7 +52,7 @@ function ClubProfile({ profilePageData }) {
       getMembers(profilePageData.username);
       getAnnouncements(profilePageData.username);
     }
-  }, [tab, profilePageData]);
+  }, [tab, profilePageData, profile]);
 
   const getMedia = async (username) => {
     const result = await getMediaByUsername(username);
@@ -66,6 +67,9 @@ function ClubProfile({ profilePageData }) {
 
   const getMembers = async (username) => {
     const result = await getClubMembers(username);
+    if (profile && profilePageData._id !== profile._id ) {
+      setFollowing(!!result.find((m) => m.memberId == profile._id));
+    }
     setMembers(result);
   };
 
@@ -76,7 +80,6 @@ function ClubProfile({ profilePageData }) {
       message: newAnnouncement,
       timestamp: new Date().getTime() + ""
     };
-    console.log("Here");
     await createClubAnnouncement(newAnnouncementObject);
     setNewAnnouncement("");
     getAnnouncements(profilePageData.username);
@@ -102,6 +105,21 @@ function ClubProfile({ profilePageData }) {
     setAnchorAnnounce(event.currentTarget);
   };
 
+  const onClickFollow = async () => {
+    setFollowing(!following);
+    if (!following) {
+      const newMemberObject = {
+        clubId: profilePageData._id,
+        memberId: profile._id,
+        joinedDate: new Date().getTime() + ""
+      };
+      await createClubMember(newMemberObject);
+    } else {
+      await deleteClubMember(profilePageData._id, profile._id);
+    }
+
+  }
+
   return (
     <div className="my-4">
       <div className="w-100">
@@ -118,7 +136,7 @@ function ClubProfile({ profilePageData }) {
           ) : (
             <></>
           )}
-          <Button onClick={() => setFollowing(!following)}>
+          <Button onClick={() => onClickFollow()}>
             {following ? "Leave" : "Join"}
           </Button>
         </div>

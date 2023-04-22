@@ -33,6 +33,10 @@ function Profile() {
     }
   }, [profileID]);
 
+  useEffect(() => {
+    setUser(profile);
+  }, [profile]);
+
   return loadingProfile ? <>Loading...</> : ( user ? (user.isMemberAccount ? <MemberProfile profilePageData={user} /> : <ClubProfile profilePageData={user}/>) : <NotFound/>);
 }
 

@@ -15,7 +15,7 @@ function MemberDetails({ club, member }) {
           <Link to={`/profile/${member.username}`} className="text-blue text-decoration-none">View Member</Link>
         </div>
         <div className="col-6 text-end">
-          <Typography className='pb-1' variant="body2">Joined club on: {formatTimestampToDateWithoutTime(club.members.find((m) => m.memberID == member.memberID)?.joinedDate)}</Typography>
+          <Typography className='pb-1' variant="body2">Joined club on: {formatTimestampToDateWithoutTime(club.members.find((m) => m.memberID === member.memberID)?.joinedDate)}</Typography>
         </div>
       </div>
     </div>

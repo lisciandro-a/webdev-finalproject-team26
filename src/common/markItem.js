@@ -17,7 +17,7 @@ function MarkItem({ media }) {
     if (profile && media) {
       getLocalMediaForUser();
     }
-  }, [])
+  }, [profile])
 
   useEffect(() => {
     if (localMedia) {

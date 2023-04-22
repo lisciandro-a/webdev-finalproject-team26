@@ -27,6 +27,15 @@ export const getPopularClubs = async () => {
   }
 }
 
+export const getNewComments = async (clubUsername) => {
+  try {
+    const result = await axiosClient.get(`/clubs/${clubUsername}/recentComments`);
+    return result.data;
+  } catch {
+    return [];
+  }
+}
+
 export const getNewAnnouncements = async (username) => {
   try {
     const result = await axiosClient.get(`/profile/${username}/clubs/announcements`);

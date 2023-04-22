@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import ReviewSnippet from "./reviewSnippet";
 import AnnouncementSnippet from "./announcementSnippet";
 import MemberSnippet from "./memberSnippet";
-import { getNewAnnouncements, getNewMembersForClub, getPopularClubs } from "../services/clubs/clubService";
+import { getNewAnnouncements, getNewComments, getNewMembersForClub, getPopularClubs } from "../services/clubs/clubService";
 import { getRecentReviews, getRecentReviewsOnLiked } from "../services/media/mediaService";
 import PopularClubSnippet from "./popularClubSnippet";
 
@@ -59,41 +59,9 @@ function Home() {
   }
 
   const fetchNewComments = async () => {
-    // get reviews from database
-    setNewCommentsOnDiscussion([
-      {
-        username: "thomas",
-        comment: "this was one of the best movies ever",
-        mediaType: "movie",
-        mediaId: "544322",
-        poster: "13/1348110199d54afb40",
-        timestamp: "1",
-      },
-      {
-        username: "thomas",
-        comment: "this was one of the best movies ever",
-        mediaType: "movie",
-        mediaId: "544322",
-        poster: "13/1348110199d54afb40",
-        timestamp: "1",
-      },
-      {
-        username: "thomas",
-        comment: "this was one of the best movies ever",
-        mediaType: "movie",
-        mediaId: "544322",
-        poster: "13/1348110199d54afb40",
-        timestamp: "181111111111",
-      },
-      {
-        username: "thomas",
-        comment: "this was one of the best movies ever",
-        mediaType: "movie",
-        mediaId: "544322",
-        poster: "13/1348110199d54afb40",
-        timestamp: "181111111111",
-      }
-    ])
+    // get comments from database
+    const comments = await getNewComments(profile.username);
+    setNewCommentsOnDiscussion(comments);
   }
 
   const fetchNewMembers = async () => {
@@ -134,7 +102,7 @@ function Home() {
             <Typography variant="h5" className="mb-0">New comments on your discussions</Typography>
             <div className="w-100">
               <div className="d-flex p-4 gap-3 flex-wrap justify-content-center">
-                {newCommentsOnDiscussion.map((r) => <ReviewSnippet review={r}/>)}
+                {newCommentsOnDiscussion.map((r) => <ReviewSnippet review={r} isDiscussion={true}/>)}
               </div>
             </div>
           </div>

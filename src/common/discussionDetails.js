@@ -21,10 +21,11 @@ function DiscussionDetails({ localMedia, clubID, viewingAsGuest, viewingAsMember
     useEffect(() => {
       const fetchMedia = async () => {
         const result = await getMediaByMediaId(localMedia.mediaType, localMedia.mediaId);
+        console.log(result);
         setMedia(result);
       }
       fetchMedia();
-    }, []);
+    }, [localMedia]);
 
     useEffect(() => {
       const fetchDiscussion = async () => {
@@ -77,7 +78,7 @@ const onUpdateDate = async (newTimestamp) => {
         </div>
         <div className="col-3 text-center pe-0 m-auto">
           <MarkItem media={localMedia}/>
-          <Button onClick={() => navigate(`/club/${clubID}/discussion/${localMedia.mediaId}`)} className="mb-3 ps-4" disabled={viewingAsGuest || (!ownProfile && !followingClub)}>Discussion</Button>
+          <Button onClick={() => navigate(`/club/${clubID}/discussion/${localMedia.mediaType}/${localMedia.mediaId}`)} className="mb-3 ps-4" disabled={viewingAsGuest || (!ownProfile && !followingClub)}>Discussion</Button>
           <LocalizationProvider className={ownProfile ? "d-inline-flex" : "d-none"} dateAdapter={AdapterDayjs}>
             <DatePicker value={dayjs(currTimestamp)} onChange={(newValue) => onUpdateDate(dayjs(newValue).valueOf())} className={ownProfile ? "d-inline-flex" : "d-none"}/>
           </LocalizationProvider>

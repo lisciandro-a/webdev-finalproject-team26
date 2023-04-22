@@ -45,20 +45,22 @@ function ClubProfile({ profilePageData }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [newAnnouncement, setNewAnnouncement] = useState("");
   const { loggedIn, profile } = useSelector((state) => state.account);
-  let viewingAsMember = profile && profilePageData && profile._id !== profilePageData._id;
-  let viewingAsGuest = !profile;
+  const [viewingAsMember, setViewingAsMember] = useState(false);
+  const [viewingAsGuest, setViewingAsGuest] = useState(true);
 
   useEffect(() => {
     if (profilePageData) {
       getMedia(profilePageData.username);
       getMembers(profilePageData.username);
       getAnnouncements(profilePageData.username);
-      viewingAsMember = profile && profilePageData && profile._id !== profilePageData._id;
-      viewingAsGuest = !profile;
+      setViewingAsMember(profile && profilePageData && profile._id !== profilePageData._id);
+      setViewingAsGuest(!profile);
     } else {
 
     }
   }, [tab, profilePageData, profile]);
+
+  console.log(media);
 
   const getMedia = async (username) => {
     const result = await getMediaByUsername(username);
@@ -74,7 +76,7 @@ function ClubProfile({ profilePageData }) {
   const getMembers = async (username) => {
     const result = await getClubMembers(username);
     if (profile && profilePageData._id !== profile._id ) {
-      setFollowing(!!result.find((m) => m.memberId == profile._id));
+      setFollowing(!!result.find((m) => m.memberId === profile._id));
     }
     setMembers(result);
   };
@@ -289,7 +291,7 @@ function ClubProfile({ profilePageData }) {
           {media
             .filter(
               (d) =>
-                parseInt(d.discussionDate) >= currDate || d.discussionDate == ""
+                parseInt(d.discussionDate) >= currDate || d.discussionDate === ""
             )
             .map((ud) => (
               <DiscussionDetails

@@ -11,23 +11,24 @@ import UpdateProfile from "./updateProfile";
 import { useSelector } from "react-redux";
 import { getClubsByMemberUsername } from "../services/clubs/clubService";
 
-function MemberProfile({ profile }) {
+function MemberProfile({ profilePageData }) {
   const [anchorContacts, setAnchorContacts] = useState(null);
   const [tab, setTab] = useState(0);
   const [media, setMedia] = useState([]);
   const [clubs, setClubs] = useState([]);
   const [edit, setEdit] = useState(false);
+  const { loggedIn, profile } = useSelector(state => state.account);
 
   const onClickContacts = (event) => {
     setAnchorContacts(event.currentTarget);
   };
 
   useEffect(() => {
-    if (profile) {
-      getMedia(profile.username);
-      getClubs(profile.username);
+    if (profilePageData) {
+      getMedia(profilePageData.username);
+      getClubs(profilePageData.username);
     }
-  }, [tab, profile]);
+  }, [tab, profilePageData]);
 
   const getMedia = async (username) => {
     const result = await getMediaByUsername(username);
@@ -43,10 +44,13 @@ function MemberProfile({ profile }) {
     <div className="my-4">
       <div className="w-100">
         <div className="d-flex align-items-center justify-content-center">
-          <h1> {profile?.firstName + ' ' + profile?.lastName} </h1>
+          <h1> {profilePageData?.firstName + ' ' + profilePageData?.lastName} </h1>
+          {loggedIn && profilePageData.username === profile.username ? 
           <FontAwesomeIcon onClick={() => setEdit(!edit)} className="btn ms-2 outline" icon={faPencil} size="lg" title="Edit profile"/>
+          : <></>
+          }
         </div>
-        <small>@{profile?.username}</small>
+        <small>@{profilePageData?.username}</small>
       </div>
 
       <div className="w-100 d-flex flex-wrap justify-content-center mt-1">
@@ -67,7 +71,7 @@ function MemberProfile({ profile }) {
               horizontal: "left",
             }}
           >
-            {profile?.contacts?.map((contact, idx) => (
+            {profilePageData?.contacts?.map((contact, idx) => (
               <Typography key={idx} className="popover" sx={{ p: 2 }}>
                 {contact.type}: {contact.value}
               </Typography>
@@ -84,21 +88,21 @@ function MemberProfile({ profile }) {
 
       <div className="text-start mt-3">
         <h3>About me</h3>
-        <p>{profile?.bio}</p>
+        <p>{profilePageData?.bio}</p>
         <div>
           <Chip
             label="Movies"
             className={
-              profile?.watchMovies ? "inline-flex px-1 me-1" : "d-none"
+              profilePageData?.watchMovies ? "inline-flex px-1 me-1" : "d-none"
             }
           />
           <Chip
             label="Tv"
-            className={profile?.watchTv ? "inline-flex px-1 mx-1" : "d-none"}
+            className={profilePageData?.watchTv ? "inline-flex px-1 mx-1" : "d-none"}
           />
           <Chip
             label="Anime"
-            className={profile?.watchAnime ? "inline-flex px-1 mx-1" : "d-none"}
+            className={profilePageData?.watchAnime ? "inline-flex px-1 mx-1" : "d-none"}
           />
         </div>
       </div>
@@ -135,7 +139,7 @@ function MemberProfile({ profile }) {
         </div>
         <div hidden={tab !== 3} className="text-start pt-2">
           {
-            clubs.map((c) => <ClubDetails key={c._id} club={c} profile={profile}/>)
+            clubs.map((c) => <ClubDetails key={c._id} club={c} profile={profilePageData}/>)
           }
         </div>
       </div>

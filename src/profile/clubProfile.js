@@ -28,7 +28,7 @@ function ClubProfile({ profilePageData }) {
   const [media, setMedia] = useState([]);
   const [edit, setEdit] = useState(false);
   const [following, setFollowing] = useState(false);
-  const { profile } = useSelector((state) => state.account);
+  const { loggedIn, profile } = useSelector((state) => state.account);
 
   useEffect(() => {
     if (profilePageData) {
@@ -60,6 +60,7 @@ function ClubProfile({ profilePageData }) {
       <div className="w-100">
         <div className="d-flex align-items-center justify-content-center">
           <h1> {profilePageData?.orgName} </h1>
+          {loggedIn && profilePageData.username === profile.username ? 
           <FontAwesomeIcon
             onClick={() => setEdit(!edit)}
             className="btn ms-2 outline"
@@ -67,6 +68,7 @@ function ClubProfile({ profilePageData }) {
             size="lg"
             title="Edit profile"
           />
+          : <></>}
           <Button onClick={() => setFollowing(!following)}>{following? "Unfollow" : "Follow"}</Button>
         </div>
 

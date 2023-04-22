@@ -113,19 +113,6 @@ function MarkItem({ media, discussing }) {
           />
         </Tooltip>
       </div>
-      <div className={loggedIn && profile?.isMemberAccount ? "d-none" : "d-inline-block"}>
-      <Tooltip title="Discussing">
-          <Rating
-            name="customized-color"
-            defaultValue={discussing ? 1 : 0}
-            precision={1}
-            max={1}
-            icon={<FontAwesomeIcon icon={faMinusCircle} className="text-warning" />}
-            emptyIcon={<FontAwesomeIcon icon={faPlusCircle} />}
-            className="ps-3"
-          />
-        </Tooltip>
-      </div>
 
     </span>
   );

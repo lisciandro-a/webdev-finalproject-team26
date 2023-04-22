@@ -3,9 +3,14 @@ import MarkItem from "./markItem";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import watchDetails from "../watchDetails/watchDetailsExample.json";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from "dayjs";
 
-function DiscussionDetails({ localMedia, clubID }) {
+function DiscussionDetails({ localMedia, clubID, isOwnProfile }) {
     const [media, setMedia] = useState(watchDetails);
+    const [currTimestamp, setCurrTimestamp] = useState(null);
     const navigate = useNavigate();
 //   const [media, setMedia] = useState(null);
 
@@ -17,6 +22,12 @@ function DiscussionDetails({ localMedia, clubID }) {
 //     }
 //     fetchMedia();
 //   }, [localMedia]);
+
+const onUpdateDate = (newTimestamp) => {
+  setCurrTimestamp(newTimestamp);
+  // update database
+}
+
   
   return media ? (
     <li className="list-group-item p-2 border-bottom">
@@ -42,6 +53,9 @@ function DiscussionDetails({ localMedia, clubID }) {
         <div className="col-3 text-center pe-0 m-auto">
           <MarkItem liked={localMedia.liked} watched={localMedia.watched}/>
           <Button onClick={() => navigate(`/club/${clubID}/discussion/${localMedia.mediaId}`)} className="mb-3 ps-4">Discussion</Button>
+          <LocalizationProvider className={isOwnProfile ? "d-flex" : "d-none"} dateAdapter={AdapterDayjs}>
+            <DatePicker value={dayjs(currTimestamp)} onChange={(newValue) => onUpdateDate(dayjs(newValue).valueOf())}/>
+          </LocalizationProvider>
         </div>
       </div>
     </li>

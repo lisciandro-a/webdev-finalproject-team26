@@ -12,17 +12,20 @@ import {
 import { formatTimestamp } from "./formatTimestamp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faReply } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
 
-function Comment({ comment, updateComments, depth, maxDepth }) {
+function Comment({ comment, loadComments, updateComments, depth, maxDepth }) {
   const [showNewReply, setShowNewReply] = useState(false);
   const [newReply, setNewReply] = useState('');
+  const { loggedIn } = useSelector(state => state.account);
 
   const onReplyChange = (event) => {
     setNewReply(event.target.value);
   };
 
-  const onClickReplySubmit = () => {
-    // updateComments(newComment);
+  const onClickReplySubmit = async () => {
+    await updateComments(newReply, comment._id);
+    await loadComments();
     console.log(newReply);
     setNewReply('');
     setShowNewReply(false);
@@ -44,14 +47,14 @@ function Comment({ comment, updateComments, depth, maxDepth }) {
                 <small className="pe-3">
                   {formatTimestamp(comment.timestamp)}
                 </small>
-                <Button
+                {loggedIn ? <Button
                   color="primary"
                   disabled={depth >= maxDepth}
                   onClick={() => setShowNewReply(!showNewReply)}
                   className={depth < maxDepth ? "d-flex" : "d-none"}
                 >
                   {showNewReply? 'Cancel' : 'Reply'}
-                </Button>
+                </Button> : <></>}
               </div>
             </div>
           }
@@ -82,7 +85,7 @@ function Comment({ comment, updateComments, depth, maxDepth }) {
         </div>
       <List component="div" sx={{ pl: 4 }}>
         {comment.replies?.map((reply) => (
-          <Comment key={comment._id} comment={reply} updateComments={updateComments} depth={depth+1} maxDepth={maxDepth}/>
+          <Comment key={reply._id} comment={reply} loadComments={loadComments} updateComments={updateComments} depth={depth+1} maxDepth={maxDepth}/>
         ))}
       </List>
     </>

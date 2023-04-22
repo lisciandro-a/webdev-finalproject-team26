@@ -44,7 +44,7 @@ function CommentsSection({ loadComments, updateComments, maxDepth, sectionTitle 
   };
 
   const onClickCommentSubmit = async () => {
-    await updateComments(newComment);
+    await updateComments(newComment, null);
     await fetchComments();
     // console.log(newComment);
     setNewComment('');
@@ -86,9 +86,9 @@ function CommentsSection({ loadComments, updateComments, maxDepth, sectionTitle 
           </FormControl>
         </div>
         <List className="mt-2">
-          {comments?.map((comment) => (
-            <Comment key={comment._id} comment={comment} updateComments={updateComments} depth={0} maxDepth={maxDepth}/>
-          ))}
+          {comments?.map((comment) => {
+            return <Comment key={comment._id} comment={comment} loadComments={fetchComments} updateComments={updateComments} depth={0} maxDepth={maxDepth}/>
+          })}
         </List>
       </div>
     </div>

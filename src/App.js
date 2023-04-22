@@ -33,7 +33,7 @@ function App() {
             <Route path="/search/:mediaType/:searchTerm" element={<Search />} />
             <Route path="/details/:mediaType/:simklID" element={<WatchDetails />} />
             <Route path="/profile/:profileID?" element={<Profile />} />
-            <Route path="/club/:clubID/discussion/:simklID" element={<Discussion />} />
+            <Route path="/club/:clubUsername/discussion/:mediaType/:simklID" element={<Discussion />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

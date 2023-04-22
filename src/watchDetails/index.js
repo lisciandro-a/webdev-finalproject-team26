@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { searchSimklById } from "./watchDetailsService";
 import { NotFound, MarkItem, CommentsSection } from "../common";
-import { getMediaByUsernameMediaId, addReviewByUsernameByMediaId, getReviewsForMediaByMediaId } from "../services/media/mediaService";
+import { getMediaByUsernameMediaId, addReviewByUsernameByMediaId, getReviewsForMediaByMediaId, getAverageRating } from "../services/media/mediaService";
 import { useSelector } from "react-redux";
 
 function WatchDetails() {
@@ -16,6 +16,7 @@ function WatchDetails() {
   const [watchDetails, setWatchDetails] = useState({});
   const [localMedia, setLocalMedia] = useState(null);
   const [userRating, setUserRating] = useState(0);
+  const [averageRating, setAverageRating] = useState(0);
   const { loggedIn, profile } = useSelector(state => state.account);
 
   useEffect(() => {
@@ -32,6 +33,8 @@ function WatchDetails() {
     //const simklResult = await searchSimklById(mediaType, simklID);
     //setWatchDetails(simklResult);
      setWatchDetails(watchDetailsJson);
+     const { rating } = await getAverageRating(mediaType, simklID);
+     setAverageRating(rating);
   };
 
   const getProfileWatchDetails = async () => {
@@ -46,6 +49,8 @@ function WatchDetails() {
       rating: value,
     };
     await addReviewByUsernameByMediaId(localMedia.mediaType, localMedia.mediaId, profile.username, review);
+    const { rating } = await getAverageRating(mediaType, simklID);
+    setAverageRating(rating);
     setUserRating(value);
     setLocalMedia({
       ...localMedia,
@@ -122,7 +127,7 @@ function WatchDetails() {
               {/* default value will be 0 or whatever is in database */}
               <Rating
                 name="customized-10"
-                defaultValue={5.7}
+                value={averageRating}
                 max={10}
                 precision={0.5}
                 readOnly
@@ -130,8 +135,8 @@ function WatchDetails() {
               />
             </div>
             <br />
-            {localMedia ? 
-            <div className={"d-inline-block d-md-inline-flex mt-lg-3"}>
+            {localMedia && profile?.isMemberAccount ? 
+            <div className="d-inline-block d-md-inline-flex mt-lg-3">
               <Typography component="legend">Your Rating</Typography>
               {/* default value will be 0 or whatever is in database */}
               <Rating

@@ -19,6 +19,9 @@ function Profile() {
       navigate('/login');
     } 
     if (profileID) {
+      if (profile && profile.username === profileID) {
+        navigate('/profile');
+      }
       const getUser = async () => {
         setLoadingProfile(true);
         const profile = await getProfileByUsername(profileID);
@@ -34,7 +37,10 @@ function Profile() {
   }, [profileID]);
 
   useEffect(() => {
-    setUser(profile);
+    if (!profileID || (profile && profile.username === profileID)) {
+      setUser(profile);  
+    }
+    
   }, [profile]);
 
   return loadingProfile ? <>Loading...</> : ( user ? (user.isMemberAccount ? <MemberProfile profilePageData={user} /> : <ClubProfile profilePageData={user}/>) : <NotFound/>);

@@ -85,3 +85,12 @@ export const getRecentReviewsOnLiked = async (username) => {
     return [];
   }
 }
+
+export const getAverageRating = async (mediaType, mediaId) => {
+  try {
+    const response = await axiosClient.get(`/media/${mediaType}/${mediaId}/rating`);
+    return response.data;
+  } catch {
+    return { rating: 0 };
+  }
+}

@@ -4,28 +4,33 @@ import { Rating, Tooltip } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faHeart, faMinusCircle, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { addLikedValueByUsernameByMediaId, addWatchedValueByUsernameByMediaId, deleteLikedValueByUsernameByMediaId, deleteWatchedValueByUsernameByMediaId, addMedia, getMediaByMediaId, getMediaByUsernameMediaId } from "../services/media/mediaService";
+import { addNewDiscussion, deleteDiscussion } from "../services/clubs/clubService";
 
-function MarkItem({ media, discussing }) {
+function MarkItem({ media }) {
   const { loggedIn, profile } = useSelector(state => state.account);
   const [likedValue, setLikedValue] = useState(0);
   const [watchedValue, setWatchedValue] = useState(0);
+  const [discussingValue, setDiscussingValue] = useState(0);
   const [localMedia, setLocalMedia] = useState(media);
 
   useEffect(() => {
     if (profile && media) {
+      setLocalMedia(media);
       getLocalMediaForUser();
     }
-  }, [])
+  }, [media, profile]);
 
   useEffect(() => {
     if (localMedia) {
       setLikedValue(localMedia?.liked ? 1 : 0);
       setWatchedValue(localMedia?.watched ? 1 : 0);
+      setDiscussingValue(localMedia?.discussing ? 1 : 0);
+
     }
   }, [localMedia]);
 
   const getLocalMediaForUser = async () => {
-    const existingLocalMedia = await getMediaByUsernameMediaId(localMedia.mediaType, localMedia.mediaId, profile.username);
+    const existingLocalMedia = await getMediaByUsernameMediaId(media.mediaType, media.mediaId, profile.username);
     if (existingLocalMedia) {
       setLocalMedia(existingLocalMedia);
     }
@@ -50,6 +55,8 @@ function MarkItem({ media, discussing }) {
   }
 
   const updateLikedValue = async (newValue) => {
+    console.log('updateLiked', localMedia);
+    console.log('updateLiked', media);
     if (!localMedia.liked) {
       await createMediaForUser();
     }
@@ -62,8 +69,21 @@ function MarkItem({ media, discussing }) {
     }
   }
 
-  return (
+  const updateDiscussingValue = async (newValue) => {
+    if (!localMedia.discussing) {
+      await createMediaForUser();
+    }
+    if (!!newValue) {
+      await addNewDiscussion(profile.username, localMedia.mediaType, localMedia.mediaId, );
+      setDiscussingValue(newValue);
+    } else {
+      await deleteDiscussion(profile.username, localMedia.mediaType, localMedia.mediaId);
+      setDiscussingValue(newValue);
+    }
+  }
 
+  return (
+    loggedIn ? 
     <span>
       <div className={loggedIn && profile?.isMemberAccount ? "d-inline-block" : "d-none"}>
         <Tooltip title="Watched">
@@ -100,21 +120,26 @@ function MarkItem({ media, discussing }) {
           />
         </Tooltip>
       </div>
-      <div className={loggedIn && profile?.isMemberAccount ? "d-none" : "d-inline-block"}>
+      <div className={loggedIn && profile?.isMemberAccount || !loggedIn ? "d-none" : "d-inline-block"}>
       <Tooltip title="Discussing">
           <Rating
             name="customized-color"
-            defaultValue={discussing ? 1 : 0}
+            defaultValue={0}
+            value={discussingValue}
             precision={1}
             max={1}
             icon={<FontAwesomeIcon icon={faMinusCircle} className="text-warning" />}
             emptyIcon={<FontAwesomeIcon icon={faPlusCircle} />}
             className="ps-3"
+            onChange={(event, newValue) => {
+              updateDiscussingValue(newValue);
+            }}
           />
         </Tooltip>
       </div>
 
     </span>
+    : <></>
   );
 }
 

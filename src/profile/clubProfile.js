@@ -31,12 +31,10 @@ function ClubProfile({ profilePageData }) {
   const { profile } = useSelector((state) => state.account);
 
   useEffect(() => {
-    getMedia(profilePageData?.username);
-  }, [tab]);
-
-  useEffect(() => {
-
-  }, [profilePageData])
+    if (profilePageData) {
+      getMedia(profilePageData.username);
+    }
+  }, [tab, profilePageData]);
 
   const getMedia = async (username) => {
     const result = await getMediaByUsername(username);

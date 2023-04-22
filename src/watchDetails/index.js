@@ -130,8 +130,8 @@ function WatchDetails() {
               />
             </div>
             <br />
-            {localMedia ? 
-            <div className={"d-inline-block d-md-inline-flex mt-lg-3"}>
+            {localMedia && profile?.isMemberAccount ? 
+            <div className="d-inline-block d-md-inline-flex mt-lg-3">
               <Typography component="legend">Your Rating</Typography>
               {/* default value will be 0 or whatever is in database */}
               <Rating

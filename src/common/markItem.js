@@ -117,7 +117,7 @@ function MarkItem({ media }) {
           />
         </Tooltip>
       </div>
-      <div className={loggedIn && profile?.isMemberAccount ? "d-none" : "d-inline-block"}>
+      <div className={loggedIn && profile?.isMemberAccount || !loggedIn ? "d-none" : "d-inline-block"}>
       <Tooltip title="Discussing">
           <Rating
             name="customized-color"

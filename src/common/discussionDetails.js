@@ -10,12 +10,13 @@ import dayjs from "dayjs";
 import { getMediaByMediaId } from "../services/media/mediaService";
 import { getClubDiscussionByMediaId, updateDiscussion } from "../services/clubs/clubService";
 
-function DiscussionDetails({ localMedia, clubID, isOwnProfile, updateMediaCallback }) {
+function DiscussionDetails({ localMedia, clubID, viewingAsGuest, viewingAsMember, followingClub, updateMediaCallback }) {
     // const [media, setMedia] = useState(watchDetails);
     const [currTimestamp, setCurrTimestamp] = useState(null);
     const navigate = useNavigate();
     const [media, setMedia] = useState(null);
     const [discussion, setDiscussion] = useState(null);
+    const ownProfile = !viewingAsGuest && !viewingAsMember;
 
     useEffect(() => {
       const fetchMedia = async () => {
@@ -76,9 +77,9 @@ const onUpdateDate = async (newTimestamp) => {
         </div>
         <div className="col-3 text-center pe-0 m-auto">
           <MarkItem media={localMedia}/>
-          <Button onClick={() => navigate(`/club/${clubID}/discussion/${localMedia.mediaId}`)} className="mb-3 ps-4">Discussion</Button>
-          <LocalizationProvider className={isOwnProfile ? "d-flex" : "d-none"} dateAdapter={AdapterDayjs}>
-            <DatePicker value={dayjs(currTimestamp)} onChange={(newValue) => onUpdateDate(dayjs(newValue).valueOf())}/>
+          <Button onClick={() => navigate(`/club/${clubID}/discussion/${localMedia.mediaId}`)} className="mb-3 ps-4" disabled={viewingAsGuest || (!ownProfile && !followingClub)}>Discussion</Button>
+          <LocalizationProvider className={ownProfile ? "d-inline-flex" : "d-none"} dateAdapter={AdapterDayjs}>
+            <DatePicker value={dayjs(currTimestamp)} onChange={(newValue) => onUpdateDate(dayjs(newValue).valueOf())} className={ownProfile ? "d-inline-flex" : "d-none"}/>
           </LocalizationProvider>
         </div>
       </div>

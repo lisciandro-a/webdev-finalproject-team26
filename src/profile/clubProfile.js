@@ -45,12 +45,18 @@ function ClubProfile({ profilePageData }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [newAnnouncement, setNewAnnouncement] = useState("");
   const { loggedIn, profile } = useSelector((state) => state.account);
+  let viewingAsMember = profile && profilePageData && profile._id !== profilePageData._id;
+  let viewingAsGuest = !profile;
 
   useEffect(() => {
     if (profilePageData) {
       getMedia(profilePageData.username);
       getMembers(profilePageData.username);
       getAnnouncements(profilePageData.username);
+      viewingAsMember = profile && profilePageData && profile._id !== profilePageData._id;
+      viewingAsGuest = !profile;
+    } else {
+
     }
   }, [tab, profilePageData, profile]);
 
@@ -136,7 +142,7 @@ function ClubProfile({ profilePageData }) {
           ) : (
             <></>
           )}
-          <Button onClick={() => onClickFollow()}>
+          <Button onClick={() => onClickFollow()} className={viewingAsMember || viewingAsGuest ? "d-inline-flex" : "d-none"} disabled={viewingAsGuest}>
             {following ? "Leave" : "Join"}
           </Button>
         </div>
@@ -219,10 +225,10 @@ function ClubProfile({ profilePageData }) {
               <Typography className="popover" sx={{ p: 2 }}>
                 <p>{announce.message}</p>{" "}
                 <small>{formatTimestampToDate(announce.timestamp)}</small>
-                <Button onClick={() => deleteAnnouncement(announce)}><small>Remove</small></Button>
+                <Button onClick={() => deleteAnnouncement(announce)} className={viewingAsGuest || viewingAsMember ? "d-none" : "d-inline-flex"}><small>Remove</small></Button>
               </Typography>
             ))}
-            <Button onClick={() => setDialogOpen(true)}>New Announcement</Button>
+            <Button onClick={() => setDialogOpen(true)} className={viewingAsGuest || viewingAsMember ? "d-none" : "d-inline-flex"}>New Announcement</Button>
             <Dialog open={dialogOpen} onClose={() => {setDialogOpen(false); setNewAnnouncement("")}} fullWidth>
               <DialogTitle>Announcement</DialogTitle>
               <DialogContent>
@@ -290,6 +296,9 @@ function ClubProfile({ profilePageData }) {
                 localMedia={ud}
                 clubID={profilePageData?.username}
                 updateMediaCallback={() => getMedia(profilePageData?.username)}
+                viewingAsGuest={viewingAsGuest}
+                viewingAsMember={viewingAsMember}
+                followingClub={following}
               />
             ))}
         </div>
@@ -301,6 +310,9 @@ function ClubProfile({ profilePageData }) {
                 localMedia={ud}
                 clubID={profilePageData?.username}
                 updateMediaCallback={() => getMedia(profilePageData?.username)}
+                viewingAsGuest={viewingAsGuest}
+                viewingAsMember={viewingAsMember}
+                followingClub={following}
               />
             ))}
         </div>
@@ -310,11 +322,6 @@ function ClubProfile({ profilePageData }) {
               key={m._id}
               clubMembers={members}
               member={m}
-              isOwnProfile={
-                profile &&
-                profilePageData &&
-                profile?.username === profilePageData?.username
-              }
             />
           ))}
         </div>

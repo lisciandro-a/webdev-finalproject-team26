@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Typography } from "@mui/material";
 import { formatTimestampToDateWithoutTime } from "./comments/formatTimestamp";
 import { Link } from "react-router-dom";
-import { getProfileByUsername } from "../services/accounts/accountService";
 
 
 function MemberDetails({ clubMembers, member }) {

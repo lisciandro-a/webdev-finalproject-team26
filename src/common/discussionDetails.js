@@ -8,12 +8,14 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from "dayjs";
 import { getMediaByMediaId } from "../services/media/mediaService";
+import { getClubDiscussionByMediaId, updateDiscussion } from "../services/clubs/clubService";
 
-function DiscussionDetails({ localMedia, clubID, isOwnProfile }) {
+function DiscussionDetails({ localMedia, clubID, isOwnProfile, updateMediaCallback }) {
     // const [media, setMedia] = useState(watchDetails);
     const [currTimestamp, setCurrTimestamp] = useState(null);
     const navigate = useNavigate();
     const [media, setMedia] = useState(null);
+    const [discussion, setDiscussion] = useState(null);
 
     useEffect(() => {
       const fetchMedia = async () => {
@@ -23,8 +25,30 @@ function DiscussionDetails({ localMedia, clubID, isOwnProfile }) {
       fetchMedia();
     }, []);
 
-const onUpdateDate = (newTimestamp) => {
+    useEffect(() => {
+      const fetchDiscussion = async () => {
+        const result = await getClubDiscussionByMediaId(clubID, localMedia.mediaType, localMedia.mediaId);
+        setDiscussion(result);
+        console.log(result);
+      }
+      fetchDiscussion();
+    }, [media])
+
+    useEffect(() => {
+      if (discussion && discussion?.discussionDate != "") {
+        setCurrTimestamp(parseInt(discussion.discussionDate))
+      }
+    }, [discussion])
+
+const onUpdateDate = async (newTimestamp) => {
   setCurrTimestamp(newTimestamp);
+  const newDiscussionObj = {
+    ...discussion,
+    discussionDate: newTimestamp + ""
+  };
+  const result = await updateDiscussion(newDiscussionObj);
+  setDiscussion(result);
+  updateMediaCallback();
   // update database
 }
 

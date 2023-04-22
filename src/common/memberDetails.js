@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Typography } from "@mui/material";
 import { formatTimestampToDateWithoutTime } from "./comments/formatTimestamp";
 import { Link } from "react-router-dom";
+import { getProfileByUsername } from "../services/accounts/accountService";
 
 
-function MemberDetails({ club, member }) {
+function MemberDetails({ clubMembers, member }) {
 
   return (
     <div className="p-2 border-bottom">
@@ -15,7 +16,7 @@ function MemberDetails({ club, member }) {
           <Link to={`/profile/${member.username}`} className="text-blue text-decoration-none">View Member</Link>
         </div>
         <div className="col-6 text-end">
-          <Typography className='pb-1' variant="body2">Joined club on: {formatTimestampToDateWithoutTime(club.members.find((m) => m.memberID === member.memberID)?.joinedDate)}</Typography>
+          <Typography className='pb-1' variant="body2">Joined club on: {formatTimestampToDateWithoutTime(clubMembers.find((m) => m._id === member._id)?.joinedDate)}</Typography>
         </div>
       </div>
     </div>

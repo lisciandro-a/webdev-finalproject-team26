@@ -9,6 +9,11 @@ import {
   Box,
   Tabs,
   Tab,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogActions,
+  TextField
 } from "@mui/material";
 import "./profile.css";
 import "bootstrap/js/src/collapse.js";
@@ -19,6 +24,12 @@ import { getMediaByUsername } from "../services/media/mediaService";
 import UpdateClubProfile from "./updateClubProfile";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import {
+  createClubAnnouncement,
+  getClubAnnouncements,
+  getClubMembers,
+  deleteClubAnnouncement
+} from "../services/clubs/clubService";
 
 function ClubProfile({ profilePageData }) {
   const [anchorVirtualMeetings, setAnchorVirtualMeetings] = useState(null);
@@ -26,21 +37,56 @@ function ClubProfile({ profilePageData }) {
   const [anchorAnnounce, setAnchorAnnounce] = useState(null);
   const [tab, setTab] = useState(0);
   const [media, setMedia] = useState([]);
+  const [announcements, setAnnouncements] = useState([]);
+  const [members, setMembers] = useState([]);
   const [edit, setEdit] = useState(false);
   const [following, setFollowing] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [newAnnouncement, setNewAnnouncement] = useState("");
   const { loggedIn, profile } = useSelector((state) => state.account);
 
   useEffect(() => {
     if (profilePageData) {
       getMedia(profilePageData.username);
+      getMembers(profilePageData.username);
+      getAnnouncements(profilePageData.username);
     }
   }, [tab, profilePageData]);
 
   const getMedia = async (username) => {
     const result = await getMediaByUsername(username);
-    console.log(result);
+    // console.log(result);
     setMedia(result);
   };
+
+  const getAnnouncements = async (username) => {
+    const result = await getClubAnnouncements(username);
+    setAnnouncements(result);
+  };
+
+  const getMembers = async (username) => {
+    const result = await getClubMembers(username);
+    setMembers(result);
+  };
+
+  const makeNewAnnouncement = async () => {
+    setDialogOpen(false);
+    const newAnnouncementObject = {
+      clubId: profile._id,
+      message: newAnnouncement,
+      timestamp: new Date().getTime() + ""
+    };
+    console.log("Here");
+    await createClubAnnouncement(newAnnouncementObject);
+    setNewAnnouncement("");
+    getAnnouncements(profilePageData.username);
+    // await database call to make a new announcement
+  }
+
+  const deleteAnnouncement = async (announcement) => {
+    await deleteClubAnnouncement(announcement._id);
+    getAnnouncements(profilePageData.username);
+  }
 
   const currDate = new Date().getTime();
 
@@ -61,16 +107,20 @@ function ClubProfile({ profilePageData }) {
       <div className="w-100">
         <div className="d-flex align-items-center justify-content-center">
           <h1> {profilePageData?.orgName} </h1>
-          {loggedIn && profilePageData.username === profile.username ? 
-          <FontAwesomeIcon
-            onClick={() => setEdit(!edit)}
-            className="btn ms-2 outline"
-            icon={faPencil}
-            size="lg"
-            title="Edit profile"
-          />
-          : <></>}
-          <Button onClick={() => setFollowing(!following)}>{following? "Leave" : "Join"}</Button>
+          {loggedIn && profilePageData.username === profile.username ? (
+            <FontAwesomeIcon
+              onClick={() => setEdit(!edit)}
+              className="btn ms-2 outline"
+              icon={faPencil}
+              size="lg"
+              title="Edit profile"
+            />
+          ) : (
+            <></>
+          )}
+          <Button onClick={() => setFollowing(!following)}>
+            {following ? "Leave" : "Join"}
+          </Button>
         </div>
 
         <small>@{profilePageData?.username}</small>
@@ -106,7 +156,7 @@ function ClubProfile({ profilePageData }) {
             variant="contained"
             onClick={(event) => onClickVirtualMeeting(event)}
             className={
-              clubProfileDetails.virtualMeetings ? "d-inline-block" : "d-none"
+              profilePageData.virtualMeetings ? "d-inline-block" : "d-none"
             }
           >
             Virtual Meeting Details
@@ -122,11 +172,11 @@ function ClubProfile({ profilePageData }) {
             }}
           >
             <Typography className="popover" sx={{ p: 2 }}>
-              Link: {clubProfileDetails.virtualMeetings?.link}
+              Link: {profilePageData?.virtualMeetings?.link}
             </Typography>
             <Typography className="popover" sx={{ p: 2 }}>
-              When: {clubProfileDetails.virtualMeetings?.meetingWeekday}s at{" "}
-              {clubProfileDetails.virtualMeetings?.meetingTime}
+              When: {profilePageData?.virtualMeetings?.meetingWeekday}s at{" "}
+              {profilePageData?.virtualMeetings?.meetingTime}
             </Typography>
           </Popover>
         </div>
@@ -147,12 +197,33 @@ function ClubProfile({ profilePageData }) {
               horizontal: "left",
             }}
           >
-            {clubProfileDetails?.announcements?.map((announce) => (
+            {announcements.map((announce) => (
               <Typography className="popover" sx={{ p: 2 }}>
                 <p>{announce.message}</p>{" "}
                 <small>{formatTimestampToDate(announce.timestamp)}</small>
+                <Button onClick={() => deleteAnnouncement(announce)}><small>Remove</small></Button>
               </Typography>
             ))}
+            <Button onClick={() => setDialogOpen(true)}>New Announcement</Button>
+            <Dialog open={dialogOpen} onClose={() => {setDialogOpen(false); setNewAnnouncement("")}} fullWidth>
+              <DialogTitle>Announcement</DialogTitle>
+              <DialogContent>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  type="test"
+                  fullWidth
+                  variant="standard"
+                  placeholder="Enter new announcement here"
+                  onChange={(event) => setNewAnnouncement(event.target.value)}
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => {setDialogOpen(false); setNewAnnouncement("")}}>Cancel</Button>
+                <Button onClick={() => makeNewAnnouncement()}>Create</Button>
+              </DialogActions>
+            </Dialog>
           </Popover>
         </div>
       </div>
@@ -165,9 +236,7 @@ function ClubProfile({ profilePageData }) {
         <div>
           <Chip
             label="Movies"
-            className={
-              profilePageData?.watchMovies ? "inline-flex" : "d-none"
-            }
+            className={profilePageData?.watchMovies ? "inline-flex" : "d-none"}
           />
           <Chip
             label="Tv"
@@ -194,27 +263,41 @@ function ClubProfile({ profilePageData }) {
         </Box>
         <div hidden={tab !== 0} className="text-start pt-2">
           {media
-            .filter((d) => parseInt(d.discussionDate) <= currDate || d.discussionDate == "")
+            .filter(
+              (d) =>
+                parseInt(d.discussionDate) >= currDate || d.discussionDate == ""
+            )
             .map((ud) => (
               <DiscussionDetails
                 localMedia={ud}
-                clubID={clubProfileDetails._id}
+                clubID={profilePageData?.username}
+                updateMediaCallback={() => getMedia(profilePageData?.username)}
               />
             ))}
         </div>
         <div hidden={tab !== 1} className="text-start pt-2">
           {media
-            .filter((d) => parseInt(d.discussionDate) > currDate)
+            .filter((d) => parseInt(d.discussionDate) < currDate)
             .map((ud) => (
               <DiscussionDetails
                 localMedia={ud}
-                clubID={media._id}
+                clubID={profilePageData?.username}
+                updateMediaCallback={() => getMedia(profilePageData?.username)}
               />
             ))}
         </div>
         <div hidden={tab !== 2} className="text-start pt-2">
-          {clubProfileDetails?.members?.map((m) => (
-            <MemberDetails club={clubProfileDetails} member={m} isOwnProfile={profile && profilePageData && profile?.username === profilePageData?.username} />
+          {members.map((m) => (
+            <MemberDetails
+              key={m._id}
+              clubMembers={members}
+              member={m}
+              isOwnProfile={
+                profile &&
+                profilePageData &&
+                profile?.username === profilePageData?.username
+              }
+            />
           ))}
         </div>
       </div>

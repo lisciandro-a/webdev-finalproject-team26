@@ -24,7 +24,7 @@ function MarkItem({ media }) {
       setLikedValue(localMedia?.liked ? 1 : 0);
       setWatchedValue(localMedia?.watched ? 1 : 0);
       setDiscussingValue(localMedia?.discussing ? 1 : 0);
-      console.log(localMedia);
+
     }
   }, [localMedia]);
 
@@ -32,8 +32,6 @@ function MarkItem({ media }) {
     const existingLocalMedia = await getMediaByUsernameMediaId(localMedia.mediaType, localMedia.mediaId, profile.username);
     if (existingLocalMedia) {
       setLocalMedia(existingLocalMedia);
-      console.log("existing")
-      console.log(existingLocalMedia);
     }
   }
 

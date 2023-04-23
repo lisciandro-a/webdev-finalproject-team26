@@ -1,26 +1,46 @@
 import axiosClient from "../axiosClient";
 
 export const login = async (credentials) => {
-  const response = await axiosClient.post('/login', credentials);
-  return response.data;
+  try {
+    const response = await axiosClient.post('/login', credentials);
+    return response.data;
+  } catch(e) {
+    throw(e);
+  }
 }
 
 export const logout = async () => {
-  const response = await axiosClient.post('/logout');
-  return response.data;
+  try {  
+    const response = await axiosClient.post('/logout');
+    return response.data;
+  } catch {
+    return undefined;
+  }
 }
 
 export const register = async (newAccountInfo) => {
-  const response = await axiosClient.post('/register', newAccountInfo);
-  return response.data;
+  try {
+    const response = await axiosClient.post('/register', newAccountInfo);
+    return response.data;
+  } catch {
+    return undefined;
+  }
 }
 
 export const updateProfile = async (updatedAccountInfo, username) => {
-  const response = await axiosClient.put(`/profile/${username}`, updatedAccountInfo);
-  return response.data;
+  try {
+    const response = await axiosClient.put(`/profile/${username}`, updatedAccountInfo);
+    return response.data;
+  } catch {
+    return undefined;
+  }
 }
 
 export const getProfileByUsername = async (username) => {
-  const response = await axiosClient.get(`/profile/${username}`);
-  return response.data;
+  try {
+    const response = await axiosClient.get(`/profile/${username}`);
+    return response.data;
+  } catch {
+    return undefined;
+  }
 }

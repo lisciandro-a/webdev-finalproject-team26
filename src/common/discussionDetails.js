@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import MarkItem from "./markItem";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
-import watchDetails from "../watchDetails/watchDetailsExample.json";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from "dayjs";
 import { getMediaByMediaId } from "../services/media/mediaService";
 import { getClubDiscussionByMediaId, updateDiscussion } from "../services/clubs/clubService";
+import Poster from "./poster";
 
 function DiscussionDetails({ localMedia, clubID, viewingAsGuest, viewingAsMember, followingClub, updateMediaCallback }) {
     // const [media, setMedia] = useState(watchDetails);
@@ -21,7 +21,6 @@ function DiscussionDetails({ localMedia, clubID, viewingAsGuest, viewingAsMember
     useEffect(() => {
       const fetchMedia = async () => {
         const result = await getMediaByMediaId(localMedia.mediaType, localMedia.mediaId);
-        console.log(result);
         setMedia(result);
       }
       fetchMedia();
@@ -31,13 +30,12 @@ function DiscussionDetails({ localMedia, clubID, viewingAsGuest, viewingAsMember
       const fetchDiscussion = async () => {
         const result = await getClubDiscussionByMediaId(clubID, localMedia.mediaType, localMedia.mediaId);
         setDiscussion(result);
-        console.log(result);
       }
       fetchDiscussion();
     }, [media])
 
     useEffect(() => {
-      if (discussion && discussion?.discussionDate != "") {
+      if (discussion && discussion?.discussionDate !== "") {
         setCurrTimestamp(parseInt(discussion.discussionDate))
       }
     }, [discussion])
@@ -59,11 +57,7 @@ const onUpdateDate = async (newTimestamp) => {
     <li className="list-group-item p-2 border-bottom">
       <div className="row">
         <div className="col-2 col-xl-1 my-auto">
-          <img
-            src={`https://simkl.in/posters/${media.poster}_m.webp`}
-            alt=""
-            className="img-size"
-          />
+          <Poster poster={media.poster} />
         </div>
         <div className="col-7 col-xl-8 text-start ps-4 m-auto">
           <h2> {media.title} </h2>

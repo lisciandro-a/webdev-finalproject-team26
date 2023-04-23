@@ -6,7 +6,6 @@ import { useParams, useNavigate } from "react-router";
 import SearchResults from "./searchResults";
 import { fullSearch } from "./searchService";
 import NotFound from "../common/notFound";
-import searchExample from "./searchExample.json";
 
 function Search() {
   const movieTitle = "Movies";
@@ -34,7 +33,6 @@ function Search() {
   };
 
   const onChangeMediaType = (newMediaType) => {
-    // console.log('being called');
     setSearchMediaType(newMediaType);
     if (searchString) {
       navigate(`/search/${newMediaType}/${searchString}`);
@@ -47,11 +45,8 @@ function Search() {
 
   const searchSimkl = async () => {
     const encodedQuery = encodeURIComponent(searchString);
-
-    setSearchResults(searchExample);
-
-    // const results = await fullSearch(searchMediaType, encodedQuery);
-    // setSearchResults(results);
+    const results = await fullSearch(searchMediaType, encodedQuery);
+    setSearchResults(results);
   };
 
   if (mediaType && !Object.keys(mediaMap).includes(mediaType)) {

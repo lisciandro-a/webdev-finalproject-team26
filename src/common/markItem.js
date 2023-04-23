@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Rating, Tooltip } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faHeart, faMinusCircle, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
-import { addLikedValueByUsernameByMediaId, addWatchedValueByUsernameByMediaId, deleteLikedValueByUsernameByMediaId, deleteWatchedValueByUsernameByMediaId, addMedia, getMediaByMediaId, getMediaByUsernameMediaId } from "../services/media/mediaService";
+import { addLikedValueByUsernameByMediaId, addWatchedValueByUsernameByMediaId, deleteLikedValueByUsernameByMediaId, deleteWatchedValueByUsernameByMediaId, addMedia, getMediaByUsernameMediaId } from "../services/media/mediaService";
 import { addNewDiscussion, deleteDiscussion } from "../services/clubs/clubService";
 
 function MarkItem({ media }) {
@@ -55,8 +55,6 @@ function MarkItem({ media }) {
   }
 
   const updateLikedValue = async (newValue) => {
-    console.log('updateLiked', localMedia);
-    console.log('updateLiked', media);
     if (!localMedia.liked) {
       await createMediaForUser();
     }
@@ -120,7 +118,7 @@ function MarkItem({ media }) {
           />
         </Tooltip>
       </div>
-      <div className={loggedIn && profile?.isMemberAccount || !loggedIn ? "d-none" : "d-inline-block"}>
+      <div className={(loggedIn && profile?.isMemberAccount) || !loggedIn ? "d-none" : "d-inline-block"}>
       <Tooltip title="Discussing">
           <Rating
             name="customized-color"

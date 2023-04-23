@@ -37,7 +37,6 @@ function UpdateClubProfile ({setEdit}) {
       password,
       oldUsername: profile.username
     }
-    console.log(updateObject);
     await dispatch(accountUpdateThunk(updateObject)).unwrap();
     setEdit(false);
   }

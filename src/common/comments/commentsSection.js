@@ -5,12 +5,12 @@ import {
   IconButton,
   OutlinedInput,
 } from "@mui/material";
-import commentExamples from "./commentExamples.json";
 import Comment from "./comment";
 import { List, InputAdornment } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faReply } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router";
 
 // load comments and update commentswill be callbacks to local database
 // allows us to reuse the comments section while loading comments from different parts of database (re-use component for club discussions and )
@@ -27,6 +27,8 @@ function CommentsSection({ loadComments, updateComments, maxDepth, sectionTitle 
     setComments(fetched);
   }
 
+  const location = useLocation();
+
   useEffect(() => {
     fetchComments();
     //setComments(commentExamples);
@@ -35,7 +37,8 @@ function CommentsSection({ loadComments, updateComments, maxDepth, sectionTitle 
 
   useEffect(() => {
     if (loggedIn && maxDepth === 0 && comments.map((c) => c.username).includes(profile.username)) {
-      setShowUpdate(true);
+      const review = comments.find((c) => c.username === profile.username);
+      setShowUpdate(review.comment);
     }
   }, [comments, loggedIn, profile, maxDepth]);
 
@@ -46,7 +49,6 @@ function CommentsSection({ loadComments, updateComments, maxDepth, sectionTitle 
   const onClickCommentSubmit = async () => {
     await updateComments(newComment, null);
     await fetchComments();
-    // console.log(newComment);
     setNewComment('');
     setShowNewComment(false);
   }
@@ -59,7 +61,7 @@ function CommentsSection({ loadComments, updateComments, maxDepth, sectionTitle 
             <h3>{sectionTitle}s</h3>
           </div>
           <div className="col-6 text-end">
-          {loggedIn ? 
+          {loggedIn && (profile.isMemberAccount || location.pathname.includes('discussion')) ? 
             <Button className="btn btn-outline-dark" variant="light" onClick={() => setShowNewComment(!showNewComment)}>
               {showNewComment ? 'Cancel' : `${showUpdate ? 'Update' : 'New'} ${sectionTitle}`}
             </Button>
@@ -87,7 +89,16 @@ function CommentsSection({ loadComments, updateComments, maxDepth, sectionTitle 
         </div>
         <List className="mt-2">
           {comments?.map((comment) => {
-            return <Comment key={comment._id} comment={comment} loadComments={fetchComments} updateComments={updateComments} depth={0} maxDepth={maxDepth}/>
+            return (comment.comment ?
+              <Comment 
+                key={comment._id} 
+                comment={comment} 
+                loadComments={fetchComments} 
+                updateComments={updateComments} 
+                depth={0} 
+                maxDepth={maxDepth}
+              />
+              : <></>);
           })}
         </List>
       </div>

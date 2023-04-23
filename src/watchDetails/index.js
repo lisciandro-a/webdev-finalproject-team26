@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./watchDetails.css";
 import { useParams, useNavigate } from "react-router";
-import watchDetailsJson from "./watchDetailsExample.json";
 import { Chip, Typography, Rating, IconButton } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -9,6 +8,7 @@ import { searchSimklById } from "./watchDetailsService";
 import { NotFound, MarkItem, CommentsSection } from "../common";
 import { getMediaByUsernameMediaId, addReviewByUsernameByMediaId, getReviewsForMediaByMediaId, getAverageRating } from "../services/media/mediaService";
 import { useSelector } from "react-redux";
+import Poster from "../common/poster";
 
 function WatchDetails() {
   const { mediaType, simklID } = useParams();
@@ -30,11 +30,10 @@ function WatchDetails() {
   }, [loggedIn]);
 
   const getWatchDetails = async () => {
-    //const simklResult = await searchSimklById(mediaType, simklID);
-    //setWatchDetails(simklResult);
-     setWatchDetails(watchDetailsJson);
-     const { rating } = await getAverageRating(mediaType, simklID);
-     setAverageRating(rating);
+    const simklResult = await searchSimklById(mediaType, simklID);
+    setWatchDetails(simklResult);
+    const { rating } = await getAverageRating(mediaType, simklID);
+    setAverageRating(rating);
   };
 
   const getProfileWatchDetails = async () => {
@@ -82,11 +81,7 @@ function WatchDetails() {
       <div>
         <div className="row mt-4">
           <div className="col-3 col-xxl-2 text-start">
-            <img
-              src={`https://simkl.in/posters/${watchDetails?.poster}_m.webp`}
-              alt=""
-              className="img-size"
-            />
+            <Poster poster={watchDetails.poster} />
           </div>
           <div className="col-9 col-xxl-10 ps-xxl-5 text-start">
             <div className="row flex-nowrap">

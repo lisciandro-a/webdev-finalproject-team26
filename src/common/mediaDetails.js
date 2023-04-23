@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import MarkItem from "./markItem";
 import { Link } from "react-router-dom";
 import { getMediaByMediaId } from "../services/media/mediaService";
+import Poster from "./poster";
 
 function MediaDetails({ localMedia }) {
   const [media, setMedia] = useState(null);
@@ -18,11 +19,7 @@ function MediaDetails({ localMedia }) {
     <li className="list-group-item p-2 border-bottom">
       <div className="row">
         <div className="col-2 col-xl-1 my-auto">
-          <img
-            src={`https://simkl.in/posters/${media?.poster}_m.webp`}
-            alt=""
-            className="img-size"
-          />
+          <Poster poster={media.poster} />
         </div>
         <div className="col-7 col-xl-8 text-start ps-4 m-auto">
           <h2> {media?.title} </h2>

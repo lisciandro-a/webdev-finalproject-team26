@@ -60,11 +60,8 @@ function ClubProfile({ profilePageData }) {
     }
   }, [tab, profilePageData, profile]);
 
-  console.log(media);
-
   const getMedia = async (username) => {
     const result = await getMediaByUsername(username);
-    // console.log(result);
     setMedia(result);
   };
 

@@ -5,7 +5,10 @@ const SIMKL_BASE_URL = "https://api.simkl.com"
 
 export const searchSimklById = async (mediaType, simklID) => {
     const fullUrl = `${SIMKL_BASE_URL}/${mediaType === 'movie' ? 'movies' : mediaType}/${simklID}?client_id=${SIMKL_CLIENT_ID}&extended=full`;
-
-    const result = await axios.get(fullUrl);
-    return result.data;
+    try {
+        const result = await axios.get(fullUrl);
+        return result.data;
+    } catch {
+        return undefined;
+    }
 }

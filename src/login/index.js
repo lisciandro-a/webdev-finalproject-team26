@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Card } from "react-bootstrap";
+import { Alert } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,24 +11,29 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [failedLogin, setFailedLogin] = useState(false);
 
   const { loggedIn } = useSelector(state => state.account);
 
   const dispatch = useDispatch();
-  const loginHandler = (e) => {
+  const loginHandler = async (e) => {
     e.preventDefault();
     const credentials = {
       email: email,
       username: email,
       password: password,
     }
-    dispatch(accountLoginThunk(credentials));
+    try {
+      await dispatch(accountLoginThunk(credentials)).unwrap();
+    } catch {
+      setFailedLogin(true);
+    }
   }
 
   const navigate = useNavigate();
   useEffect(() => {
     if (loggedIn) {
-      navigate('/profile');
+      navigate('/');
     }
   });
 
@@ -91,6 +97,13 @@ function Login() {
               </span>
             </Card.Footer>
           </Card>
+          {
+            failedLogin ? 
+              <Alert className="mt-4" severity="error" onClose={() => setFailedLogin(false)}>
+                Login failed
+              </Alert> 
+              : <></>
+          }
         </div>
       </div>
       <div className="col-1 col-md-2 col-lg-3"></div>

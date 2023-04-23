@@ -15,7 +15,7 @@ function ReviewSnippet({ review, isDiscussion }) {
     }
   }, [review, isDiscussion])
   return (
-    <Card className="p-2">
+    <Card className="p-2 snippet-width">
       <Poster poster={review.poster} />
       <Typography variant="h6">{review.title}</Typography>
       <small className="d-block">

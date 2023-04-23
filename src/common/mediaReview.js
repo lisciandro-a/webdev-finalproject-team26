@@ -22,7 +22,7 @@ function MediaReview({ localMedia }) {
         <div className='col-2 my-auto'>
           <Poster poster={media.poster} />
         </div>
-        <div className='col-6 mt-2'>
+        <div className='col-10 mt-2'>
           <div className='d-flex'>
             <div className='align-self'>
               <Typography variant="h4">{media?.title}</Typography>
@@ -31,9 +31,6 @@ function MediaReview({ localMedia }) {
               <MarkItem media={media}/>
             </div>
           </div>
-          <p className="ps-1">{localMedia.comment}</p>
-        </div>
-        <div className='col-4 mt-2'>
           <Typography component="legend">Rating</Typography>
           <Rating
             name="customized-10"
@@ -44,15 +41,7 @@ function MediaReview({ localMedia }) {
             readOnly
             className="mb-3"
           />
-          <Typography component="legend">Average user rating</Typography>
-          <Rating
-            name="customized-10"
-            defaultValue={5.7}
-            value={media.avgRating}
-            max={10}
-            precision={0.1}
-            readOnly
-          />
+          <p className="ps-1">{localMedia.comment}</p>
           <div>
             <Link
               to={`/details/${localMedia.mediaType}/${media?.mediaId}`}

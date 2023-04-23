@@ -278,6 +278,8 @@ function ClubProfile({ profilePageData }) {
             value={tab}
             onChange={(event, newValue) => setTab(newValue)}
             aria-label="basic tabs example"
+            variant="scrollable"
+            scrollButtons="auto"
           >
             <Tab label="Upcoming Discussions" id="upcoming" wrapped />
             <Tab label="Past Discussions" id="past" wrapped />

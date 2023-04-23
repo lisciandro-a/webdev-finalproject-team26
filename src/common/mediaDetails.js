@@ -21,7 +21,7 @@ function MediaDetails({ localMedia }) {
         <div className="col-2 col-xl-1 my-auto">
           <Poster poster={media.poster} />
         </div>
-        <div className="col-7 col-xl-8 text-start ps-4 m-auto">
+        <div className="col-8 col-xl-8 text-start ps-4 m-auto">
           <h2> {media?.title} </h2>
           <h4> {media?.year} </h4>
           <Link
@@ -32,7 +32,7 @@ function MediaDetails({ localMedia }) {
             More...{" "}
           </Link>
         </div>
-        <div className="col-3 text-center pe-0 m-auto">
+        <div className="col-2 text-center pe-0 m-auto">
           <MarkItem media={localMedia}/>
         </div>
       </div>

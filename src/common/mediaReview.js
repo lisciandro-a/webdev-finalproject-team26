@@ -22,16 +22,8 @@ function MediaReview({ localMedia }) {
         <div className='col-2 my-auto'>
           <Poster poster={media.poster} />
         </div>
-        <div className='col-10 mt-2'>
-          <div className='d-flex'>
-            <div className='align-self'>
-              <Typography variant="h4">{media?.title}</Typography>
-            </div>
-            <div className='align-self-center'>
-              <MarkItem media={media}/>
-            </div>
-          </div>
-          <Typography component="legend">Rating</Typography>
+        <div className='col-8 mt-2'>
+          <h2>{media?.title}</h2>
           <Rating
             name="customized-10"
             defaultValue={5.7}
@@ -42,7 +34,7 @@ function MediaReview({ localMedia }) {
             className="mb-3"
           />
           <p className="ps-1">{localMedia.comment}</p>
-          <div>
+          <div className="ps-1">
             <Link
               to={`/details/${localMedia.mediaType}/${media?.mediaId}`}
               className="text-blue text-decoration-none"
@@ -50,6 +42,9 @@ function MediaReview({ localMedia }) {
               {" "}More...{" "}
             </Link>
           </div>
+        </div>
+        <div className="col-2 text-center pe-0 m-auto">
+          <MarkItem media={localMedia}/>
         </div>
       </div>
     </div>

@@ -18,7 +18,7 @@ function Clubs () {
   return (
     <div className="mx-auto my-4">
       <div className="my-4">
-        <Typography variant="h3" className="mb-0">Explore Clubs</Typography>
+        <Typography variant="h2" className="mb-0">Explore Clubs</Typography>
         <hr></hr>
         <div className="w-100">
           <div className="d-flex p-4 gap-3 flex-wrap justify-content-center">

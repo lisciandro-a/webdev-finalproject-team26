@@ -13,6 +13,7 @@ import { formatTimestamp } from "./formatTimestamp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faReply } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 function Comment({ comment, loadComments, updateComments, depth, maxDepth }) {
   const [showNewReply, setShowNewReply] = useState(false);
@@ -36,7 +37,9 @@ function Comment({ comment, loadComments, updateComments, depth, maxDepth }) {
         <ListItemText
           primary={
             <div>
-              <b>@{comment.username}</b>
+              <Link className="text-blue text-decoration-none" to={`/profile/${comment.username}`}>
+                <b>@{comment.username}</b>
+              </Link>
             </div>
           }
           secondary={

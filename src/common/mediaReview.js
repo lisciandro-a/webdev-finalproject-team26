@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { getMediaByMediaId } from "../services/media/mediaService";
 import { Link } from "react-router-dom";
 import MarkItem from "./markItem";
+import Poster from "./poster";
 
 function MediaReview({ localMedia }) {
   const [media, setMedia] = useState(null);
@@ -19,11 +20,7 @@ function MediaReview({ localMedia }) {
     <div className="list-item p-2 border-bottom">
       <div className='row'>
         <div className='col-2 my-auto'>
-          <img
-            src={`https://simkl.in/posters/${media?.poster}_m.webp`}
-            alt=""
-            className="img-size"
-          />
+          <Poster poster={media.poster} />
         </div>
         <div className='col-6 mt-2'>
           <div className='d-flex'>

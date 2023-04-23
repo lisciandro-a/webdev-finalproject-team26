@@ -6,7 +6,7 @@ import { formatTimestamp } from "../common/comments/formatTimestamp";
 function AnnouncementSnippet({ announcement }) {
 
   return (
-    <Card className="p-2">
+    <Card className="p-2 snippet-width">
       <Typography variant="h6">{announcement.orgName}</Typography>
       <Typography variant="body2">{announcement.message}</Typography>
       <small>{formatTimestamp(announcement.timestamp)}</small>

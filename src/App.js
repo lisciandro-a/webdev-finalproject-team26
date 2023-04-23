@@ -13,6 +13,7 @@ import { accountLoginThunk } from './services/accounts/accountThunks';
 import Navbar from './navbar';
 import Profile from './profile';
 import Discussion from './discussion';
+import Clubs from './clubs';
 
 function App() {
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ function App() {
           <Navbar/>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/clubs" element={<Clubs />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<Profile />} />

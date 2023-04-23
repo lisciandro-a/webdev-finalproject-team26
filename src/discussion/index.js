@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./discussion.css";
 import { useParams, useNavigate } from "react-router";
-import watchDetailsJson from "../watchDetails/watchDetailsExample.json";
 import { Chip, Typography, Rating, IconButton } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -10,6 +9,7 @@ import { NotFound, MarkItem, CommentsSection } from "../common";
 import { useSelector } from "react-redux";
 import { createCommentForClubDiscussion, getClubDiscussion } from "../services/clubs/clubService";
 import { addReviewByUsernameByMediaId, getAverageRating, getMediaByUsernameMediaId } from "../services/media/mediaService";
+import Poster from "../common/poster";
 
 function Discussion() {
   const { clubUsername, mediaType, simklID } = useParams();
@@ -20,10 +20,6 @@ function Discussion() {
   const [userRating, setUserRating] = useState(0);
   const [averageRating, setAverageRating] = useState(0);
   const { loggedIn, profile } = useSelector(state => state.account);
-
-  useEffect(() => {
-    getWatchDetails();
-  }, []);
 
   useEffect(() => {
     if (loggedIn) {
@@ -43,9 +39,8 @@ function Discussion() {
   }, []);
 
   const getWatchDetails = async () => {
-    // const result = await searchSimklById(mediaType, simklID);
-    // setWatchDetails(result);
-    setWatchDetails(watchDetailsJson);
+    const result = await searchSimklById(mediaType, simklID);
+    setWatchDetails(result);
     const { rating } = await getAverageRating(mediaType, simklID);
     setAverageRating(rating);
   };
@@ -61,7 +56,6 @@ function Discussion() {
   }
 
   const updateComments = async (comment, replyToId) => {
-    console.log(clubDiscussion);
     const newCommentObject = {
       comment,
       replyToId,
@@ -96,11 +90,7 @@ function Discussion() {
     <div>
       <div className="row mt-4">
         <div className="col-3 col-xxl-2 text-start">
-          <img
-            src={`https://simkl.in/posters/${watchDetails?.poster}_m.webp`}
-            alt=""
-            className="img-size"
-          />
+          <Poster poster={watchDetails.poster} />
         </div>
         <div className="col-9 col-xxl-10 ps-xxl-5 text-start">
           <div className="row flex-nowrap">

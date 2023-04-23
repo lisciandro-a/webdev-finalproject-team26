@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { accountRegisterThunk } from "../services/accounts/accountThunks";
+import { Alert } from "@mui/material";
 
 const accountInfo = {
   isMemberAccount: true, // default radio button is member account
@@ -21,13 +22,18 @@ function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [isMemberAccount, setIsMemberAccount] = useState(true);
   const [newAccountInfo, setNewAccountInfo] = useState(accountInfo);
+  const [failedRegister, setFailedRegister] = useState(false);
 
   const { loggedIn } = useSelector(state => state.account);
 
   const dispatch = useDispatch();
-  const registrationHandler = (e) => {
+  const registrationHandler = async (e) => {
     e.preventDefault();
-    dispatch(accountRegisterThunk(newAccountInfo));
+    try {
+      await dispatch(accountRegisterThunk(newAccountInfo)).unwrap();
+    } catch {
+      setFailedRegister(true);
+    }
   }
 
   const navigate = useNavigate();
@@ -193,6 +199,13 @@ function Register() {
               </span>
             </Card.Footer>
           </Card>
+          {
+            failedRegister ? 
+              <Alert className="mt-4" severity="error" onClose={() => setFailedRegister(false)}>
+                Registration failed
+              </Alert> 
+              : <></>
+          }
         </div>
       </div>
       <div className="col-1 col-md-2 col-lg-3"></div>

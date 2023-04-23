@@ -7,7 +7,7 @@ import "bootstrap/js/src/collapse.js";
 
 function Navbar() {
 
-  const { loggedIn } = useSelector(state => state.account);
+  const { loggedIn, profile } = useSelector(state => state.account);
 
   const location = useLocation();
 
@@ -29,6 +29,13 @@ function Navbar() {
           <div className="navbar-nav">
             <Link className={`nav-link ${location.pathname === '/' ? 'active' : ''}`} to="/">Home</Link>
           </div>
+          {loggedIn && !profile?.isMemberAccount ? 
+          <></>
+          :
+          <div className="navbar-nav">
+            <Link className={`nav-link ${location.pathname === '/clubs' ? 'active' : ''}`} to="/clubs">Clubs</Link>
+          </div>
+          }
           <div className="navbar-nav ms-auto">
             <div className="nav-link">
               <Link to="/search" className=" text-decoration-none">

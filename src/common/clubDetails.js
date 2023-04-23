@@ -1,7 +1,6 @@
 import { Typography } from "@mui/material";
 import { formatTimestampToDateWithoutTime } from "./comments/formatTimestamp";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 function ClubDetails({ club, profile }) {
@@ -15,7 +14,7 @@ function ClubDetails({ club, profile }) {
 
   useEffect(() => {
     const latest = club.announcements.sort((a, b) => new Date(b) - new Date(a));
-    setAnnouncement(latest[0].message);
+    setAnnouncement(latest && latest[0] ? latest[0].message : '');
   }, [club])
 
   return (
@@ -23,8 +22,14 @@ function ClubDetails({ club, profile }) {
       <div className="row">
         <div className="col-6">
           <Typography variant="h4">{club.orgName}</Typography>
-          <Typography className="d-inline" variant="h6">Latest: </Typography>
-          <Typography className="d-inline" variant="body1">{announcement}</Typography>
+          {announcement ? 
+            <>
+              <Typography className="d-inline" variant="h6">Latest: </Typography>
+              <Typography className="d-inline" variant="body1">{announcement}</Typography>
+            </>
+            :
+            <></>
+          }
           <Link to={`/profile/${club.username}`} className="text-blue text-decoration-none d-block">View club</Link>
         </div>
         <div className="col-6 text-end">

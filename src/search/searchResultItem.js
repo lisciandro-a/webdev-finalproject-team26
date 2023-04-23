@@ -1,12 +1,9 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import MarkItem from "../common/markItem";
 import { Link } from "react-router-dom";
+import Poster from "../common/poster";
 
 function SearchResultItem({ mediaType, result }) {
-  // https://simkl.in/posters/13/13468373db4fa6dd3b_m.webp
-  const { profile } = useSelector((state) => state.account);
-
   const localMedia = {
     "mediaId": result.ids.simkl_id,
     "mediaType": mediaType,
@@ -19,11 +16,7 @@ function SearchResultItem({ mediaType, result }) {
     <li className="list-group-item">
       <div className="row">
         <div className="col-2 col-xl-1 my-auto">
-          <img
-            src={`https://simkl.in/posters/${result.poster}_m.webp`}
-            alt=""
-            className="img-size"
-          />
+          <Poster poster={result.poster} />
         </div>
         <div className="col-7 col-xl-8 text-start ps-4 m-auto">
           <h2> {result.title} </h2>

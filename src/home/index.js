@@ -6,7 +6,8 @@ import AnnouncementSnippet from "./announcementSnippet";
 import MemberSnippet from "./memberSnippet";
 import { getNewAnnouncements, getNewComments, getNewMembersForClub, getPopularClubs } from "../services/clubs/clubService";
 import { getRecentReviews, getRecentReviewsOnLiked } from "../services/media/mediaService";
-import PopularClubSnippet from "./popularClubSnippet";
+import ClubSnippet from "./clubSnippet";
+import './home.css';
 
 function Home() {
   const {loggedIn, profile} = useSelector(state => state.account);
@@ -19,7 +20,7 @@ function Home() {
 
   useEffect(() => {
     if (loggedIn) {
-      if (profile.isMemberAccount) {
+      if (profile?.isMemberAccount) {
         // load member profile data
         fetchNewReviews();
         fetchNewAnnouncements();
@@ -74,11 +75,11 @@ function Home() {
     <div className="mx-auto my-4">
       <Typography variant="h2" className="mb-0">Welcome to WatchIt</Typography>
       <Typography variant="h5">WatchIt. DiscussIt. ReviewIt.</Typography>
-      { loggedIn ? (profile.isMemberAccount ? 
+      { loggedIn ? (profile?.isMemberAccount ? 
         <>
           <hr></hr>
           <div className="my-4">
-            <Typography variant="h5" className="mb-0">New reviews on movies you liked</Typography>
+            <Typography variant="h5" className="mb-0">New reviews on media you liked</Typography>
             <div className="w-100">
               <div className="d-flex p-4 gap-3 flex-wrap justify-content-center">
                 {newReviewsOnLiked.map((r) => <ReviewSnippet review={r}/>)}
@@ -133,7 +134,7 @@ function Home() {
             <Typography variant="h5" className="mb-0">Popular clubs</Typography>
             <div className="w-100">
               <div className="d-flex p-4 gap-3 flex-wrap justify-content-center">
-                {popularClubs.map((c) => <PopularClubSnippet club={c}/>)}
+                {popularClubs.map((c) => <ClubSnippet club={c}/>)}
               </div>
             </div>
           </div>

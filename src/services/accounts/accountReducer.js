@@ -12,8 +12,11 @@ const accountSlice = createSlice({
   extraReducers: {
     [accountLoginThunk.fulfilled]:
       (state, { payload }) => {
-        state.loggedIn = true;
-        state.profile = payload.profile;
+        if (payload?.profile) {
+          state.loggedIn = true;
+          console.log(payload);
+          state.profile = payload?.profile;
+        }
       },
     [accountLoginThunk.rejected]:
       (state) => {
@@ -38,7 +41,6 @@ const accountSlice = createSlice({
       },
     [accountUpdateThunk.fulfilled]:
       (state, { payload }) => {
-        console.log(payload);
         state.profile = payload;
       }
   }

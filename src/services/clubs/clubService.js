@@ -147,3 +147,12 @@ export const deleteClubMember = async (clubId, memberId) => {
     return undefined;
   }
 }
+
+export const getAllClubs = async () => {
+  try {
+    const result = await axiosClient.get('/clubs');
+    return result.data;
+  } catch {
+    return [];
+  }
+}

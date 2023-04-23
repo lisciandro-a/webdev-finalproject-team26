@@ -26,7 +26,6 @@ function Comment({ comment, loadComments, updateComments, depth, maxDepth }) {
   const onClickReplySubmit = async () => {
     await updateComments(newReply, comment._id);
     await loadComments();
-    console.log(newReply);
     setNewReply('');
     setShowNewReply(false);
   }

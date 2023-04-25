@@ -11,7 +11,7 @@ function MarkItem({ media }) {
   const [likedValue, setLikedValue] = useState(0);
   const [watchedValue, setWatchedValue] = useState(0);
   const [discussingValue, setDiscussingValue] = useState(0);
-  const [localMedia, setLocalMedia] = useState(media);
+  const [localMedia, setLocalMedia] = useState(null);
 
   useEffect(() => {
     if (profile && media) {
@@ -31,7 +31,7 @@ function MarkItem({ media }) {
 
   const getLocalMediaForUser = async () => {
     const existingLocalMedia = await getMediaByUsernameMediaId(media.mediaType, media.mediaId, profile.username);
-    if (existingLocalMedia) {
+    if (existingLocalMedia.mediaId) {
       setLocalMedia(existingLocalMedia);
     }
   }

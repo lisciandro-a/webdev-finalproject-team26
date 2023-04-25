@@ -21,12 +21,6 @@ function WatchDetails() {
 
   useEffect(() => {
     getWatchDetails();
-  }, []);
-
-  useEffect(() => {
-    if (loggedIn) {
-      getProfileWatchDetails();
-    }
   }, [loggedIn]);
 
   const getWatchDetails = async () => {
@@ -34,11 +28,21 @@ function WatchDetails() {
     setWatchDetails(simklResult);
     const { rating } = await getAverageRating(mediaType, simklID);
     setAverageRating(rating);
+    if (loggedIn) {
+      await getProfileWatchDetails(simklResult);
+    }
   };
 
-  const getProfileWatchDetails = async () => {
+  const getProfileWatchDetails = async (simklResult) => {
     const profileMediaResult = await getMediaByUsernameMediaId(mediaType, simklID, profile.username);
-    setLocalMedia(profileMediaResult);
+    setLocalMedia({
+      ...profileMediaResult,
+      mediaType: mediaType,
+      mediaId: simklID,
+      title: simklResult.title,
+      poster: simklResult.poster,
+      year: simklResult.year,
+    });
     setUserRating(profileMediaResult.rating);
   }
 
@@ -47,14 +51,11 @@ function WatchDetails() {
       comment: localMedia.comment,
       rating: value,
     };
-    await addReviewByUsernameByMediaId(localMedia.mediaType, localMedia.mediaId, profile.username, review);
-    const { rating } = await getAverageRating(mediaType, simklID);
-    setAverageRating(rating);
+    const updated = await addReviewByUsernameByMediaId(localMedia.mediaType, localMedia.mediaId, profile.username, review);
+    //const { rating } = await getMediaByUsernameMediaId(mediaType, simklID, profile.username);
+    setAverageRating(updated.rating);
     setUserRating(value);
-    setLocalMedia({
-      ...localMedia,
-      rating: value,
-    });
+    setLocalMedia(updated);
   }
 
   const getReviewsForMedia = async () => {

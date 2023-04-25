@@ -22,12 +22,11 @@ function Profile() {
       setLoadingProfile(false);
       navigate('/login');
     }
-  }, [profile, attemptedLogin]);
+  }, [profile, attemptedLogin, profileID]);
 
   useEffect(() => {
     if (profileID) {
       if (profile && profile.username === profileID) {
-        console.log("here");
         navigate('/profile');
       }
       const getUser = async () => {
@@ -39,7 +38,7 @@ function Profile() {
       
       getUser();
     }
-  }, [profile]);
+  }, [profile, profileID]);
 
   return loadingProfile ? <>Loading...</> : ( user ? (user.isMemberAccount ? <MemberProfile profilePageData={user} /> : <ClubProfile profilePageData={user}/>) : <NotFound/>);
 }

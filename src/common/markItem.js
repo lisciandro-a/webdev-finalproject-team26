@@ -31,7 +31,7 @@ function MarkItem({ media }) {
 
   const getLocalMediaForUser = async () => {
     const existingLocalMedia = await getMediaByUsernameMediaId(media.mediaType, media.mediaId, profile.username);
-    if (existingLocalMedia.mediaId) {
+    if (existingLocalMedia._id) {
       setLocalMedia(existingLocalMedia);
     }
   }
@@ -42,40 +42,46 @@ function MarkItem({ media }) {
   }
 
   const updateWatchedValue = async (newValue) => {
-    if (!localMedia.watched) {
+    if (!localMedia._id) {
       await createMediaForUser();
     }
     if (!!newValue) {
-      await addWatchedValueByUsernameByMediaId(localMedia.mediaType, localMedia.mediaId, profile.username);
+      const updated = await addWatchedValueByUsernameByMediaId(localMedia.mediaType, localMedia.mediaId, profile.username);
+      setLocalMedia(updated);
       setWatchedValue(newValue);
     } else {
-      await deleteWatchedValueByUsernameByMediaId(localMedia.mediaType, localMedia.mediaId, profile.username);
+      const updated = await deleteWatchedValueByUsernameByMediaId(localMedia.mediaType, localMedia.mediaId, profile.username);
+      setLocalMedia(updated);
       setWatchedValue(newValue);
     }
   }
 
   const updateLikedValue = async (newValue) => {
-    if (!localMedia.liked) {
+    if (!localMedia._id) {
       await createMediaForUser();
     }
     if (!!newValue) {
-      await addLikedValueByUsernameByMediaId(localMedia.mediaType, localMedia.mediaId, profile.username);
+      const updated = await addLikedValueByUsernameByMediaId(localMedia.mediaType, localMedia.mediaId, profile.username);
+      setLocalMedia(updated);
       setLikedValue(newValue);
     } else {
-      await deleteLikedValueByUsernameByMediaId(localMedia.mediaType, localMedia.mediaId, profile.username);
+      const updated = await deleteLikedValueByUsernameByMediaId(localMedia.mediaType, localMedia.mediaId, profile.username);
+      setLocalMedia(updated);
       setLikedValue(newValue);
     }
   }
 
   const updateDiscussingValue = async (newValue) => {
-    if (!localMedia.discussing) {
+    if (!localMedia._id) {
       await createMediaForUser();
     }
     if (!!newValue) {
-      await addNewDiscussion(profile.username, localMedia.mediaType, localMedia.mediaId, );
+      const updated = await addNewDiscussion(profile.username, localMedia.mediaType, localMedia.mediaId);
+      setLocalMedia(updated);
       setDiscussingValue(newValue);
     } else {
-      await deleteDiscussion(profile.username, localMedia.mediaType, localMedia.mediaId);
+      const updated = await deleteDiscussion(profile.username, localMedia.mediaType, localMedia.mediaId);
+      setLocalMedia(updated);
       setDiscussingValue(newValue);
     }
   }

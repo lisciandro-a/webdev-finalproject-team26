@@ -4,6 +4,7 @@ import { accountLoginThunk, accountLogoutThunk, accountRegisterThunk, accountUpd
 const initialState = {
   loggedIn: false,
   profile: null,
+  attemptedLogin: false,
 }
 
 const accountSlice = createSlice({
@@ -16,28 +17,33 @@ const accountSlice = createSlice({
           state.loggedIn = true;
           console.log(payload);
           state.profile = payload?.profile;
+          state.attemptedLogin= true;
         }
       },
     [accountLoginThunk.rejected]:
       (state) => {
         state.loggedIn = false;
         state.profile = null;
+        state.attemptedLogin = true;
         // do something when login fails
       },
     [accountLogoutThunk.fulfilled]:
       (state) => {
         state.loggedIn = false;
         state.profile = null;
+        state.attemptedLogin = false;
       },
     [accountRegisterThunk.fulfilled]:
       (state, { payload }) => {
         state.loggedIn = true;
         state.profile = payload.profile;
+        state.attemptedLogin = true;
       },
     [accountRegisterThunk.rejected]:
       (state) => {
         state.loggedIn = false;
         state.profile = null;
+        state.attemptedLogin = true;
       },
     [accountUpdateThunk.fulfilled]:
       (state, { payload }) => {

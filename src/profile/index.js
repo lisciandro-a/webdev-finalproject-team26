@@ -9,17 +9,25 @@ import { NotFound } from "../common";
 
 function Profile() {
   const { profileID } = useParams();
-  const { loggedIn, profile } = useSelector(state => state.account);
+  const { loggedIn, profile, attemptedLogin } = useSelector(state => state.account);
   const [ user, setUser ] = useState(profile);
-  const [ loadingProfile, setLoadingProfile ] = useState(false);
+  const [ loadingProfile, setLoadingProfile ] = useState(true);
 
   const navigate = useNavigate();
   useEffect(() => {
-    if (!loggedIn && !profileID) {
+    if (profile && !profileID) {
+      setUser(profile);
+      setLoadingProfile(false);
+    } else if (!profileID && attemptedLogin) {
+      setLoadingProfile(false);
       navigate('/login');
-    } 
+    }
+  }, [profile, attemptedLogin]);
+
+  useEffect(() => {
     if (profileID) {
       if (profile && profile.username === profileID) {
+        console.log("here");
         navigate('/profile');
       }
       const getUser = async () => {
@@ -30,17 +38,7 @@ function Profile() {
       }
       
       getUser();
-      
-    } else {
-      setUser(profile);
     }
-  }, [profileID]);
-
-  useEffect(() => {
-    if (!profileID || (profile && profile.username === profileID)) {
-      setUser(profile);  
-    }
-    
   }, [profile]);
 
   return loadingProfile ? <>Loading...</> : ( user ? (user.isMemberAccount ? <MemberProfile profilePageData={user} /> : <ClubProfile profilePageData={user}/>) : <NotFound/>);
